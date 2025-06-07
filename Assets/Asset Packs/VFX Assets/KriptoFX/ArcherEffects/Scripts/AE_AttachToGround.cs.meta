@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 03bf5319dea8b954d88c53628875a59d
+timeCreated: 1530891570
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Scripts/AE_AttachToGround.cs
+  uploadId: 354901

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 2ae29f72529d4416faf3d48de802ec2a
+labels:
+- Infinity
+- Shield
+- Wardrobe
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133055
+  packageName: Weapons & Armor PBR Pack #2 - Fantasy RPG
+  packageVersion: 4.2
+  assetPath: Assets/InfinityPBR/_InfinityPBR Weapons, Armor, Clothing/_Prefabs/Weapons
+    and Armor/Shield006.prefab
+  uploadId: 587189

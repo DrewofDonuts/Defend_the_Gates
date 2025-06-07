@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: e80a3b467e782694dae5c3285aec516d
+timeCreated: 1531120490
+licenseType: Free
+AudioImporter:
+  serializedVersion: 6
+  defaultSettings:
+    loadType: 0
+    sampleRateSetting: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  preloadAudioData: 1
+  loadInBackground: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Audio/FreezeLoop.wav
+  uploadId: 354901

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 77106d0a2e7a7164e84998f450eb0df7
+timeCreated: 1516902837
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Scripts/Curves/AE_LightCurves.cs
+  uploadId: 354901

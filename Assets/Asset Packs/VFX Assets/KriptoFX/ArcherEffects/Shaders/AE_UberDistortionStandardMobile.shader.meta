@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 40765a0a05ec4674181f8faf05328381
+timeCreated: 1517219516
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_UberDistortionStandardMobile.shader
+  uploadId: 354901

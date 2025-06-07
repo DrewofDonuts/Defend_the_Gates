@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 14b69db2df640a5449ef24dedf2e7a0f
+timeCreated: 1516902837
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Scripts/Curves/AE_ShaderProperties.cs
+  uploadId: 354901

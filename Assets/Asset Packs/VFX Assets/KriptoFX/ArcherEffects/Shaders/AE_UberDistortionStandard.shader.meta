@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8358b236aac249c469a67bad4be82afd
+timeCreated: 1517219516
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_UberDistortionStandard.shader
+  uploadId: 354901

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 772b91e346dcb8b4cbd92d5b823bd984
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 261389
+  packageName: Ground Impacts
+  packageVersion: 1.0
+  assetPath: Assets/Ground_Impacts/Shaders/Mesh_Shader01.shader
+  uploadId: 602575

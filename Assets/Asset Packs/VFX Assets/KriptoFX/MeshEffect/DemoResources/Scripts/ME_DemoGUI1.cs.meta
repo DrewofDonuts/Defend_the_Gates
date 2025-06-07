@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 0168f159c90c8aa46aeab0de65ccfd08
+timeCreated: 1516896631
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/Asset Packs/VFX Assets/KriptoFX/MeshEffect/DemoResources/Scripts/ME_DemoGUI1.cs
+  uploadId: 354901

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 40fd8092817821d439989d3ac5e31a20
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296182
+  packageName: Magic Effects Pack 5
+  packageVersion: 1.0
+  assetPath: Assets/KriptoFX/Magic Effects Pack v5/EffectResources/Shaders/SimpleFresnel.shadergraph
+  uploadId: 692183

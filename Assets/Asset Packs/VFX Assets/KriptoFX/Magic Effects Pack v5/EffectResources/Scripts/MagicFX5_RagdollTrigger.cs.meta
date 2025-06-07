@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 09d6b1ef40a2c474cba3042f1f67126c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296182
+  packageName: Magic Effects Pack 5
+  packageVersion: 1.0
+  assetPath: Assets/KriptoFX/Magic Effects Pack v5/EffectResources/Scripts/MagicFX5_RagdollTrigger.cs
+  uploadId: 692183

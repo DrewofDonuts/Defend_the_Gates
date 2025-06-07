@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 44d7efb048a01584987e1333feb131c2
+timeCreated: 1517219515
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_DistortionPasses.cginc
+  uploadId: 354901

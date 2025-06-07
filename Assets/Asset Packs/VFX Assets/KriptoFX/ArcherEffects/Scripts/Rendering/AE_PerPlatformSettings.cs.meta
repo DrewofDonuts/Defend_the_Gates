@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 583dfd8e4440c404cac2cade0a3edece
+timeCreated: 1548569348
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Scripts/Rendering/AE_PerPlatformSettings.cs
+  uploadId: 354901

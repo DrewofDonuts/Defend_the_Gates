@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b4b79d5bfb067354eb6c2559efc9bf76
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296182
+  packageName: Magic Effects Pack 5
+  packageVersion: 1.0
+  assetPath: Assets/KriptoFX/Magic Effects Pack v5/DemoResources/Scripts/MagicFX5_RandomAnimator.cs
+  uploadId: 692183

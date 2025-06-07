@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: abc997359e62162639a74d92c9226eba
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218900
+  packageName: Realistic Blood Shader
+  packageVersion: 1.0
+  assetPath: Assets/BloodShader/Demo/URP/Demo.unity
+  uploadId: 497454

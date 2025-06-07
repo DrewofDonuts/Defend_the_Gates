@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1d8823397c881b2419fe91b289c65f89
+timeCreated: 1522296574
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_DecalDistortMask.shader
+  uploadId: 354901

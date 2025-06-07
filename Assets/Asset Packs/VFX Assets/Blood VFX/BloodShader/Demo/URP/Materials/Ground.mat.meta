@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 51f9af45634337dc195c1e9badf87961
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218900
+  packageName: Realistic Blood Shader
+  packageVersion: 1.0
+  assetPath: Assets/BloodShader/Demo/URP/Materials/Ground.mat
+  uploadId: 497454

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 06cae91e58a3636449094b4a709ece18
+timeCreated: 1528394983
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_GlowCutout.shader
+  uploadId: 354901

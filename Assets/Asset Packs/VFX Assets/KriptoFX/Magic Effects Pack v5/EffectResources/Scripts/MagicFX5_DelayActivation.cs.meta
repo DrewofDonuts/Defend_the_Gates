@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e8bedae2cef780b4e964dde456a14dfd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296182
+  packageName: Magic Effects Pack 5
+  packageVersion: 1.0
+  assetPath: Assets/KriptoFX/Magic Effects Pack v5/EffectResources/Scripts/MagicFX5_DelayActivation.cs
+  uploadId: 692183

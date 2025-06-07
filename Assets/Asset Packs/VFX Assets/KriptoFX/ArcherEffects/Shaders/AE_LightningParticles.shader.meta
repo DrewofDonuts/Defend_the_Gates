@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 5797477c5252fe3438a3547e0b2bfd8e
+timeCreated: 1523071654
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_LightningParticles.shader
+  uploadId: 354901

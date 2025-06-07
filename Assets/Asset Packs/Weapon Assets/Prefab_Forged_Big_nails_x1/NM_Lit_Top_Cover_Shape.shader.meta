@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: d226ffe19e7968b42a093d463d9b41c5
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 0
+  packageName: URP 17 Unity 6 Modular Castle And Dungeon
+  packageVersion: 1.0.3
+  assetPath: Assets/Asset Packs/Prefab_Forged_Big_nails_x1/NM_Lit_Top_Cover_Shape.shader
+  uploadId: 738007

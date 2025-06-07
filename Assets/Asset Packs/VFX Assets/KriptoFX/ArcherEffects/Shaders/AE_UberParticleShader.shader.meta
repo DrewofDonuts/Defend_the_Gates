@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e6ed112f94dfaa5499de6dbeb552865e
+timeCreated: 1517007020
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_UberParticleShader.shader
+  uploadId: 354901

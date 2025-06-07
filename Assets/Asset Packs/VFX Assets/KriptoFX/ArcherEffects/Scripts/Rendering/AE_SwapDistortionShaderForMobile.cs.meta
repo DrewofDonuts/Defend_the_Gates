@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d494bba72354cd7489977342606f6f80
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Scripts/Rendering/AE_SwapDistortionShaderForMobile.cs
+  uploadId: 354901

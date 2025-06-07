@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 7732b2de16e166a4995fdc873420a2a8
+timeCreated: 1516902192
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Scripts/EffectSettings/AE_EffectSettingColor.cs
+  uploadId: 354901

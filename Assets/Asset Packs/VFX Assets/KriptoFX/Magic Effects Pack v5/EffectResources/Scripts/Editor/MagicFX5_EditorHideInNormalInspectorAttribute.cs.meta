@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 31d332410e86f804e886292dc595d3a4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296182
+  packageName: Magic Effects Pack 5
+  packageVersion: 1.0
+  assetPath: Assets/KriptoFX/Magic Effects Pack v5/EffectResources/Scripts/Editor/MagicFX5_EditorHideInNormalInspectorAttribute.cs
+  uploadId: 692183

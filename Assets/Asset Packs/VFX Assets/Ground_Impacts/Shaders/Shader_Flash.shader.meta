@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 65dcdf94c35a8fd46982ab237c4b33aa
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Texture1: {fileID: 2800000, guid: a57170b04a002bf47a4724d3b6727030, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 261389
+  packageName: Ground Impacts
+  packageVersion: 1.0
+  assetPath: Assets/Ground_Impacts/Shaders/Shader_Flash.shader
+  uploadId: 602575

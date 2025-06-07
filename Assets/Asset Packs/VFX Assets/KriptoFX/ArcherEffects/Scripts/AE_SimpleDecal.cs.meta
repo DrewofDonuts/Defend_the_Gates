@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: be2840bb834def741ad23dedac388534
+timeCreated: 1532564598
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Scripts/AE_SimpleDecal.cs
+  uploadId: 354901

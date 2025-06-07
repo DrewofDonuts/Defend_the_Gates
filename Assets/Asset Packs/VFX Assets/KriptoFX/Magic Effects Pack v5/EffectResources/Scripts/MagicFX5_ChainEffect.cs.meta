@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0697d1d9d6c3c1d47b0cb9071989779e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296182
+  packageName: Magic Effects Pack 5
+  packageVersion: 1.0
+  assetPath: Assets/KriptoFX/Magic Effects Pack v5/EffectResources/Scripts/MagicFX5_ChainEffect.cs
+  uploadId: 692183

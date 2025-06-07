@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ce58a01bb96ccc548ae75857033e174b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296182
+  packageName: Magic Effects Pack 5
+  packageVersion: 1.0
+  assetPath: Assets/KriptoFX/Magic Effects Pack v5/DemoResources/Scripts/MagicFX5_EnemyDisintegration.cs
+  uploadId: 692183

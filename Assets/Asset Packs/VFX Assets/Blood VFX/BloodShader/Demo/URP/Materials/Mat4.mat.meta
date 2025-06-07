@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b43bf7d240cbc6a0797654d281d52691
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218900
+  packageName: Realistic Blood Shader
+  packageVersion: 1.0
+  assetPath: Assets/BloodShader/Demo/URP/Materials/Mat4.mat
+  uploadId: 497454

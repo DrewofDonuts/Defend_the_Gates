@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e0d03c1b10552a344b9fb6ba7bc1c820
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 261389
+  packageName: Ground Impacts
+  packageVersion: 1.0
+  assetPath: Assets/Ground_Impacts/Materials/M_Splash02.mat
+  uploadId: 602575

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 901536da807d51b4a94c414dbe4eff27
+timeCreated: 1522637367
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/Rift/AE_PortalSky.shader
+  uploadId: 354901

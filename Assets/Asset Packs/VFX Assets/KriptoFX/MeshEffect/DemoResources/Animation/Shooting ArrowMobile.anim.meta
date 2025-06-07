@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 60d53d5774e2ae44e87afbd3ddb9057b
+timeCreated: 1516927620
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/Asset Packs/VFX Assets/KriptoFX/MeshEffect/DemoResources/Animation/Shooting
+    ArrowMobile.anim
+  uploadId: 354901

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7ede78dab7aee9648af0c40e5e888c96
+timeCreated: 1521371947
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_Lightning(Mask).shader
+  uploadId: 354901

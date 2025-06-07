@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c2c1e0cb61722fc4988af9101a2f3f22
+timeCreated: 1521960996
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/AE_Lightning(random).shader
+  uploadId: 354901

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 2e33588f8f10a3c4198b215c5fd256db
+timeCreated: 1522406888
+licenseType: Free
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 124474
+  packageName: Archer Effects Pack 1
+  packageVersion: 1.2
+  assetPath: Assets/KriptoFX/ArcherEffects/Shaders/Rift/AE_PortalMask.shader
+  uploadId: 354901
