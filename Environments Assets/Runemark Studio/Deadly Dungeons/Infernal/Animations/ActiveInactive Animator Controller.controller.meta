@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 248c86e79c301054ba12a403e978bb4c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 186877
+  packageName: Deadly Dungeon - Infernal
+  packageVersion: 1.1
+  assetPath: Assets/Deadly Dungeons/Infernal/Animations/ActiveInactive Animator Controller.controller
+  uploadId: 442488

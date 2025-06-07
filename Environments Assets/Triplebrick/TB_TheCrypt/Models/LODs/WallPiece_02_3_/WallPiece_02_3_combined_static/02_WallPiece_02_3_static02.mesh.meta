@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c6a8db406d93e754ca808cfc169389e4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Models/LODs/WallPiece_02_3_/WallPiece_02_3_combined_static/02_WallPiece_02_3_static02.mesh
+  uploadId: 718913

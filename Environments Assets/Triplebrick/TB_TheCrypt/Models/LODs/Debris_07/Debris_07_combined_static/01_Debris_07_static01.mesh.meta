@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 85f9f9a7d6e40f5438994d003c382f73
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Models/LODs/Debris_07/Debris_07_combined_static/01_Debris_07_static01.mesh
+  uploadId: 718913

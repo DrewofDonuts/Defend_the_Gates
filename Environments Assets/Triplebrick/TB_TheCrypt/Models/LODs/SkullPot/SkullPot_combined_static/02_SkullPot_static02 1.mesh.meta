@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b76d62643d6a3954ba332f7e75f7dbe2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Models/LODs/SkullPot/SkullPot_combined_static/02_SkullPot_static02
+    1.mesh
+  uploadId: 718913

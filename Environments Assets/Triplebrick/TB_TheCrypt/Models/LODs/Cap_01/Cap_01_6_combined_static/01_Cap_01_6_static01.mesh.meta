@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5618ae66e7d733446bef01987c389267
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Models/LODs/Cap_01/Cap_01_6_combined_static/01_Cap_01_6_static01.mesh
+  uploadId: 718913

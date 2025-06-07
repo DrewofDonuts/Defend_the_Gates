@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8e14c5348cdb41b4fa06bc8279b1ea22
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63023
+  packageName: Landscape Ground Pack
+  packageVersion: 2.0.1
+  assetPath: Assets/NatureManufacture Assets/Landscape Ground Pack/Terrains/Terrain
+    Layers/layer_Ground_03_Grass.terrainlayer
+  uploadId: 664267

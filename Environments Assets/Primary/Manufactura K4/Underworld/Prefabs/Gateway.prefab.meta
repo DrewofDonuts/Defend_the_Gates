@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 3a7aeda4cb561a34d94b8ea44ce68a62
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 10875
+  packageName: 'Underworld: Cave Environment'
+  packageVersion: 1.31
+  assetPath: Assets/Underworld/Prefabs/Gateway.prefab
+  uploadId: 301157

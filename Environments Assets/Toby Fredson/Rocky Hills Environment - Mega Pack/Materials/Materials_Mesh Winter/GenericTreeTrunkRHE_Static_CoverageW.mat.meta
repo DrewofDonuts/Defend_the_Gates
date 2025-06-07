@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: a7d458a3d8bbb3246bdef66bd74f41bd
+labels:
+- cave
+- cliff
+- cti
+- details
+- environment
+- flowers
+- grass
+- helpers
+- leaves
+- nature
+- pbr
+- rocks
+- rockyhills
+- shader
+- stone
+- tress
+- twigs
+- wood
+timeCreated: 1518044252
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: materials
+  assetBundleVariant: 

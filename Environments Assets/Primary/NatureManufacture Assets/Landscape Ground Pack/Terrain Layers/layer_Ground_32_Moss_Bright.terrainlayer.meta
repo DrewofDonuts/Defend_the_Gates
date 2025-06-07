@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 645e714c46847c947a06c6dc90b6076f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63023
+  packageName: Landscape Ground Pack
+  packageVersion: 2.0.1
+  assetPath: Assets/NatureManufacture Assets/Landscape Ground Pack/Terrains/Terrain
+    Layers/layer_Ground_32_Moss_Bright.terrainlayer
+  uploadId: 664267

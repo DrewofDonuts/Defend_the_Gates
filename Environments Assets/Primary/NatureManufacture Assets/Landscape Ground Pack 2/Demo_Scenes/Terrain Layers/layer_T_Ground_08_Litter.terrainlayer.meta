@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e5fc4bd8d9081114a8873f8ea354e7a2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73547
+  packageName: Landscape Ground Pack 2
+  packageVersion: 2.0.1
+  assetPath: Assets/NatureManufacture Assets/Landscape Ground Pack 2/Demo_Scenes/Terrain
+    Layers/layer_T_Ground_08_Litter.terrainlayer
+  uploadId: 664304

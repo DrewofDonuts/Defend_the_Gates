@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 703f2a7b3822e9448a6eb38b6fea6c13
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73547
+  packageName: Landscape Ground Pack 2
+  packageVersion: 2.0.1
+  assetPath: Assets/NatureManufacture Assets/Landscape Ground Pack 2/Demo_Scenes/Terrain
+    Layers/layer_T_Ground_29_rock.terrainlayer
+  uploadId: 664304

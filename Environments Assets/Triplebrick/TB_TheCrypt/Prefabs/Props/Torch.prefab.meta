@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c424584bdb79ead448c8957522cc7bb2
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Prefabs/Props/Torch.prefab
+  uploadId: 718913

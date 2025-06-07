@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c258928990b5a734abe6a5f3155db86c
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Prefabs/Structures/WallPiece_02.prefab
+  uploadId: 718913

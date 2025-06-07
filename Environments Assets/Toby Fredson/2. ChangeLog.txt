@@ -1,0 +1,71 @@
+﻿Version 5.0.1
+
+   Fixes
+
+      * Removed "bakes GI feature" from TTFE-HDRP shaders. It was causing the shaders to break for certain Unity users.
+    
+-----------------------
+
+Version 5.0.0
+
+Changes
+
+      * Bigger cosmetic changes, improved textures and materials, new scenes, and more.
+      * Added new player camera script and improved scene demo scripts.
+      * Replace the (TFS) shaders with (TTFE - Light) shaders.
+      * Terrain detail painting is now supported.
+      * Better integration with the terrain engine
+      * Optimized and reworked most shaders. Includes more functionality and better performance.
+      * New shader features like tri-planar coverage for moss and snow have been added.
+      * Updated water shader, now works with the planar reflection script.
+
+-----------------------
+
+2.1.1
+
+   Changes
+
+      * Updated SRP packages to support all versions: SRP 12,14,15,16+, Unity 6 Beta.
+      * Added new player camera script and improved scene demo scripts.
+      * Changed and fixed shader functions with new ones for better optimization.
+      * Small cosmetic changes.
+
+   Fixes
+
+      * Fix minor bugs in all shaders.
+      * Fixed some bugs at run time.
+-----------------------
+
+Version 2.1.0
+
+Compatible with Unity 2022.3.1f1 (LTS) or higher.
+      * Updated new and improved foliage shaders with custom deferred translucency.
+      * Updated all shaders to work with DirectX shader model 4.5.
+      * Trees now have crossfading billboards.
+      * Minor aesthetic updates.
+
+Version 2.0.0
+
+- First release of v2
+
+      * Better integration with the terrain engine.
+      * Complete cosmetic change, and remade textures.
+      * Everything has been re-modeled and re-textured to be suitable for PBR.
+      * Reduce file size and optimize textures.
+      * Updated Amplify shaders (fixed bugs and screen NaNs).
+      * Added new "Toby foliage shaders" (TFS basic).
+
+- Grass Foliage shader (basic).
+
+      * (Custom Amplify shader for grass): Physically-based lighting with translucency, and simple wind, including color variation, vertex Ao, and distance depth fade supports mesh with custom normals. Wind and other parameters can be controlled globally through the (upcoming) wind script.
+
+- Tree bark and leaf shader (basic).
+
+      * (Custom Amplify shader for trees): Physically-based lighting with translucency, wind, and leaf fluttering, supports trees with custom normals on leaves, including color variation and vertex Ao. Wind and other parameters can be controlled globally through the (upcoming) wind script. At the moment the wind is controlled directly through the shader so you will have to match both values of the bark and leaves together.
+
+      * Biome scene example with 3 biomes.
+      * Added URP and HDRP.
+-------------------
+
+• Uploaded 2020.3.0f1 (LTS).
+The (LTS) update should ensure the shaders work across all versions of Unity starting from the version it was released. This pack does not support Alpha or Beta versions of Unity!

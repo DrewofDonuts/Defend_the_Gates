@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 268c760a783459243ad47de409d93c65
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63023
+  packageName: Landscape Ground Pack
+  packageVersion: 2.0.1
+  assetPath: Assets/Asset Packs/Environments Assets/NatureManufacture Assets/Landscape
+    Ground Pack/Terrain Layers/layer_Ground_34_Dirt_Wet.terrainlayer
+  uploadId: 664267

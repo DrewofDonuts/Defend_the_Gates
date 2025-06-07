@@ -1,0 +1,4819 @@
+// Made with Amplify Shader Editor v1.9.3.3
+// Available at the Unity Asset Store - http://u3d.as/y3X 
+Shader "Tobyfredson/Detail Map Coverage (Tessellation)"
+{
+	Properties
+	{
+		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
+		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
+		[Header(______(TFS) Detail Map Coverage (Tessellation)______)][Header(_____________________________________________________)][Header(Texture Maps)][NoScaleOffset]_AlbedoMap("Albedo Map", 2D) = "white" {}
+		[NoScaleOffset][Normal]_NormalMap("Normal Map", 2D) = "bump" {}
+		[NoScaleOffset]_MaskMapRGBA("Mask Map *RGB(A)", 2D) = "white" {}
+		_Tiling("Tiling", Vector) = (1,1,0,0)
+		_Offset("Offset", Vector) = (1,1,0,0)
+		[Header(Texture Settings)][Header((Normal))]_NormalIntensity("Normal Intensity", Range( -3 , 3)) = 1
+		[Header((Smoothness))]_Float4("Smoothness", Range( 0 , 1)) = 1
+		[Header((Ambient Occlusion))]_Float5("Ambient Occlusion", Range( 0 , 1)) = 1
+		[Header(_____________________________________________________)][Header(Detail Texture Maps)][NoScaleOffset]_DetailAlbedo("Detail Albedo", 2D) = "gray" {}
+		[NoScaleOffset][Normal]_DetailNormal("Detail Normal", 2D) = "bump" {}
+		[NoScaleOffset]_DetailMask("Detail Mask", 2D) = "white" {}
+		_TilingDetail("Tiling Detail", Vector) = (1,1,0,0)
+		_OffsetDetail("Offset Detail", Vector) = (1,1,0,0)
+		[Header(Detail Texture Settings)][Header((Detail Normal))]_DetailNormalIntensity("Detail Normal Intensity", Range( -3 , 3)) = 1
+		[Header(_____________________________________________________)][Header(Coverage Texture Maps)][NoScaleOffset]_CoverageAlbedo("Coverage Albedo", 2D) = "white" {}
+		[NoScaleOffset][Normal]_CoverageNormal("Coverage Normal", 2D) = "bump" {}
+		[NoScaleOffset]_CoverageMask("Coverage Mask", 2D) = "white" {}
+		[NoScaleOffset]_CoverageHeight("Coverage Height", 2D) = "white" {}
+		_TilingCoverage("Tiling Coverage", Vector) = (1,1,0,0)
+		[Header(Coverage Texture Settings)][Header((Coverage Smoothness))]_Float6("Coverage Smoothness ", Range( 0 , 1)) = 1
+		[Header((Coverage Ao))]_Float7("Coverage Ao ", Range( 0 , 1)) = 1
+		[Toggle]_NormalBlur("Normal Blur", Float) = 1
+		[Header((TS Edge Slope))]_TSSlopeMin("TS Slope Min", Float) = -1
+		_TSSlopeMax("TS Slope Max", Float) = 8
+		[Header((Edge Slope))]_SlopeMin("Slope Min", Float) = -1
+		_SlopeMax("Slope Max", Float) = 8
+		[KeywordEnum(TangentSlopeTS,TopDownSlope)] _SlopeMode("Slope Mode", Float) = 1
+		[Toggle(_EDGESLOPE_ON)] _EdgeSlope("Edge Slope", Float) = 0
+		[Toggle(_EDGESLOPETESSELLATION_ON)] _EdgeSlopeTessellation("Edge Slope (Tessellation)", Float) = 0
+		[Header((Moss Color))]_DryColorScale("Dry Color Scale", Float) = 1
+		_DryColorOffset("Dry Color Offset", Float) = 0
+		[Toggle]_MossColor("Moss Color", Float) = 1
+		_Drycolor1("Dry color", Color) = (0.4196078,0.4392157,0.2352941,0)
+		_Healthycolor1("Healthy color", Color) = (0.75,0.5608132,0.1544118,0)
+		[Header(_____________________________________________________)][Header(Tessellation Settings)][Header((Displacement))]_DisplacementAmount("Displacement Amount", Range( 0 , 1)) = 1
+		_CoverageAmount("Coverage Amount", Range( 0 , 5)) = 1
+		_CoverageFalloff("Coverage Falloff", Range( 1 , 20)) = 20
+		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+
+
+		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
+		//_TransStrength( "Trans Strength", Range( 0, 50 ) ) = 1
+		//_TransNormal( "Trans Normal Distortion", Range( 0, 1 ) ) = 0.5
+		//_TransScattering( "Trans Scattering", Range( 1, 50 ) ) = 2
+		//_TransDirect( "Trans Direct", Range( 0, 1 ) ) = 0.9
+		//_TransAmbient( "Trans Ambient", Range( 0, 1 ) ) = 0.1
+		//_TransShadow( "Trans Shadow", Range( 0, 1 ) ) = 0.5
+		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
+		_TessValue( "Max Tessellation", Range( 1, 32 ) ) = 16
+		_TessMin( "Tess Min Distance", Float ) = 10
+		_TessMax( "Tess Max Distance", Float ) = 25
+		//_TessEdgeLength ( "Tess Edge length", Range( 2, 50 ) ) = 16
+		//_TessMaxDisp( "Tess Max Displacement", Float ) = 25
+
+		[HideInInspector][ToggleOff] _SpecularHighlights("Specular Highlights", Float) = 1.0
+		[HideInInspector][ToggleOff] _EnvironmentReflections("Environment Reflections", Float) = 1.0
+		[HideInInspector][ToggleOff] _ReceiveShadows("Receive Shadows", Float) = 1.0
+
+		[HideInInspector] _QueueOffset("_QueueOffset", Float) = 0
+        [HideInInspector] _QueueControl("_QueueControl", Float) = -1
+
+        [HideInInspector][NoScaleOffset] unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset] unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset] unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
+	}
+
+	SubShader
+	{
+		LOD 0
+
+		
+
+		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry" "UniversalMaterialType"="Lit" }
+
+		Cull Back
+		ZWrite On
+		ZTest LEqual
+		Offset 0 , 0
+		AlphaToMask Off
+
+		
+
+		HLSLINCLUDE
+		#pragma target 4.5
+		#pragma prefer_hlslcc gles
+		// ensure rendering platforms toggle list is visible
+
+		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Filtering.hlsl"
+
+		#ifndef ASE_TESS_FUNCS
+		#define ASE_TESS_FUNCS
+		float4 FixedTess( float tessValue )
+		{
+			return tessValue;
+		}
+
+		float CalcDistanceTessFactor (float4 vertex, float minDist, float maxDist, float tess, float4x4 o2w, float3 cameraPos )
+		{
+			float3 wpos = mul(o2w,vertex).xyz;
+			float dist = distance (wpos, cameraPos);
+			float f = clamp(1.0 - (dist - minDist) / (maxDist - minDist), 0.01, 1.0) * tess;
+			return f;
+		}
+
+		float4 CalcTriEdgeTessFactors (float3 triVertexFactors)
+		{
+			float4 tess;
+			tess.x = 0.5 * (triVertexFactors.y + triVertexFactors.z);
+			tess.y = 0.5 * (triVertexFactors.x + triVertexFactors.z);
+			tess.z = 0.5 * (triVertexFactors.x + triVertexFactors.y);
+			tess.w = (triVertexFactors.x + triVertexFactors.y + triVertexFactors.z) / 3.0f;
+			return tess;
+		}
+
+		float CalcEdgeTessFactor (float3 wpos0, float3 wpos1, float edgeLen, float3 cameraPos, float4 scParams )
+		{
+			float dist = distance (0.5 * (wpos0+wpos1), cameraPos);
+			float len = distance(wpos0, wpos1);
+			float f = max(len * scParams.y / (edgeLen * dist), 1.0);
+			return f;
+		}
+
+		float DistanceFromPlane (float3 pos, float4 plane)
+		{
+			float d = dot (float4(pos,1.0f), plane);
+			return d;
+		}
+
+		bool WorldViewFrustumCull (float3 wpos0, float3 wpos1, float3 wpos2, float cullEps, float4 planes[6] )
+		{
+			float4 planeTest;
+			planeTest.x = (( DistanceFromPlane(wpos0, planes[0]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos1, planes[0]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos2, planes[0]) > -cullEps) ? 1.0f : 0.0f );
+			planeTest.y = (( DistanceFromPlane(wpos0, planes[1]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos1, planes[1]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos2, planes[1]) > -cullEps) ? 1.0f : 0.0f );
+			planeTest.z = (( DistanceFromPlane(wpos0, planes[2]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos1, planes[2]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos2, planes[2]) > -cullEps) ? 1.0f : 0.0f );
+			planeTest.w = (( DistanceFromPlane(wpos0, planes[3]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos1, planes[3]) > -cullEps) ? 1.0f : 0.0f ) +
+							(( DistanceFromPlane(wpos2, planes[3]) > -cullEps) ? 1.0f : 0.0f );
+			return !all (planeTest);
+		}
+
+		float4 DistanceBasedTess( float4 v0, float4 v1, float4 v2, float tess, float minDist, float maxDist, float4x4 o2w, float3 cameraPos )
+		{
+			float3 f;
+			f.x = CalcDistanceTessFactor (v0,minDist,maxDist,tess,o2w,cameraPos);
+			f.y = CalcDistanceTessFactor (v1,minDist,maxDist,tess,o2w,cameraPos);
+			f.z = CalcDistanceTessFactor (v2,minDist,maxDist,tess,o2w,cameraPos);
+
+			return CalcTriEdgeTessFactors (f);
+		}
+
+		float4 EdgeLengthBasedTess( float4 v0, float4 v1, float4 v2, float edgeLength, float4x4 o2w, float3 cameraPos, float4 scParams )
+		{
+			float3 pos0 = mul(o2w,v0).xyz;
+			float3 pos1 = mul(o2w,v1).xyz;
+			float3 pos2 = mul(o2w,v2).xyz;
+			float4 tess;
+			tess.x = CalcEdgeTessFactor (pos1, pos2, edgeLength, cameraPos, scParams);
+			tess.y = CalcEdgeTessFactor (pos2, pos0, edgeLength, cameraPos, scParams);
+			tess.z = CalcEdgeTessFactor (pos0, pos1, edgeLength, cameraPos, scParams);
+			tess.w = (tess.x + tess.y + tess.z) / 3.0f;
+			return tess;
+		}
+
+		float4 EdgeLengthBasedTessCull( float4 v0, float4 v1, float4 v2, float edgeLength, float maxDisplacement, float4x4 o2w, float3 cameraPos, float4 scParams, float4 planes[6] )
+		{
+			float3 pos0 = mul(o2w,v0).xyz;
+			float3 pos1 = mul(o2w,v1).xyz;
+			float3 pos2 = mul(o2w,v2).xyz;
+			float4 tess;
+
+			if (WorldViewFrustumCull(pos0, pos1, pos2, maxDisplacement, planes))
+			{
+				tess = 0.0f;
+			}
+			else
+			{
+				tess.x = CalcEdgeTessFactor (pos1, pos2, edgeLength, cameraPos, scParams);
+				tess.y = CalcEdgeTessFactor (pos2, pos0, edgeLength, cameraPos, scParams);
+				tess.z = CalcEdgeTessFactor (pos0, pos1, edgeLength, cameraPos, scParams);
+				tess.w = (tess.x + tess.y + tess.z) / 3.0f;
+			}
+			return tess;
+		}
+		#endif //ASE_TESS_FUNCS
+		ENDHLSL
+
+		
+		Pass
+		{
+			
+			Name "Forward"
+			Tags { "LightMode"="UniversalForward" }
+
+			Blend One Zero, One Zero
+			ZWrite On
+			ZTest LEqual
+			Offset 0 , 0
+			ColorMask RGBA
+
+			
+
+			HLSLPROGRAM
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_fog
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+			#ifdef UNITY_COLORSPACE_GAMMA//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(2.0, 2.0, 2.0, 2.0)//ASE Color Space Def
+			#else // Linear values//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(4.59479380, 4.59479380, 4.59479380, 2.0)//ASE Color Space Def
+			#endif//ASE Color Space Def
+
+
+			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+			#pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
+			#pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
+
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+
+			
+            #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+		
+
+			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
+
+			
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
+           
+
+			
+
+			#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+			#pragma multi_compile _ _LIGHT_LAYERS
+			#pragma multi_compile_fragment _ _LIGHT_COOKIES
+			#pragma multi_compile _ _FORWARD_PLUS
+		
+			
+
+			
+
+			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+			#pragma multi_compile _ SHADOWS_SHADOWMASK
+			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
+			#pragma multi_compile _ LIGHTMAP_ON
+			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+			#pragma multi_compile_fragment _ DEBUG_DISPLAY
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS SHADERPASS_FORWARD
+
+			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
+
+			
+			#if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+			#endif
+		
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#if defined(LOD_FADE_CROSSFADE)
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
+            #endif
+
+			#if defined(UNITY_INSTANCING_ENABLED) && defined(_TERRAIN_INSTANCED_PERPIXEL_NORMAL)
+				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
+			#endif
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+			#pragma shader_feature_local _EDGESLOPE_ON
+
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+				#define ASE_SV_DEPTH SV_DepthLessEqual
+				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+				#define ASE_SV_POSITION_QUALIFIERS
+			#endif
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 texcoord : TEXCOORD0;
+				float4 texcoord1 : TEXCOORD1;
+				float4 texcoord2 : TEXCOORD2;
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				ASE_SV_POSITION_QUALIFIERS float4 positionCS : SV_POSITION;
+				float4 clipPosV : TEXCOORD0;
+				float4 lightmapUVOrVertexSH : TEXCOORD1;
+				half4 fogFactorAndVertexLight : TEXCOORD2;
+				float4 tSpace0 : TEXCOORD3;
+				float4 tSpace1 : TEXCOORD4;
+				float4 tSpace2 : TEXCOORD5;
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+					float4 shadowCoord : TEXCOORD6;
+				#endif
+				#if defined(DYNAMICLIGHTMAP_ON)
+					float2 dynamicLightmapUV : TEXCOORD7;
+				#endif
+				float4 ase_texcoord8 : TEXCOORD8;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+			sampler2D _AlbedoMap;
+			sampler2D _DetailAlbedo;
+			sampler2D _DetailMask;
+			sampler2D _CoverageAlbedo;
+			sampler2D _NormalMap;
+			sampler2D _CoverageNormal;
+			sampler2D _DetailNormal;
+			sampler2D _MaskMapRGBA;
+			sampler2D _CoverageMask;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling157( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float3 TriplanarSampling151( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm , 1.0 ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm , 1.0 ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm , 1.0 ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+			inline float4 TriplanarSampling289( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.tangentOS.xyz);
+				float ase_vertexTangentSign = v.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+				o.ase_texcoord8.xy = v.texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord8.zw = 0;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+				v.normalOS = v.normalOS;
+				v.tangentOS = v.tangentOS;
+
+				VertexPositionInputs vertexInput = GetVertexPositionInputs( v.positionOS.xyz );
+				VertexNormalInputs normalInput = GetVertexNormalInputs( v.normalOS, v.tangentOS );
+
+				o.tSpace0 = float4( normalInput.normalWS, vertexInput.positionWS.x );
+				o.tSpace1 = float4( normalInput.tangentWS, vertexInput.positionWS.y );
+				o.tSpace2 = float4( normalInput.bitangentWS, vertexInput.positionWS.z );
+
+				#if defined(LIGHTMAP_ON)
+					OUTPUT_LIGHTMAP_UV( v.texcoord1, unity_LightmapST, o.lightmapUVOrVertexSH.xy );
+				#endif
+
+				#if !defined(LIGHTMAP_ON)
+					OUTPUT_SH( normalInput.normalWS.xyz, o.lightmapUVOrVertexSH.xyz );
+				#endif
+
+				#if defined(DYNAMICLIGHTMAP_ON)
+					o.dynamicLightmapUV.xy = v.texcoord2.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
+				#endif
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					o.lightmapUVOrVertexSH.zw = v.texcoord.xy;
+					o.lightmapUVOrVertexSH.xy = v.texcoord.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+				#endif
+
+				half3 vertexLight = VertexLighting( vertexInput.positionWS, normalInput.normalWS );
+
+				#ifdef ASE_FOG
+					half fogFactor = ComputeFogFactor( vertexInput.positionCS.z );
+				#else
+					half fogFactor = 0;
+				#endif
+
+				o.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+
+				o.positionCS = vertexInput.positionCS;
+				o.clipPosV = vertexInput.positionCS;
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 texcoord : TEXCOORD0;
+				float4 texcoord1 : TEXCOORD1;
+				float4 texcoord2 : TEXCOORD2;
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.tangentOS = v.tangentOS;
+				o.texcoord = v.texcoord;
+				o.texcoord1 = v.texcoord1;
+				o.texcoord2 = v.texcoord2;
+				
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
+				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
+				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
+				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
+				
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			half4 frag ( VertexOutput IN
+						#ifdef ASE_DEPTH_WRITE_ON
+						,out float outputDepth : ASE_SV_DEPTH
+						#endif
+						#ifdef _WRITE_RENDERING_LAYERS
+						, out float4 outRenderingLayers : SV_Target1
+						#endif
+						 ) : SV_Target
+			{
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
+
+				#if defined(LOD_FADE_CROSSFADE)
+					LODFadeCrossFade( IN.positionCS );
+				#endif
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					float2 sampleCoords = (IN.lightmapUVOrVertexSH.zw / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+					float3 WorldNormal = TransformObjectToWorldNormal(normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, sampler_TerrainNormalmapTexture, sampleCoords).rgb * 2 - 1));
+					float3 WorldTangent = -cross(GetObjectToWorldMatrix()._13_23_33, WorldNormal);
+					float3 WorldBiTangent = cross(WorldNormal, -WorldTangent);
+				#else
+					float3 WorldNormal = normalize( IN.tSpace0.xyz );
+					float3 WorldTangent = IN.tSpace1.xyz;
+					float3 WorldBiTangent = IN.tSpace2.xyz;
+				#endif
+
+				float3 WorldPosition = float3(IN.tSpace0.w,IN.tSpace1.w,IN.tSpace2.w);
+				float3 WorldViewDirection = _WorldSpaceCameraPos.xyz  - WorldPosition;
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+
+				float4 ClipPos = IN.clipPosV;
+				float4 ScreenPos = ComputeScreenPos( IN.clipPosV );
+
+				float2 NormalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(IN.positionCS);
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+					ShadowCoords = IN.shadowCoord;
+				#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+					ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+				#endif
+
+				WorldViewDirection = SafeNormalize( WorldViewDirection );
+
+				float2 texCoord147 = IN.ase_texcoord8.xy * _Tiling + _Offset;
+				float2 TileUVs232 = texCoord147;
+				float4 AlbedoMapMain250 = tex2D( _AlbedoMap, TileUVs232 );
+				float2 texCoord110 = IN.ase_texcoord8.xy * _TilingDetail + _OffsetDetail;
+				float2 TileUVs2231 = texCoord110;
+				float2 uv_DetailMask221 = IN.ase_texcoord8.xy;
+				float4 tex2DNode221 = tex2D( _DetailMask, uv_DetailMask221 );
+				float4 DetailAlbedoMap251 = ( AlbedoMapMain250 * ( ( ( tex2D( _DetailAlbedo, TileUVs2231 ) * unity_ColorSpaceDouble ) * tex2DNode221.a ) + ( 1.0 - tex2DNode221.a ) ) );
+				float4 triplanar157 = TriplanarSampling157( _CoverageAlbedo, WorldPosition, WorldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarAlbedo258 = triplanar157;
+				float4 lerpResult324 = lerp( ( TriplanarAlbedo258 * _Drycolor1 ) , ( ( TriplanarAlbedo258 * _Healthycolor1 ) * unity_ColorSpaceDouble ) , saturate( (WorldNormal.y*_DryColorScale + _DryColorOffset) ));
+				float4 TriplanarMossColor_Output327 = lerpResult324;
+				float3 unpack150 = UnpackNormalScale( tex2D( _NormalMap, TileUVs232 ), _NormalIntensity );
+				unpack150.z = lerp( 1, unpack150.z, saturate(_NormalIntensity) );
+				float3 NormalMapMain249 = unpack150;
+				float3x3 ase_worldToTangent = float3x3(WorldTangent,WorldBiTangent,WorldNormal);
+				float3 triplanar151 = TriplanarSampling151( _CoverageNormal, WorldPosition, WorldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float3 tanTriplanarNormal151 = mul( ase_worldToTangent, triplanar151 );
+				float3 TriplanarNormal259 = tanTriplanarNormal151;
+				float temp_output_149_0 = saturate( ( WorldNormal.y * _CoverageAmount ) );
+				float3 lerpResult152 = lerp( NormalMapMain249 , TriplanarNormal259 , temp_output_149_0);
+				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
+				float3 tanToWorld1 = float3( WorldTangent.y, WorldBiTangent.y, WorldNormal.y );
+				float3 tanToWorld2 = float3( WorldTangent.z, WorldBiTangent.z, WorldNormal.z );
+				float3 tanNormal154 = lerpResult152;
+				float3 worldNormal154 = float3(dot(tanToWorld0,tanNormal154), dot(tanToWorld1,tanNormal154), dot(tanToWorld2,tanNormal154));
+				float temp_output_174_0 = saturate( ( worldNormal154.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( WorldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3x3 ase_tangentToWorldFast = float3x3(WorldTangent.x,WorldBiTangent.x,WorldNormal.x,WorldTangent.y,WorldBiTangent.y,WorldNormal.y,WorldTangent.z,WorldBiTangent.z,WorldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPE_ON
+				float staticSwitch276 = ( temp_output_174_0 * Slope275 );
+				#else
+				float staticSwitch276 = temp_output_174_0;
+				#endif
+				float4 lerpResult182 = lerp( DetailAlbedoMap251 , (( _MossColor )?( TriplanarMossColor_Output327 ):( TriplanarAlbedo258 )) , staticSwitch276);
+				
+				float3 unpack192 = UnpackNormalScale( tex2D( _DetailNormal, TileUVs2231 ), _DetailNormalIntensity );
+				unpack192.z = lerp( 1, unpack192.z, saturate(_DetailNormalIntensity) );
+				float3 lerpResult246 = lerp( NormalMapMain249 , unpack192 , tex2DNode221.a);
+				float3 DetailNormalMap248 = lerpResult246;
+				float3 lerpResult196 = lerp( BlendNormal( DetailNormalMap248 , NormalMapMain249 ) , BlendNormal( (( _NormalBlur )?( float3(0,0,1) ):( NormalMapMain249 )) , TriplanarNormal259 ) , staticSwitch276);
+				
+				float4 tex2DNode156 = tex2D( _MaskMapRGBA, TileUVs232 );
+				float4 triplanar289 = TriplanarSampling289( _CoverageMask, WorldPosition, WorldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float lerpResult180 = lerp( ( tex2DNode156.a * _Float4 ) , ( triplanar289.w * _Float6 ) , staticSwitch276);
+				
+				float lerpResult293 = lerp( pow( abs( tex2DNode156.g ) , _Float5 ) , pow( abs( triplanar289.g ) , _Float7 ) , staticSwitch276);
+				
+
+				float3 BaseColor = lerpResult182.xyz;
+				float3 Normal = lerpResult196;
+				float3 Emission = 0;
+				float3 Specular = 0.5;
+				float Metallic = 0;
+				float Smoothness = lerpResult180;
+				float Occlusion = lerpResult293;
+				float Alpha = 1;
+				float AlphaClipThreshold = 0.5;
+				float AlphaClipThresholdShadow = 0.5;
+				float3 BakedGI = 0;
+				float3 RefractionColor = 1;
+				float RefractionIndex = 1;
+				float3 Transmission = 1;
+				float3 Translucency = 1;
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					float DepthValue = IN.positionCS.z;
+				#endif
+
+				#ifdef _CLEARCOAT
+					float CoatMask = 0;
+					float CoatSmoothness = 0;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				InputData inputData = (InputData)0;
+				inputData.positionWS = WorldPosition;
+				inputData.viewDirectionWS = WorldViewDirection;
+
+				#ifdef _NORMALMAP
+						#if _NORMAL_DROPOFF_TS
+							inputData.normalWS = TransformTangentToWorld(Normal, half3x3(WorldTangent, WorldBiTangent, WorldNormal));
+						#elif _NORMAL_DROPOFF_OS
+							inputData.normalWS = TransformObjectToWorldNormal(Normal);
+						#elif _NORMAL_DROPOFF_WS
+							inputData.normalWS = Normal;
+						#endif
+					inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
+				#else
+					inputData.normalWS = WorldNormal;
+				#endif
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+					inputData.shadowCoord = ShadowCoords;
+				#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+					inputData.shadowCoord = TransformWorldToShadowCoord(inputData.positionWS);
+				#else
+					inputData.shadowCoord = float4(0, 0, 0, 0);
+				#endif
+
+				#ifdef ASE_FOG
+					inputData.fogCoord = IN.fogFactorAndVertexLight.x;
+				#endif
+					inputData.vertexLighting = IN.fogFactorAndVertexLight.yzw;
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					float3 SH = SampleSH(inputData.normalWS.xyz);
+				#else
+					float3 SH = IN.lightmapUVOrVertexSH.xyz;
+				#endif
+
+				#if defined(DYNAMICLIGHTMAP_ON)
+					inputData.bakedGI = SAMPLE_GI(IN.lightmapUVOrVertexSH.xy, IN.dynamicLightmapUV.xy, SH, inputData.normalWS);
+				#else
+					inputData.bakedGI = SAMPLE_GI(IN.lightmapUVOrVertexSH.xy, SH, inputData.normalWS);
+				#endif
+
+				#ifdef ASE_BAKEDGI
+					inputData.bakedGI = BakedGI;
+				#endif
+
+				inputData.normalizedScreenSpaceUV = NormalizedScreenSpaceUV;
+				inputData.shadowMask = SAMPLE_SHADOWMASK(IN.lightmapUVOrVertexSH.xy);
+
+				#if defined(DEBUG_DISPLAY)
+					#if defined(DYNAMICLIGHTMAP_ON)
+						inputData.dynamicLightmapUV = IN.dynamicLightmapUV.xy;
+					#endif
+					#if defined(LIGHTMAP_ON)
+						inputData.staticLightmapUV = IN.lightmapUVOrVertexSH.xy;
+					#else
+						inputData.vertexSH = SH;
+					#endif
+				#endif
+
+				SurfaceData surfaceData;
+				surfaceData.albedo              = BaseColor;
+				surfaceData.metallic            = saturate(Metallic);
+				surfaceData.specular            = Specular;
+				surfaceData.smoothness          = saturate(Smoothness),
+				surfaceData.occlusion           = Occlusion,
+				surfaceData.emission            = Emission,
+				surfaceData.alpha               = saturate(Alpha);
+				surfaceData.normalTS            = Normal;
+				surfaceData.clearCoatMask       = 0;
+				surfaceData.clearCoatSmoothness = 1;
+
+				#ifdef _CLEARCOAT
+					surfaceData.clearCoatMask       = saturate(CoatMask);
+					surfaceData.clearCoatSmoothness = saturate(CoatSmoothness);
+				#endif
+
+				#ifdef _DBUFFER
+					ApplyDecalToSurfaceData(IN.positionCS, surfaceData, inputData);
+				#endif
+
+				half4 color = UniversalFragmentPBR( inputData, surfaceData);
+
+				#ifdef ASE_TRANSMISSION
+				{
+					float shadow = _TransmissionShadow;
+
+					#define SUM_LIGHT_TRANSMISSION(Light)\
+						float3 atten = Light.color * Light.distanceAttenuation;\
+						atten = lerp( atten, atten * Light.shadowAttenuation, shadow );\
+						half3 transmission = max( 0, -dot( inputData.normalWS, Light.direction ) ) * atten * Transmission;\
+						color.rgb += BaseColor * transmission;
+
+					SUM_LIGHT_TRANSMISSION( GetMainLight( inputData.shadowCoord ) );
+
+					#if defined(_ADDITIONAL_LIGHTS)
+						uint meshRenderingLayers = GetMeshRenderingLayer();
+						uint pixelLightCount = GetAdditionalLightsCount();
+						#if USE_FORWARD_PLUS
+							for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
+							{
+								FORWARD_PLUS_SUBTRACTIVE_LIGHT_CHECK
+
+								Light light = GetAdditionalLight(lightIndex, inputData.positionWS);
+								#ifdef _LIGHT_LAYERS
+								if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+								#endif
+								{
+									SUM_LIGHT_TRANSMISSION( light );
+								}
+							}
+						#endif
+						LIGHT_LOOP_BEGIN( pixelLightCount )
+							Light light = GetAdditionalLight(lightIndex, inputData.positionWS);
+							#ifdef _LIGHT_LAYERS
+							if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+							#endif
+							{
+								SUM_LIGHT_TRANSMISSION( light );
+							}
+						LIGHT_LOOP_END
+					#endif
+				}
+				#endif
+
+				#ifdef ASE_TRANSLUCENCY
+				{
+					float shadow = _TransShadow;
+					float normal = _TransNormal;
+					float scattering = _TransScattering;
+					float direct = _TransDirect;
+					float ambient = _TransAmbient;
+					float strength = _TransStrength;
+
+					#define SUM_LIGHT_TRANSLUCENCY(Light)\
+						float3 atten = Light.color * Light.distanceAttenuation;\
+						atten = lerp( atten, atten * Light.shadowAttenuation, shadow );\
+						half3 lightDir = Light.direction + inputData.normalWS * normal;\
+						half VdotL = pow( saturate( dot( inputData.viewDirectionWS, -lightDir ) ), scattering );\
+						half3 translucency = atten * ( VdotL * direct + inputData.bakedGI * ambient ) * Translucency;\
+						color.rgb += BaseColor * translucency * strength;
+
+					SUM_LIGHT_TRANSLUCENCY( GetMainLight( inputData.shadowCoord ) );
+
+					#if defined(_ADDITIONAL_LIGHTS)
+						uint meshRenderingLayers = GetMeshRenderingLayer();
+						uint pixelLightCount = GetAdditionalLightsCount();
+						#if USE_FORWARD_PLUS
+							for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
+							{
+								FORWARD_PLUS_SUBTRACTIVE_LIGHT_CHECK
+
+								Light light = GetAdditionalLight(lightIndex, inputData.positionWS);
+								#ifdef _LIGHT_LAYERS
+								if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+								#endif
+								{
+									SUM_LIGHT_TRANSLUCENCY( light );
+								}
+							}
+						#endif
+						LIGHT_LOOP_BEGIN( pixelLightCount )
+							Light light = GetAdditionalLight(lightIndex, inputData.positionWS);
+							#ifdef _LIGHT_LAYERS
+							if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+							#endif
+							{
+								SUM_LIGHT_TRANSLUCENCY( light );
+							}
+						LIGHT_LOOP_END
+					#endif
+				}
+				#endif
+
+				#ifdef ASE_REFRACTION
+					float4 projScreenPos = ScreenPos / ScreenPos.w;
+					float3 refractionOffset = ( RefractionIndex - 1.0 ) * mul( UNITY_MATRIX_V, float4( WorldNormal,0 ) ).xyz * ( 1.0 - dot( WorldNormal, WorldViewDirection ) );
+					projScreenPos.xy += refractionOffset.xy;
+					float3 refraction = SHADERGRAPH_SAMPLE_SCENE_COLOR( projScreenPos.xy ) * RefractionColor;
+					color.rgb = lerp( refraction, color.rgb, color.a );
+					color.a = 1;
+				#endif
+
+				#ifdef ASE_FINAL_COLOR_ALPHA_MULTIPLY
+					color.rgb *= color.a;
+				#endif
+
+				#ifdef ASE_FOG
+					#ifdef TERRAIN_SPLAT_ADDPASS
+						color.rgb = MixFogColor(color.rgb, half3( 0, 0, 0 ), IN.fogFactorAndVertexLight.x );
+					#else
+						color.rgb = MixFog(color.rgb, IN.fogFactorAndVertexLight.x);
+					#endif
+				#endif
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					outputDepth = DepthValue;
+				#endif
+
+				#ifdef _WRITE_RENDERING_LAYERS
+					uint renderingLayers = GetMeshRenderingLayer();
+					outRenderingLayers = float4( EncodeMeshRenderingLayer( renderingLayers ), 0, 0, 0 );
+				#endif
+
+				return color;
+			}
+
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "ShadowCaster"
+			Tags { "LightMode"="ShadowCaster" }
+
+			ZWrite On
+			ZTest LEqual
+			AlphaToMask Off
+			ColorMask 0
+
+			HLSLPROGRAM
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+
+
+			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+			
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS SHADERPASS_SHADOWCASTER
+
+			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#if defined(LOD_FADE_CROSSFADE)
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
+            #endif
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+				#define ASE_SV_DEPTH SV_DepthLessEqual
+				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+				#define ASE_SV_POSITION_QUALIFIERS
+			#endif
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				ASE_SV_POSITION_QUALIFIERS float4 positionCS : SV_POSITION;
+				float4 clipPosV : TEXCOORD0;
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 positionWS : TEXCOORD1;
+				#endif
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					float4 shadowCoord : TEXCOORD2;
+				#endif				
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+
+			float3 _LightDirection;
+			float3 _LightPosition;
+
+			VertexOutput VertexFunction( VertexInput v )
+			{
+				VertexOutput o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
+				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+
+				float3 positionWS = TransformObjectToWorld( v.positionOS.xyz );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					o.positionWS = positionWS;
+				#endif
+
+				float3 normalWS = TransformObjectToWorldDir(v.normalOS);
+
+				#if _CASTING_PUNCTUAL_LIGHT_SHADOW
+					float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+				#else
+					float3 lightDirectionWS = _LightDirection;
+				#endif
+
+				float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
+
+				#if UNITY_REVERSED_Z
+					positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+				#else
+					positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+				#endif
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					VertexPositionInputs vertexInput = (VertexPositionInputs)0;
+					vertexInput.positionWS = positionWS;
+					vertexInput.positionCS = positionCS;
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+
+				o.positionCS = positionCS;
+				o.clipPosV = positionCS;
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.ase_tangent = v.ase_tangent;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			half4 frag(	VertexOutput IN
+						#ifdef ASE_DEPTH_WRITE_ON
+						,out float outputDepth : ASE_SV_DEPTH
+						#endif
+						 ) : SV_TARGET
+			{
+				UNITY_SETUP_INSTANCE_ID( IN );
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 WorldPosition = IN.positionWS;
+				#endif
+
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+				float4 ClipPos = IN.clipPosV;
+				float4 ScreenPos = ComputeScreenPos( IN.clipPosV );
+
+				#if defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+						ShadowCoords = IN.shadowCoord;
+					#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+					#endif
+				#endif
+
+				
+
+				float Alpha = 1;
+				float AlphaClipThreshold = 0.5;
+				float AlphaClipThresholdShadow = 0.5;
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					float DepthValue = IN.positionCS.z;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					#ifdef _ALPHATEST_SHADOW_ON
+						clip(Alpha - AlphaClipThresholdShadow);
+					#else
+						clip(Alpha - AlphaClipThreshold);
+					#endif
+				#endif
+
+				#if defined(LOD_FADE_CROSSFADE)
+					LODFadeCrossFade( IN.positionCS );
+				#endif
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					outputDepth = DepthValue;
+				#endif
+
+				return 0;
+			}
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "DepthOnly"
+			Tags { "LightMode"="DepthOnly" }
+
+			ZWrite On
+			ColorMask 0
+			AlphaToMask Off
+
+			HLSLPROGRAM
+
+			
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+
+
+			
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS SHADERPASS_DEPTHONLY
+
+			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#if defined(LOD_FADE_CROSSFADE)
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
+            #endif
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+				#define ASE_SV_DEPTH SV_DepthLessEqual
+				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+				#define ASE_SV_POSITION_QUALIFIERS
+			#endif
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				ASE_SV_POSITION_QUALIFIERS float4 positionCS : SV_POSITION;
+				float4 clipPosV : TEXCOORD0;
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				float3 positionWS : TEXCOORD1;
+				#endif
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+				float4 shadowCoord : TEXCOORD2;
+				#endif
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
+				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+
+				VertexPositionInputs vertexInput = GetVertexPositionInputs( v.positionOS.xyz );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					o.positionWS = vertexInput.positionWS;
+				#endif
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+
+				o.positionCS = vertexInput.positionCS;
+				o.clipPosV = vertexInput.positionCS;
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.ase_tangent = v.ase_tangent;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			half4 frag(	VertexOutput IN
+						#ifdef ASE_DEPTH_WRITE_ON
+						,out float outputDepth : ASE_SV_DEPTH
+						#endif
+						 ) : SV_TARGET
+			{
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				float3 WorldPosition = IN.positionWS;
+				#endif
+
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+				float4 ClipPos = IN.clipPosV;
+				float4 ScreenPos = ComputeScreenPos( IN.clipPosV );
+
+				#if defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+						ShadowCoords = IN.shadowCoord;
+					#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+					#endif
+				#endif
+
+				
+
+				float Alpha = 1;
+				float AlphaClipThreshold = 0.5;
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					float DepthValue = IN.positionCS.z;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				#if defined(LOD_FADE_CROSSFADE)
+					LODFadeCrossFade( IN.positionCS );
+				#endif
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					outputDepth = DepthValue;
+				#endif
+
+				return 0;
+			}
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "Meta"
+			Tags { "LightMode"="Meta" }
+
+			Cull Off
+
+			HLSLPROGRAM
+
+			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+			#ifdef UNITY_COLORSPACE_GAMMA//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(2.0, 2.0, 2.0, 2.0)//ASE Color Space Def
+			#else // Linear values//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(4.59479380, 4.59479380, 4.59479380, 2.0)//ASE Color Space Def
+			#endif//ASE Color Space Def
+
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#pragma shader_feature EDITOR_VISUALIZATION
+
+			#define SHADERPASS SHADERPASS_META
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+			#pragma shader_feature_local _EDGESLOPE_ON
+
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 texcoord0 : TEXCOORD0;
+				float4 texcoord1 : TEXCOORD1;
+				float4 texcoord2 : TEXCOORD2;
+				float4 ase_tangent : TANGENT;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				float4 positionCS : SV_POSITION;
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 positionWS : TEXCOORD0;
+				#endif
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					float4 shadowCoord : TEXCOORD1;
+				#endif
+				#ifdef EDITOR_VISUALIZATION
+					float4 VizUV : TEXCOORD2;
+					float4 LightCoord : TEXCOORD3;
+				#endif
+				float4 ase_texcoord4 : TEXCOORD4;
+				float4 ase_texcoord5 : TEXCOORD5;
+				float4 ase_texcoord6 : TEXCOORD6;
+				float4 ase_texcoord7 : TEXCOORD7;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+			sampler2D _AlbedoMap;
+			sampler2D _DetailAlbedo;
+			sampler2D _DetailMask;
+			sampler2D _CoverageAlbedo;
+			sampler2D _NormalMap;
+			sampler2D _CoverageNormal;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling157( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float3 TriplanarSampling151( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm , 1.0 ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm , 1.0 ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm , 1.0 ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
+				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+				o.ase_texcoord5.xyz = ase_worldNormal;
+				o.ase_texcoord6.xyz = ase_worldTangent;
+				o.ase_texcoord7.xyz = ase_worldBitangent;
+				
+				o.ase_texcoord4.xy = v.texcoord0.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord4.zw = 0;
+				o.ase_texcoord5.w = 0;
+				o.ase_texcoord6.w = 0;
+				o.ase_texcoord7.w = 0;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+
+				float3 positionWS = TransformObjectToWorld( v.positionOS.xyz );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					o.positionWS = positionWS;
+				#endif
+
+				o.positionCS = MetaVertexPosition( v.positionOS, v.texcoord1.xy, v.texcoord1.xy, unity_LightmapST, unity_DynamicLightmapST );
+
+				#ifdef EDITOR_VISUALIZATION
+					float2 VizUV = 0;
+					float4 LightCoord = 0;
+					UnityEditorVizData(v.positionOS.xyz, v.texcoord0.xy, v.texcoord1.xy, v.texcoord2.xy, VizUV, LightCoord);
+					o.VizUV = float4(VizUV, 0, 0);
+					o.LightCoord = LightCoord;
+				#endif
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					VertexPositionInputs vertexInput = (VertexPositionInputs)0;
+					vertexInput.positionWS = positionWS;
+					vertexInput.positionCS = o.positionCS;
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 texcoord0 : TEXCOORD0;
+				float4 texcoord1 : TEXCOORD1;
+				float4 texcoord2 : TEXCOORD2;
+				float4 ase_tangent : TANGENT;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.texcoord0 = v.texcoord0;
+				o.texcoord1 = v.texcoord1;
+				o.texcoord2 = v.texcoord2;
+				o.ase_tangent = v.ase_tangent;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.texcoord0 = patch[0].texcoord0 * bary.x + patch[1].texcoord0 * bary.y + patch[2].texcoord0 * bary.z;
+				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
+				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
+				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			half4 frag(VertexOutput IN  ) : SV_TARGET
+			{
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 WorldPosition = IN.positionWS;
+				#endif
+
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+
+				#if defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+						ShadowCoords = IN.shadowCoord;
+					#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+					#endif
+				#endif
+
+				float2 texCoord147 = IN.ase_texcoord4.xy * _Tiling + _Offset;
+				float2 TileUVs232 = texCoord147;
+				float4 AlbedoMapMain250 = tex2D( _AlbedoMap, TileUVs232 );
+				float2 texCoord110 = IN.ase_texcoord4.xy * _TilingDetail + _OffsetDetail;
+				float2 TileUVs2231 = texCoord110;
+				float2 uv_DetailMask221 = IN.ase_texcoord4.xy;
+				float4 tex2DNode221 = tex2D( _DetailMask, uv_DetailMask221 );
+				float4 DetailAlbedoMap251 = ( AlbedoMapMain250 * ( ( ( tex2D( _DetailAlbedo, TileUVs2231 ) * unity_ColorSpaceDouble ) * tex2DNode221.a ) + ( 1.0 - tex2DNode221.a ) ) );
+				float3 ase_worldNormal = IN.ase_texcoord5.xyz;
+				float4 triplanar157 = TriplanarSampling157( _CoverageAlbedo, WorldPosition, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarAlbedo258 = triplanar157;
+				float4 lerpResult324 = lerp( ( TriplanarAlbedo258 * _Drycolor1 ) , ( ( TriplanarAlbedo258 * _Healthycolor1 ) * unity_ColorSpaceDouble ) , saturate( (ase_worldNormal.y*_DryColorScale + _DryColorOffset) ));
+				float4 TriplanarMossColor_Output327 = lerpResult324;
+				float3 unpack150 = UnpackNormalScale( tex2D( _NormalMap, TileUVs232 ), _NormalIntensity );
+				unpack150.z = lerp( 1, unpack150.z, saturate(_NormalIntensity) );
+				float3 NormalMapMain249 = unpack150;
+				float3 ase_worldTangent = IN.ase_texcoord6.xyz;
+				float3 ase_worldBitangent = IN.ase_texcoord7.xyz;
+				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
+				float3 triplanar151 = TriplanarSampling151( _CoverageNormal, WorldPosition, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float3 tanTriplanarNormal151 = mul( ase_worldToTangent, triplanar151 );
+				float3 TriplanarNormal259 = tanTriplanarNormal151;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 lerpResult152 = lerp( NormalMapMain249 , TriplanarNormal259 , temp_output_149_0);
+				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
+				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
+				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
+				float3 tanNormal154 = lerpResult152;
+				float3 worldNormal154 = float3(dot(tanToWorld0,tanNormal154), dot(tanToWorld1,tanNormal154), dot(tanToWorld2,tanNormal154));
+				float temp_output_174_0 = saturate( ( worldNormal154.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPE_ON
+				float staticSwitch276 = ( temp_output_174_0 * Slope275 );
+				#else
+				float staticSwitch276 = temp_output_174_0;
+				#endif
+				float4 lerpResult182 = lerp( DetailAlbedoMap251 , (( _MossColor )?( TriplanarMossColor_Output327 ):( TriplanarAlbedo258 )) , staticSwitch276);
+				
+
+				float3 BaseColor = lerpResult182.xyz;
+				float3 Emission = 0;
+				float Alpha = 1;
+				float AlphaClipThreshold = 0.5;
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				MetaInput metaInput = (MetaInput)0;
+				metaInput.Albedo = BaseColor;
+				metaInput.Emission = Emission;
+				#ifdef EDITOR_VISUALIZATION
+					metaInput.VizUV = IN.VizUV.xy;
+					metaInput.LightCoord = IN.LightCoord;
+				#endif
+
+				return UnityMetaFragment(metaInput);
+			}
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "Universal2D"
+			Tags { "LightMode"="Universal2D" }
+
+			Blend One Zero, One Zero
+			ZWrite On
+			ZTest LEqual
+			Offset 0 , 0
+			ColorMask RGBA
+
+			HLSLPROGRAM
+
+			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+			#ifdef UNITY_COLORSPACE_GAMMA//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(2.0, 2.0, 2.0, 2.0)//ASE Color Space Def
+			#else // Linear values//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(4.59479380, 4.59479380, 4.59479380, 2.0)//ASE Color Space Def
+			#endif//ASE Color Space Def
+
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS SHADERPASS_2D
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+			#pragma shader_feature_local _EDGESLOPE_ON
+
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+				float4 ase_texcoord : TEXCOORD0;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				float4 positionCS : SV_POSITION;
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 positionWS : TEXCOORD0;
+				#endif
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					float4 shadowCoord : TEXCOORD1;
+				#endif
+				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
+				float4 ase_texcoord5 : TEXCOORD5;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+			sampler2D _AlbedoMap;
+			sampler2D _DetailAlbedo;
+			sampler2D _DetailMask;
+			sampler2D _CoverageAlbedo;
+			sampler2D _NormalMap;
+			sampler2D _CoverageNormal;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling157( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float3 TriplanarSampling151( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm , 1.0 ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm , 1.0 ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm , 1.0 ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID( v );
+				UNITY_TRANSFER_INSTANCE_ID( v, o );
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
+				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+				o.ase_texcoord3.xyz = ase_worldNormal;
+				o.ase_texcoord4.xyz = ase_worldTangent;
+				o.ase_texcoord5.xyz = ase_worldBitangent;
+				
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord2.zw = 0;
+				o.ase_texcoord3.w = 0;
+				o.ase_texcoord4.w = 0;
+				o.ase_texcoord5.w = 0;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+
+				VertexPositionInputs vertexInput = GetVertexPositionInputs( v.positionOS.xyz );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					o.positionWS = vertexInput.positionWS;
+				#endif
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+
+				o.positionCS = vertexInput.positionCS;
+
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+				float4 ase_texcoord : TEXCOORD0;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.ase_tangent = v.ase_tangent;
+				o.ase_texcoord = v.ase_texcoord;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			half4 frag(VertexOutput IN  ) : SV_TARGET
+			{
+				UNITY_SETUP_INSTANCE_ID( IN );
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 WorldPosition = IN.positionWS;
+				#endif
+
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+
+				#if defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+						ShadowCoords = IN.shadowCoord;
+					#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+					#endif
+				#endif
+
+				float2 texCoord147 = IN.ase_texcoord2.xy * _Tiling + _Offset;
+				float2 TileUVs232 = texCoord147;
+				float4 AlbedoMapMain250 = tex2D( _AlbedoMap, TileUVs232 );
+				float2 texCoord110 = IN.ase_texcoord2.xy * _TilingDetail + _OffsetDetail;
+				float2 TileUVs2231 = texCoord110;
+				float2 uv_DetailMask221 = IN.ase_texcoord2.xy;
+				float4 tex2DNode221 = tex2D( _DetailMask, uv_DetailMask221 );
+				float4 DetailAlbedoMap251 = ( AlbedoMapMain250 * ( ( ( tex2D( _DetailAlbedo, TileUVs2231 ) * unity_ColorSpaceDouble ) * tex2DNode221.a ) + ( 1.0 - tex2DNode221.a ) ) );
+				float3 ase_worldNormal = IN.ase_texcoord3.xyz;
+				float4 triplanar157 = TriplanarSampling157( _CoverageAlbedo, WorldPosition, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarAlbedo258 = triplanar157;
+				float4 lerpResult324 = lerp( ( TriplanarAlbedo258 * _Drycolor1 ) , ( ( TriplanarAlbedo258 * _Healthycolor1 ) * unity_ColorSpaceDouble ) , saturate( (ase_worldNormal.y*_DryColorScale + _DryColorOffset) ));
+				float4 TriplanarMossColor_Output327 = lerpResult324;
+				float3 unpack150 = UnpackNormalScale( tex2D( _NormalMap, TileUVs232 ), _NormalIntensity );
+				unpack150.z = lerp( 1, unpack150.z, saturate(_NormalIntensity) );
+				float3 NormalMapMain249 = unpack150;
+				float3 ase_worldTangent = IN.ase_texcoord4.xyz;
+				float3 ase_worldBitangent = IN.ase_texcoord5.xyz;
+				float3x3 ase_worldToTangent = float3x3(ase_worldTangent,ase_worldBitangent,ase_worldNormal);
+				float3 triplanar151 = TriplanarSampling151( _CoverageNormal, WorldPosition, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float3 tanTriplanarNormal151 = mul( ase_worldToTangent, triplanar151 );
+				float3 TriplanarNormal259 = tanTriplanarNormal151;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 lerpResult152 = lerp( NormalMapMain249 , TriplanarNormal259 , temp_output_149_0);
+				float3 tanToWorld0 = float3( ase_worldTangent.x, ase_worldBitangent.x, ase_worldNormal.x );
+				float3 tanToWorld1 = float3( ase_worldTangent.y, ase_worldBitangent.y, ase_worldNormal.y );
+				float3 tanToWorld2 = float3( ase_worldTangent.z, ase_worldBitangent.z, ase_worldNormal.z );
+				float3 tanNormal154 = lerpResult152;
+				float3 worldNormal154 = float3(dot(tanToWorld0,tanNormal154), dot(tanToWorld1,tanNormal154), dot(tanToWorld2,tanNormal154));
+				float temp_output_174_0 = saturate( ( worldNormal154.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPE_ON
+				float staticSwitch276 = ( temp_output_174_0 * Slope275 );
+				#else
+				float staticSwitch276 = temp_output_174_0;
+				#endif
+				float4 lerpResult182 = lerp( DetailAlbedoMap251 , (( _MossColor )?( TriplanarMossColor_Output327 ):( TriplanarAlbedo258 )) , staticSwitch276);
+				
+
+				float3 BaseColor = lerpResult182.xyz;
+				float Alpha = 1;
+				float AlphaClipThreshold = 0.5;
+
+				half4 color = half4(BaseColor, Alpha );
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				return color;
+			}
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "DepthNormals"
+			Tags { "LightMode"="DepthNormals" }
+
+			ZWrite On
+			Blend One Zero
+			ZTest LEqual
+			ZWrite On
+
+			HLSLPROGRAM
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			
+
+			
+
+			#define SHADERPASS SHADERPASS_DEPTHNORMALSONLY
+			//#define SHADERPASS SHADERPASS_DEPTHNORMALS
+
+			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
+
+			
+			#if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+			#endif
+		
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#if defined(LOD_FADE_CROSSFADE)
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
+            #endif
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+			#pragma shader_feature_local _EDGESLOPE_ON
+
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+				#define ASE_SV_DEPTH SV_DepthLessEqual
+				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+				#define ASE_SV_POSITION_QUALIFIERS
+			#endif
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 ase_texcoord : TEXCOORD0;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				ASE_SV_POSITION_QUALIFIERS float4 positionCS : SV_POSITION;
+				float4 clipPosV : TEXCOORD0;
+				float3 worldNormal : TEXCOORD1;
+				float4 worldTangent : TEXCOORD2;
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 positionWS : TEXCOORD3;
+				#endif
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					float4 shadowCoord : TEXCOORD4;
+				#endif
+				float4 ase_texcoord5 : TEXCOORD5;
+				float4 ase_texcoord6 : TEXCOORD6;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+			sampler2D _NormalMap;
+			sampler2D _DetailNormal;
+			sampler2D _DetailMask;
+			sampler2D _CoverageNormal;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float3 TriplanarSampling151( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm , 1.0 ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm , 1.0 ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm , 1.0 ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.tangentOS.xyz);
+				float ase_vertexTangentSign = v.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+				o.ase_texcoord6.xyz = ase_worldBitangent;
+				
+				o.ase_texcoord5.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord5.zw = 0;
+				o.ase_texcoord6.w = 0;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+				v.tangentOS = v.tangentOS;
+
+				VertexPositionInputs vertexInput = GetVertexPositionInputs( v.positionOS.xyz );
+
+				float3 normalWS = TransformObjectToWorldNormal( v.normalOS );
+				float4 tangentWS = float4( TransformObjectToWorldDir( v.tangentOS.xyz ), v.tangentOS.w );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					o.positionWS = vertexInput.positionWS;
+				#endif
+
+				o.worldNormal = normalWS;
+				o.worldTangent = tangentWS;
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+
+				o.positionCS = vertexInput.positionCS;
+				o.clipPosV = vertexInput.positionCS;
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 ase_texcoord : TEXCOORD0;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.tangentOS = v.tangentOS;
+				o.ase_texcoord = v.ase_texcoord;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			void frag(	VertexOutput IN
+						, out half4 outNormalWS : SV_Target0
+						#ifdef ASE_DEPTH_WRITE_ON
+						,out float outputDepth : ASE_SV_DEPTH
+						#endif
+						#ifdef _WRITE_RENDERING_LAYERS
+						, out float4 outRenderingLayers : SV_Target1
+						#endif
+						 )
+			{
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+					float3 WorldPosition = IN.positionWS;
+				#endif
+
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+				float3 WorldNormal = IN.worldNormal;
+				float4 WorldTangent = IN.worldTangent;
+
+				float4 ClipPos = IN.clipPosV;
+				float4 ScreenPos = ComputeScreenPos( IN.clipPosV );
+
+				#if defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+						ShadowCoords = IN.shadowCoord;
+					#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+					#endif
+				#endif
+
+				float2 texCoord147 = IN.ase_texcoord5.xy * _Tiling + _Offset;
+				float2 TileUVs232 = texCoord147;
+				float3 unpack150 = UnpackNormalScale( tex2D( _NormalMap, TileUVs232 ), _NormalIntensity );
+				unpack150.z = lerp( 1, unpack150.z, saturate(_NormalIntensity) );
+				float3 NormalMapMain249 = unpack150;
+				float2 texCoord110 = IN.ase_texcoord5.xy * _TilingDetail + _OffsetDetail;
+				float2 TileUVs2231 = texCoord110;
+				float3 unpack192 = UnpackNormalScale( tex2D( _DetailNormal, TileUVs2231 ), _DetailNormalIntensity );
+				unpack192.z = lerp( 1, unpack192.z, saturate(_DetailNormalIntensity) );
+				float2 uv_DetailMask221 = IN.ase_texcoord5.xy;
+				float4 tex2DNode221 = tex2D( _DetailMask, uv_DetailMask221 );
+				float3 lerpResult246 = lerp( NormalMapMain249 , unpack192 , tex2DNode221.a);
+				float3 DetailNormalMap248 = lerpResult246;
+				float3 ase_worldBitangent = IN.ase_texcoord6.xyz;
+				float3x3 ase_worldToTangent = float3x3(WorldTangent.xyz,ase_worldBitangent,WorldNormal);
+				float3 triplanar151 = TriplanarSampling151( _CoverageNormal, WorldPosition, WorldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float3 tanTriplanarNormal151 = mul( ase_worldToTangent, triplanar151 );
+				float3 TriplanarNormal259 = tanTriplanarNormal151;
+				float temp_output_149_0 = saturate( ( WorldNormal.y * _CoverageAmount ) );
+				float3 lerpResult152 = lerp( NormalMapMain249 , TriplanarNormal259 , temp_output_149_0);
+				float3 tanToWorld0 = float3( WorldTangent.xyz.x, ase_worldBitangent.x, WorldNormal.x );
+				float3 tanToWorld1 = float3( WorldTangent.xyz.y, ase_worldBitangent.y, WorldNormal.y );
+				float3 tanToWorld2 = float3( WorldTangent.xyz.z, ase_worldBitangent.z, WorldNormal.z );
+				float3 tanNormal154 = lerpResult152;
+				float3 worldNormal154 = float3(dot(tanToWorld0,tanNormal154), dot(tanToWorld1,tanNormal154), dot(tanToWorld2,tanNormal154));
+				float temp_output_174_0 = saturate( ( worldNormal154.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( WorldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3x3 ase_tangentToWorldFast = float3x3(WorldTangent.xyz.x,ase_worldBitangent.x,WorldNormal.x,WorldTangent.xyz.y,ase_worldBitangent.y,WorldNormal.y,WorldTangent.xyz.z,ase_worldBitangent.z,WorldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPE_ON
+				float staticSwitch276 = ( temp_output_174_0 * Slope275 );
+				#else
+				float staticSwitch276 = temp_output_174_0;
+				#endif
+				float3 lerpResult196 = lerp( BlendNormal( DetailNormalMap248 , NormalMapMain249 ) , BlendNormal( (( _NormalBlur )?( float3(0,0,1) ):( NormalMapMain249 )) , TriplanarNormal259 ) , staticSwitch276);
+				
+
+				float3 Normal = lerpResult196;
+				float Alpha = 1;
+				float AlphaClipThreshold = 0.5;
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					float DepthValue = IN.positionCS.z;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				#if defined(LOD_FADE_CROSSFADE)
+					LODFadeCrossFade( IN.positionCS );
+				#endif
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					outputDepth = DepthValue;
+				#endif
+
+				#if defined(_GBUFFER_NORMALS_OCT)
+					float2 octNormalWS = PackNormalOctQuadEncode(WorldNormal);
+					float2 remappedOctNormalWS = saturate(octNormalWS * 0.5 + 0.5);
+					half3 packedNormalWS = PackFloat2To888(remappedOctNormalWS);
+					outNormalWS = half4(packedNormalWS, 0.0);
+				#else
+					#if defined(_NORMALMAP)
+						#if _NORMAL_DROPOFF_TS
+							float crossSign = (WorldTangent.w > 0.0 ? 1.0 : -1.0) * GetOddNegativeScale();
+							float3 bitangent = crossSign * cross(WorldNormal.xyz, WorldTangent.xyz);
+							float3 normalWS = TransformTangentToWorld(Normal, half3x3(WorldTangent.xyz, bitangent, WorldNormal.xyz));
+						#elif _NORMAL_DROPOFF_OS
+							float3 normalWS = TransformObjectToWorldNormal(Normal);
+						#elif _NORMAL_DROPOFF_WS
+							float3 normalWS = Normal;
+						#endif
+					#else
+						float3 normalWS = WorldNormal;
+					#endif
+					outNormalWS = half4(NormalizeNormalPerPixel(normalWS), 0.0);
+				#endif
+
+				#ifdef _WRITE_RENDERING_LAYERS
+					uint renderingLayers = GetMeshRenderingLayer();
+					outRenderingLayers = float4( EncodeMeshRenderingLayer( renderingLayers ), 0, 0, 0 );
+				#endif
+			}
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "GBuffer"
+			Tags { "LightMode"="UniversalGBuffer" }
+
+			Blend One Zero, One Zero
+			ZWrite On
+			ZTest LEqual
+			Offset 0 , 0
+			ColorMask RGBA
+			
+
+			HLSLPROGRAM
+
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_fog
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+			#ifdef UNITY_COLORSPACE_GAMMA//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(2.0, 2.0, 2.0, 2.0)//ASE Color Space Def
+			#else // Linear values//ASE Color Space Def
+			#define unity_ColorSpaceDouble half4(4.59479380, 4.59479380, 4.59479380, 2.0)//ASE Color Space Def
+			#endif//ASE Color Space Def
+
+
+			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+			#pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
+			#pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
+
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
+
+			
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
+           
+
+			
+
+			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+			#pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+			#pragma multi_compile_fragment _ _RENDER_PASS_ENABLED
+      
+			
+
+			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
+			#pragma multi_compile _ SHADOWS_SHADOWMASK
+			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
+			#pragma multi_compile _ LIGHTMAP_ON
+			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+			#pragma multi_compile_fragment _ DEBUG_DISPLAY
+
+			
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS SHADERPASS_GBUFFER
+
+			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
+
+			
+			#if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+			#endif
+		
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#if defined(LOD_FADE_CROSSFADE)
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
+            #endif
+			
+			#if defined(UNITY_INSTANCING_ENABLED) && defined(_TERRAIN_INSTANCED_PERPIXEL_NORMAL)
+				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
+			#endif
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+			#pragma shader_feature_local _EDGESLOPE_ON
+
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+				#define ASE_SV_DEPTH SV_DepthLessEqual
+				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+				#define ASE_SV_POSITION_QUALIFIERS
+			#endif
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 texcoord : TEXCOORD0;
+				float4 texcoord1 : TEXCOORD1;
+				float4 texcoord2 : TEXCOORD2;
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				ASE_SV_POSITION_QUALIFIERS float4 positionCS : SV_POSITION;
+				float4 clipPosV : TEXCOORD0;
+				float4 lightmapUVOrVertexSH : TEXCOORD1;
+				half4 fogFactorAndVertexLight : TEXCOORD2;
+				float4 tSpace0 : TEXCOORD3;
+				float4 tSpace1 : TEXCOORD4;
+				float4 tSpace2 : TEXCOORD5;
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+				float4 shadowCoord : TEXCOORD6;
+				#endif
+				#if defined(DYNAMICLIGHTMAP_ON)
+				float2 dynamicLightmapUV : TEXCOORD7;
+				#endif
+				float4 ase_texcoord8 : TEXCOORD8;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+			sampler2D _AlbedoMap;
+			sampler2D _DetailAlbedo;
+			sampler2D _DetailMask;
+			sampler2D _CoverageAlbedo;
+			sampler2D _NormalMap;
+			sampler2D _CoverageNormal;
+			sampler2D _DetailNormal;
+			sampler2D _MaskMapRGBA;
+			sampler2D _CoverageMask;
+
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling157( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float3 TriplanarSampling151( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm , 1.0 ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm , 1.0 ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm , 1.0 ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+			inline float4 TriplanarSampling289( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.tangentOS.xyz);
+				float ase_vertexTangentSign = v.tangentOS.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+				o.ase_texcoord8.xy = v.texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord8.zw = 0;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+				v.tangentOS = v.tangentOS;
+
+				VertexPositionInputs vertexInput = GetVertexPositionInputs( v.positionOS.xyz );
+				VertexNormalInputs normalInput = GetVertexNormalInputs( v.normalOS, v.tangentOS );
+
+				o.tSpace0 = float4( normalInput.normalWS, vertexInput.positionWS.x);
+				o.tSpace1 = float4( normalInput.tangentWS, vertexInput.positionWS.y);
+				o.tSpace2 = float4( normalInput.bitangentWS, vertexInput.positionWS.z);
+
+				#if defined(LIGHTMAP_ON)
+					OUTPUT_LIGHTMAP_UV(v.texcoord1, unity_LightmapST, o.lightmapUVOrVertexSH.xy);
+				#endif
+
+				#if defined(DYNAMICLIGHTMAP_ON)
+					o.dynamicLightmapUV.xy = v.texcoord2.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
+				#endif
+
+				#if !defined(LIGHTMAP_ON)
+					OUTPUT_SH(normalInput.normalWS.xyz, o.lightmapUVOrVertexSH.xyz);
+				#endif
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					o.lightmapUVOrVertexSH.zw = v.texcoord.xy;
+					o.lightmapUVOrVertexSH.xy = v.texcoord.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+				#endif
+
+				half3 vertexLight = VertexLighting( vertexInput.positionWS, normalInput.normalWS );
+
+				o.fogFactorAndVertexLight = half4(0, vertexLight);
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+
+				o.positionCS = vertexInput.positionCS;
+				o.clipPosV = vertexInput.positionCS;
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 tangentOS : TANGENT;
+				float4 texcoord : TEXCOORD0;
+				float4 texcoord1 : TEXCOORD1;
+				float4 texcoord2 : TEXCOORD2;
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.tangentOS = v.tangentOS;
+				o.texcoord = v.texcoord;
+				o.texcoord1 = v.texcoord1;
+				o.texcoord2 = v.texcoord2;
+				
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
+				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
+				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
+				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
+				
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			FragmentOutput frag ( VertexOutput IN
+								#ifdef ASE_DEPTH_WRITE_ON
+								,out float outputDepth : ASE_SV_DEPTH
+								#endif
+								 )
+			{
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
+
+				#if defined(LOD_FADE_CROSSFADE)
+					LODFadeCrossFade( IN.positionCS );
+				#endif
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					float2 sampleCoords = (IN.lightmapUVOrVertexSH.zw / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+					float3 WorldNormal = TransformObjectToWorldNormal(normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, sampler_TerrainNormalmapTexture, sampleCoords).rgb * 2 - 1));
+					float3 WorldTangent = -cross(GetObjectToWorldMatrix()._13_23_33, WorldNormal);
+					float3 WorldBiTangent = cross(WorldNormal, -WorldTangent);
+				#else
+					float3 WorldNormal = normalize( IN.tSpace0.xyz );
+					float3 WorldTangent = IN.tSpace1.xyz;
+					float3 WorldBiTangent = IN.tSpace2.xyz;
+				#endif
+
+				float3 WorldPosition = float3(IN.tSpace0.w,IN.tSpace1.w,IN.tSpace2.w);
+				float3 WorldViewDirection = _WorldSpaceCameraPos.xyz  - WorldPosition;
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+
+				float4 ClipPos = IN.clipPosV;
+				float4 ScreenPos = ComputeScreenPos( IN.clipPosV );
+
+				float2 NormalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(IN.positionCS);
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+					ShadowCoords = IN.shadowCoord;
+				#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+					ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+				#else
+					ShadowCoords = float4(0, 0, 0, 0);
+				#endif
+
+				WorldViewDirection = SafeNormalize( WorldViewDirection );
+
+				float2 texCoord147 = IN.ase_texcoord8.xy * _Tiling + _Offset;
+				float2 TileUVs232 = texCoord147;
+				float4 AlbedoMapMain250 = tex2D( _AlbedoMap, TileUVs232 );
+				float2 texCoord110 = IN.ase_texcoord8.xy * _TilingDetail + _OffsetDetail;
+				float2 TileUVs2231 = texCoord110;
+				float2 uv_DetailMask221 = IN.ase_texcoord8.xy;
+				float4 tex2DNode221 = tex2D( _DetailMask, uv_DetailMask221 );
+				float4 DetailAlbedoMap251 = ( AlbedoMapMain250 * ( ( ( tex2D( _DetailAlbedo, TileUVs2231 ) * unity_ColorSpaceDouble ) * tex2DNode221.a ) + ( 1.0 - tex2DNode221.a ) ) );
+				float4 triplanar157 = TriplanarSampling157( _CoverageAlbedo, WorldPosition, WorldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarAlbedo258 = triplanar157;
+				float4 lerpResult324 = lerp( ( TriplanarAlbedo258 * _Drycolor1 ) , ( ( TriplanarAlbedo258 * _Healthycolor1 ) * unity_ColorSpaceDouble ) , saturate( (WorldNormal.y*_DryColorScale + _DryColorOffset) ));
+				float4 TriplanarMossColor_Output327 = lerpResult324;
+				float3 unpack150 = UnpackNormalScale( tex2D( _NormalMap, TileUVs232 ), _NormalIntensity );
+				unpack150.z = lerp( 1, unpack150.z, saturate(_NormalIntensity) );
+				float3 NormalMapMain249 = unpack150;
+				float3x3 ase_worldToTangent = float3x3(WorldTangent,WorldBiTangent,WorldNormal);
+				float3 triplanar151 = TriplanarSampling151( _CoverageNormal, WorldPosition, WorldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float3 tanTriplanarNormal151 = mul( ase_worldToTangent, triplanar151 );
+				float3 TriplanarNormal259 = tanTriplanarNormal151;
+				float temp_output_149_0 = saturate( ( WorldNormal.y * _CoverageAmount ) );
+				float3 lerpResult152 = lerp( NormalMapMain249 , TriplanarNormal259 , temp_output_149_0);
+				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
+				float3 tanToWorld1 = float3( WorldTangent.y, WorldBiTangent.y, WorldNormal.y );
+				float3 tanToWorld2 = float3( WorldTangent.z, WorldBiTangent.z, WorldNormal.z );
+				float3 tanNormal154 = lerpResult152;
+				float3 worldNormal154 = float3(dot(tanToWorld0,tanNormal154), dot(tanToWorld1,tanNormal154), dot(tanToWorld2,tanNormal154));
+				float temp_output_174_0 = saturate( ( worldNormal154.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( WorldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3x3 ase_tangentToWorldFast = float3x3(WorldTangent.x,WorldBiTangent.x,WorldNormal.x,WorldTangent.y,WorldBiTangent.y,WorldNormal.y,WorldTangent.z,WorldBiTangent.z,WorldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPE_ON
+				float staticSwitch276 = ( temp_output_174_0 * Slope275 );
+				#else
+				float staticSwitch276 = temp_output_174_0;
+				#endif
+				float4 lerpResult182 = lerp( DetailAlbedoMap251 , (( _MossColor )?( TriplanarMossColor_Output327 ):( TriplanarAlbedo258 )) , staticSwitch276);
+				
+				float3 unpack192 = UnpackNormalScale( tex2D( _DetailNormal, TileUVs2231 ), _DetailNormalIntensity );
+				unpack192.z = lerp( 1, unpack192.z, saturate(_DetailNormalIntensity) );
+				float3 lerpResult246 = lerp( NormalMapMain249 , unpack192 , tex2DNode221.a);
+				float3 DetailNormalMap248 = lerpResult246;
+				float3 lerpResult196 = lerp( BlendNormal( DetailNormalMap248 , NormalMapMain249 ) , BlendNormal( (( _NormalBlur )?( float3(0,0,1) ):( NormalMapMain249 )) , TriplanarNormal259 ) , staticSwitch276);
+				
+				float4 tex2DNode156 = tex2D( _MaskMapRGBA, TileUVs232 );
+				float4 triplanar289 = TriplanarSampling289( _CoverageMask, WorldPosition, WorldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float lerpResult180 = lerp( ( tex2DNode156.a * _Float4 ) , ( triplanar289.w * _Float6 ) , staticSwitch276);
+				
+				float lerpResult293 = lerp( pow( abs( tex2DNode156.g ) , _Float5 ) , pow( abs( triplanar289.g ) , _Float7 ) , staticSwitch276);
+				
+
+				float3 BaseColor = lerpResult182.xyz;
+				float3 Normal = lerpResult196;
+				float3 Emission = 0;
+				float3 Specular = 0.5;
+				float Metallic = 0;
+				float Smoothness = lerpResult180;
+				float Occlusion = lerpResult293;
+				float Alpha = 1;
+				float AlphaClipThreshold = 0.5;
+				float AlphaClipThresholdShadow = 0.5;
+				float3 BakedGI = 0;
+				float3 RefractionColor = 1;
+				float RefractionIndex = 1;
+				float3 Transmission = 1;
+				float3 Translucency = 1;
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					float DepthValue = IN.positionCS.z;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				InputData inputData = (InputData)0;
+				inputData.positionWS = WorldPosition;
+				inputData.positionCS = IN.positionCS;
+				inputData.shadowCoord = ShadowCoords;
+
+				#ifdef _NORMALMAP
+					#if _NORMAL_DROPOFF_TS
+						inputData.normalWS = TransformTangentToWorld(Normal, half3x3( WorldTangent, WorldBiTangent, WorldNormal ));
+					#elif _NORMAL_DROPOFF_OS
+						inputData.normalWS = TransformObjectToWorldNormal(Normal);
+					#elif _NORMAL_DROPOFF_WS
+						inputData.normalWS = Normal;
+					#endif
+				#else
+					inputData.normalWS = WorldNormal;
+				#endif
+
+				inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
+				inputData.viewDirectionWS = SafeNormalize( WorldViewDirection );
+
+				inputData.vertexLighting = IN.fogFactorAndVertexLight.yzw;
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					float3 SH = SampleSH(inputData.normalWS.xyz);
+				#else
+					float3 SH = IN.lightmapUVOrVertexSH.xyz;
+				#endif
+
+				#ifdef ASE_BAKEDGI
+					inputData.bakedGI = BakedGI;
+				#else
+					#if defined(DYNAMICLIGHTMAP_ON)
+						inputData.bakedGI = SAMPLE_GI( IN.lightmapUVOrVertexSH.xy, IN.dynamicLightmapUV.xy, SH, inputData.normalWS);
+					#else
+						inputData.bakedGI = SAMPLE_GI( IN.lightmapUVOrVertexSH.xy, SH, inputData.normalWS );
+					#endif
+				#endif
+
+				inputData.normalizedScreenSpaceUV = NormalizedScreenSpaceUV;
+				inputData.shadowMask = SAMPLE_SHADOWMASK(IN.lightmapUVOrVertexSH.xy);
+
+				#if defined(DEBUG_DISPLAY)
+					#if defined(DYNAMICLIGHTMAP_ON)
+						inputData.dynamicLightmapUV = IN.dynamicLightmapUV.xy;
+						#endif
+					#if defined(LIGHTMAP_ON)
+						inputData.staticLightmapUV = IN.lightmapUVOrVertexSH.xy;
+					#else
+						inputData.vertexSH = SH;
+					#endif
+				#endif
+
+				#ifdef _DBUFFER
+					ApplyDecal(IN.positionCS,
+						BaseColor,
+						Specular,
+						inputData.normalWS,
+						Metallic,
+						Occlusion,
+						Smoothness);
+				#endif
+
+				BRDFData brdfData;
+				InitializeBRDFData
+				(BaseColor, Metallic, Specular, Smoothness, Alpha, brdfData);
+
+				Light mainLight = GetMainLight(inputData.shadowCoord, inputData.positionWS, inputData.shadowMask);
+				half4 color;
+				MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI, inputData.shadowMask);
+				color.rgb = GlobalIllumination(brdfData, inputData.bakedGI, Occlusion, inputData.positionWS, inputData.normalWS, inputData.viewDirectionWS);
+				color.a = Alpha;
+
+				#ifdef ASE_FINAL_COLOR_ALPHA_MULTIPLY
+					color.rgb *= color.a;
+				#endif
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					outputDepth = DepthValue;
+				#endif
+
+				return BRDFDataToGbuffer(brdfData, inputData, Smoothness, Emission + color.rgb, Occlusion);
+			}
+
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "SceneSelectionPass"
+			Tags { "LightMode"="SceneSelectionPass" }
+
+			Cull Off
+			AlphaToMask Off
+
+			HLSLPROGRAM
+
+			
+
+			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+
+
+			
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SCENESELECTIONPASS 1
+
+			#define ATTRIBUTES_NEED_NORMAL
+			#define ATTRIBUTES_NEED_TANGENT
+			#define SHADERPASS SHADERPASS_DEPTHONLY
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
+
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				float4 positionCS : SV_POSITION;
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+
+			struct SurfaceDescription
+			{
+				float Alpha;
+				float AlphaClipThreshold;
+			};
+
+			VertexOutput VertexFunction(VertexInput v  )
+			{
+				VertexOutput o;
+				ZERO_INITIALIZE(VertexOutput, o);
+
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
+				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+
+				float3 positionWS = TransformObjectToWorld( v.positionOS.xyz );
+
+				o.positionCS = TransformWorldToHClip(positionWS);
+
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.ase_tangent = v.ase_tangent;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			half4 frag(VertexOutput IN ) : SV_TARGET
+			{
+				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
+
+				
+
+				surfaceDescription.Alpha = 1;
+				surfaceDescription.AlphaClipThreshold = 0.5;
+
+				#if _ALPHATEST_ON
+					float alphaClipThreshold = 0.01f;
+					#if ALPHA_CLIP_THRESHOLD
+						alphaClipThreshold = surfaceDescription.AlphaClipThreshold;
+					#endif
+					clip(surfaceDescription.Alpha - alphaClipThreshold);
+				#endif
+
+				half4 outColor = 0;
+
+				#ifdef SCENESELECTIONPASS
+					outColor = half4(_ObjectId, _PassValue, 1.0, 1.0);
+				#elif defined(SCENEPICKINGPASS)
+					outColor = _SelectionID;
+				#endif
+
+				return outColor;
+			}
+
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "ScenePickingPass"
+			Tags { "LightMode"="Picking" }
+
+			AlphaToMask Off
+
+			HLSLPROGRAM
+
+			
+
+			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_FOG 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 140008
+
+
+			
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+		    #define SCENEPICKINGPASS 1
+
+			#define ATTRIBUTES_NEED_NORMAL
+			#define ATTRIBUTES_NEED_TANGENT
+			#define SHADERPASS SHADERPASS_DEPTHONLY
+
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+
+			
+
+			
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			
+            #if ASE_SRP_VERSION >=140007
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			#endif
+		
+
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			#define ASE_NEEDS_VERT_NORMAL
+			#pragma shader_feature_local _EDGESLOPETESSELLATION_ON
+			#pragma shader_feature_local _SLOPEMODE_TANGENTSLOPETS _SLOPEMODE_TOPDOWNSLOPE
+
+
+			struct VertexInput
+			{
+				float4 positionOS : POSITION;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				float4 positionCS : SV_POSITION;
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Healthycolor1;
+			float4 _Drycolor1;
+			float2 _TilingCoverage;
+			float2 _TilingDetail;
+			float2 _Offset;
+			float2 _Tiling;
+			float2 _OffsetDetail;
+			float _DisplacementAmount;
+			float _Float6;
+			float _Float4;
+			float _NormalBlur;
+			float _DetailNormalIntensity;
+			float _NormalIntensity;
+			float _DryColorOffset;
+			float _TSSlopeMin;
+			float _DryColorScale;
+			float _CoverageAmount;
+			float _MossColor;
+			float _Float5;
+			float _SlopeMax;
+			float _SlopeMin;
+			float _TSSlopeMax;
+			float _CoverageFalloff;
+			float _Float7;
+			#ifdef ASE_TRANSMISSION
+				float _TransmissionShadow;
+			#endif
+			#ifdef ASE_TRANSLUCENCY
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef ASE_TESSELLATION
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+
+			#ifdef SCENEPICKINGPASS
+				float4 _SelectionID;
+			#endif
+
+			#ifdef SCENESELECTIONPASS
+				int _ObjectId;
+				int _PassValue;
+			#endif
+
+			sampler2D _CoverageHeight;
+
+
+			inline float4 TriplanarSampling339( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.zy * float2(  nsign.x, 1.0 ), 0, 0) );
+				yNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xz * float2(  nsign.y, 1.0 ), 0, 0) );
+				zNorm = tex2Dlod( topTexMap, float4(tiling * worldPos.xy * float2( -nsign.z, 1.0 ), 0, 0) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+
+			struct SurfaceDescription
+			{
+				float Alpha;
+				float AlphaClipThreshold;
+			};
+
+			VertexOutput VertexFunction(VertexInput v  )
+			{
+				VertexOutput o;
+				ZERO_INITIALIZE(VertexOutput, o);
+
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 ase_worldPos = TransformObjectToWorld( (v.positionOS).xyz );
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
+				float4 triplanar339 = TriplanarSampling339( _CoverageHeight, ase_worldPos, ase_worldNormal, _CoverageFalloff, _TilingCoverage, 1.0, 0 );
+				float4 TriplanarHeight355 = triplanar339;
+				float temp_output_149_0 = saturate( ( ase_worldNormal.y * _CoverageAmount ) );
+				float3 temp_output_371_0 = abs( ase_worldNormal );
+				float dotResult373 = dot( temp_output_371_0 , float3(1,1,1) );
+				float3 _Tangent = float3(0,1,0);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
+				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				float3x3 ase_tangentToWorldFast = float3x3(ase_worldTangent.x,ase_worldBitangent.x,ase_worldNormal.x,ase_worldTangent.y,ase_worldBitangent.y,ase_worldNormal.y,ase_worldTangent.z,ase_worldBitangent.z,ase_worldNormal.z);
+				float3 tangentToWorldDir268 = normalize( mul( ase_tangentToWorldFast, _Tangent ) );
+				float dotResult269 = dot( tangentToWorldDir268 , _Tangent );
+				float lerpResult273 = lerp( _TSSlopeMax , _TSSlopeMin , abs( dotResult269 ));
+				#if defined(_SLOPEMODE_TANGENTSLOPETS)
+				float staticSwitch382 = saturate( lerpResult273 );
+				#elif defined(_SLOPEMODE_TOPDOWNSLOPE)
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#else
+				float staticSwitch382 = saturate( (( temp_output_371_0 / dotResult373 ).y*_SlopeMax + _SlopeMin) );
+				#endif
+				float Slope275 = staticSwitch382;
+				#ifdef _EDGESLOPETESSELLATION_ON
+				float staticSwitch365 = Slope275;
+				#else
+				float staticSwitch365 = 1.0;
+				#endif
+				
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.positionOS.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+
+				float3 vertexValue = ( ( TriplanarHeight355 * temp_output_149_0 * float4( v.normalOS , 0.0 ) * staticSwitch365 ) * _DisplacementAmount ).xyz;
+
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.positionOS.xyz = vertexValue;
+				#else
+					v.positionOS.xyz += vertexValue;
+				#endif
+
+				v.normalOS = v.normalOS;
+
+				float3 positionWS = TransformObjectToWorld( v.positionOS.xyz );
+				o.positionCS = TransformWorldToHClip(positionWS);
+
+				return o;
+			}
+
+			#if defined(ASE_TESSELLATION)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 normalOS : NORMAL;
+				float4 ase_tangent : TANGENT;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.positionOS;
+				o.normalOS = v.normalOS;
+				o.ase_tangent = v.ase_tangent;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
+				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.positionOS.xyz - patch[i].normalOS * (dot(o.positionOS.xyz, patch[i].normalOS) - dot(patch[i].vertex.xyz, patch[i].normalOS));
+				float phongStrength = _TessPhongStrength;
+				o.positionOS.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.positionOS.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			half4 frag(VertexOutput IN ) : SV_TARGET
+			{
+				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
+
+				
+
+				surfaceDescription.Alpha = 1;
+				surfaceDescription.AlphaClipThreshold = 0.5;
+
+				#if _ALPHATEST_ON
+					float alphaClipThreshold = 0.01f;
+					#if ALPHA_CLIP_THRESHOLD
+						alphaClipThreshold = surfaceDescription.AlphaClipThreshold;
+					#endif
+						clip(surfaceDescription.Alpha - alphaClipThreshold);
+				#endif
+
+				half4 outColor = 0;
+
+				#ifdef SCENESELECTIONPASS
+					outColor = half4(_ObjectId, _PassValue, 1.0, 1.0);
+				#elif defined(SCENEPICKINGPASS)
+					outColor = _SelectionID;
+				#endif
+
+				return outColor;
+			}
+
+			ENDHLSL
+		}
+		
+	}
+	
+	CustomEditor "UnityEditor.ShaderGraphLitGUI"
+	FallBack "Hidden/Shader Graph/FallbackError"
+	
+	Fallback Off
+}
+/*ASEBEGIN
+Version=19303
+Node;AmplifyShaderEditor.CommentaryNode;369;-3104,2624;Inherit;False;1462.355;514.8571;;9;379;378;375;374;373;372;371;370;270;Slope Function v2;0.5490196,0.2196078,0,1;0;0
+Node;AmplifyShaderEditor.WorldNormalVector;370;-3072,2704;Inherit;False;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.CommentaryNode;266;-3056,2080;Inherit;False;1386.182;442.4717;;8;274;273;271;269;268;267;376;377;Slope Function;0.5471698,0.2180016,0,1;0;0
+Node;AmplifyShaderEditor.AbsOpNode;371;-2880,2704;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.Vector3Node;372;-3040,2864;Float;False;Constant;_Vector1;Vector 0;-1;0;Create;True;0;0;0;False;0;False;1,1,1;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;267;-3024,2352;Inherit;False;Constant;_Tangent;Tangent;33;0;Create;True;0;0;0;False;0;False;0,1,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.DotProductOpNode;373;-2752,2832;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TransformDirectionNode;268;-2832,2208;Inherit;False;Tangent;World;True;Fast;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleDivideOpNode;374;-2624,2720;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.DotProductOpNode;269;-2560,2320;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;375;-2416,2720;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.AbsOpNode;271;-2432,2320;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;272;-2576,2944;Inherit;False;Property;_SlopeMax;Slope Max;25;0;Create;True;0;0;0;False;0;False;8;8;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;270;-2560,3024;Inherit;False;Property;_SlopeMin;Slope Min;24;1;[Header];Create;True;1;(Edge Slope);0;0;False;0;False;-1;-8.63;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;377;-2512,2224;Inherit;False;Property;_TSSlopeMin;TS Slope Min;22;1;[Header];Create;True;1;(TS Edge Slope);0;0;False;0;False;-1;-8.63;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;376;-2512,2144;Inherit;False;Property;_TSSlopeMax;TS Slope Max;23;0;Create;True;0;0;0;False;0;False;8;8;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;378;-2288,2880;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;4;False;2;FLOAT;-1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;273;-2272,2272;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;136;-3056,688;Inherit;False;1136.195;1225.845;Comment;18;339;338;296;295;245;244;289;292;258;157;259;155;151;143;146;142;355;394;Triplanar Setup;1,1,1,1;0;0
+Node;AmplifyShaderEditor.SaturateNode;379;-2048,2880;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;274;-2096,2352;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;143;-3040,1296;Float;False;Property;_CoverageFalloff;Coverage Falloff;36;0;Create;True;0;0;0;False;0;False;20;10;1;20;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;146;-3008,1152;Inherit;False;Property;_TilingCoverage;Tiling Coverage;18;0;Create;True;0;0;0;False;0;False;1,1;0.2,0.2;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.StaticSwitch;382;-1744,2560;Inherit;False;Property;_SlopeMode;Slope Mode;26;0;Create;True;0;0;0;False;0;False;0;1;1;True;;KeywordEnum;2;TangentSlopeTS;TopDownSlope;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TexturePropertyNode;338;-3008,1600;Float;True;Property;_CoverageHeight;Coverage Height;17;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;None;6a31e0803cb92bb4b838da2b7c50e304;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.WorldNormalVector;140;-1712,624;Inherit;False;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;138;-1792,800;Float;False;Property;_CoverageAmount;Coverage Amount;35;0;Create;True;0;0;0;False;0;False;1;5;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;277;-480,992;Inherit;False;260;163;;1;278;Add Slope;0.5490196,0.2196078,0,1;0;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;275;-1424,2560;Inherit;False;Slope;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TriplanarNode;339;-2656,1696;Inherit;True;Spherical;World;False;Top Texture 3;_TopTexture3;white;-1;None;Mid Texture 3;_MidTexture3;white;0;None;Bot Texture 3;_BotTexture3;white;1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;2;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;145;-1504,704;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;278;-432,1056;Inherit;False;275;Slope;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;347;128,1632;Inherit;False;780.4406;408.0309;;5;351;350;349;348;353;Tessellation_Output;1,1,1,1;0;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;355;-2240,1696;Inherit;False;TriplanarHeight;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.CommentaryNode;364;-256,1648;Inherit;False;330.8824;193.9432;Turn On/Off Slope;1;365;Slope (Tessellation);1,1,1,1;0;0
+Node;AmplifyShaderEditor.RangedFloatNode;366;-432,1712;Inherit;False;Constant;_Float1;Float 1;30;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;149;-1328,704;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;353;144,1728;Inherit;False;355;TriplanarHeight;1;0;OBJECT;;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.NormalVertexDataNode;348;160,1824;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.StaticSwitch;365;-240,1712;Inherit;False;Property;_EdgeSlopeTessellation;Edge Slope (Tessellation);28;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;135;-2832,256;Inherit;False;698.2522;375.7902;;4;232;147;139;137;Tile UVs;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;107;-3264,-192;Inherit;False;716.6788;367.6506;;4;231;110;108;109;Tile UVs 2;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;224;-2512,-736;Inherit;False;1904.817;937.9072;;16;251;248;216;246;252;215;192;211;253;213;212;197;220;218;221;233;Detail Albedo;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;148;-928,640;Inherit;False;234;206;Main Merged Normal;1;152;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;328;-3248,3392;Inherit;False;1588;1122.082;;14;323;320;368;367;327;324;321;316;314;318;317;326;315;312;Moss Color;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;283;-48,768;Inherit;False;292;187;Turn On/Off Slope;1;276;Slope;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;176;592,880;Inherit;False;234;206;Smoothness Output;1;180;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;177;586.6612,387.9555;Inherit;False;234;206;Albedo Output;1;182;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;163;608,1120;Inherit;False;230;183;AO Output;1;293;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;255;592,640;Inherit;False;234;206;Normal Map Output;1;196;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;350;432,1744;Inherit;False;4;4;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;349;368,1904;Float;False;Property;_DisplacementAmount;Displacement Amount;34;1;[Header];Create;True;3;_____________________________________________________;Tessellation Settings;(Displacement);0;0;False;0;False;1;0.3;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;139;-2816,480;Float;False;Property;_Offset;Offset;4;0;Create;True;0;0;0;False;0;False;1,1;1,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector2Node;137;-2800,304;Float;False;Property;_Tiling;Tiling;3;0;Create;True;0;0;0;False;0;False;1,1;0.8,0.4;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.TextureCoordinatesNode;147;-2608,416;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RegisterLocalVarNode;232;-2352,448;Inherit;False;TileUVs;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.Vector2Node;108;-3216,32;Float;False;Property;_OffsetDetail;Offset Detail;12;0;Create;True;0;0;0;False;0;False;1,1;1,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.GetLocalVarNode;235;-2096,432;Inherit;False;232;TileUVs;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TexturePropertyNode;142;-2992,928;Float;True;Property;_CoverageNormal;Coverage Normal;15;2;[NoScaleOffset];[Normal];Create;True;0;0;0;False;0;False;None;2ee2a9a8555e7a049a1d43f04e73d779;True;bump;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.Vector2Node;109;-3216,-144;Float;False;Property;_TilingDetail;Tiling Detail;11;0;Create;True;0;0;0;False;0;False;1,1;1,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RangedFloatNode;144;-2096,560;Inherit;False;Property;_NormalIntensity;Normal Intensity;5;1;[Header];Create;True;2;Texture Settings;(Normal);0;0;False;0;False;1;1;-3;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;110;-3024,-32;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TriplanarNode;151;-2672,1104;Inherit;True;Spherical;World;True;Top Texture 1;_TopTexture1;white;-1;None;Mid Texture 1;_MidTexture1;white;-1;None;Bot Texture 1;_BotTexture1;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;2;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;150;-1792,432;Inherit;True;Property;_NormalMap;Normal Map;1;2;[NoScaleOffset];[Normal];Create;True;0;0;0;False;0;False;-1;None;8f6c6db1546c4644bbb4771c28b168e7;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TexturePropertyNode;155;-2992,736;Float;True;Property;_CoverageAlbedo;Coverage Albedo;14;2;[Header];[NoScaleOffset];Create;True;2;_____________________________________________________;Coverage Texture Maps;0;0;False;0;False;None;a037dc9b503dfcc49a75aef8552932d4;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.RegisterLocalVarNode;231;-2784,32;Inherit;False;TileUVs2;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;249;-1456,384;Inherit;False;NormalMapMain;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;259;-2192,1120;Inherit;False;TriplanarNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.TriplanarNode;157;-2704,752;Inherit;True;Spherical;World;False;Top Texture 0;_TopTexture0;white;-1;None;Mid Texture 0;_MidTexture0;white;0;None;Bot Texture 0;_BotTexture0;white;1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;2;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;233;-2464,-224;Inherit;False;231;TileUVs2;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.GetLocalVarNode;254;-1264,576;Inherit;False;249;NormalMapMain;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;263;-1264,464;Inherit;False;259;TriplanarNormal;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;258;-2256,752;Inherit;False;TriplanarAlbedo;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.LerpOp;152;-896,688;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ColorSpaceDouble;218;-2224,-464;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;220;-2240,-672;Inherit;True;Property;_DetailAlbedo;Detail Albedo;8;2;[Header];[NoScaleOffset];Create;True;2;_____________________________________________________;Detail Texture Maps;0;0;False;0;False;-1;None;None;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;197;-2304,64;Inherit;False;Property;_DetailNormalIntensity;Detail Normal Intensity;13;1;[Header];Create;True;2;Detail Texture Settings;(Detail Normal);0;0;False;0;False;1;1;-3;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldNormalVector;312;-2896,4144;Inherit;False;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.ColorNode;315;-3200,3680;Inherit;False;Property;_Healthycolor1;Healthy color;33;0;Create;True;0;0;0;False;0;False;0.75,0.5608132,0.1544118,0;1,0.7882353,0.6078432,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;326;-3184,3888;Inherit;False;258;TriplanarAlbedo;1;0;OBJECT;;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;367;-2960,4400;Inherit;False;Property;_DryColorOffset;Dry Color Offset;30;0;Create;True;0;0;0;False;0;False;0;-0.5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;368;-2944,4320;Inherit;False;Property;_DryColorScale;Dry Color Scale;29;1;[Header];Create;True;1;(Moss Color);0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;212;-1920,-560;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.WireNode;265;-1888,672;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.GetLocalVarNode;253;-1952,-112;Inherit;False;249;NormalMapMain;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WorldNormalVector;154;-656,736;Inherit;False;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SamplerNode;221;-2016,-320;Inherit;True;Property;_DetailMask;Detail Mask;10;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;192;-2016,-16;Inherit;True;Property;_DetailNormal;Detail Normal;9;2;[NoScaleOffset];[Normal];Create;True;0;0;0;False;0;False;-1;None;None;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;223;-1792,224;Inherit;True;Property;_AlbedoMap;Albedo Map;0;2;[Header];[NoScaleOffset];Create;True;3;______(TFS) Detail Map Coverage (Tessellation)______;_____________________________________________________;Texture Maps;0;0;False;0;False;-1;None;f2144558a11d0ad41b7848feed7df804;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;317;-2896,3712;Inherit;True;2;2;0;FLOAT4;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.ColorSpaceDouble;318;-2912,3936;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;314;-3200,3504;Inherit;False;Property;_Drycolor1;Dry color;32;0;Create;True;0;0;0;False;0;False;0.4196078,0.4392157,0.2352941,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;320;-2688,4336;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;-0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;213;-1664,-224;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;211;-1664,-416;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;250;-1472,240;Inherit;False;AlbedoMapMain;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.WireNode;264;-1888,912;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.LerpOp;246;-1680,-96;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;160;-480,832;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TexturePropertyNode;292;-3008,1392;Float;True;Property;_CoverageMask;Coverage Mask;16;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;None;646bffc65eebeb84a912b553ae3c4a55;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;316;-2896,3440;Inherit;True;2;2;0;FLOAT4;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;321;-2656,3808;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SaturateNode;323;-2448,4336;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;252;-1264,-96;Inherit;False;250;AlbedoMapMain;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;215;-1504,-320;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TriplanarNode;289;-2656,1328;Inherit;True;Spherical;World;False;Top Texture 2;_TopTexture2;white;-1;None;Mid Texture 2;_MidTexture2;white;-1;None;Bot Texture 2;_BotTexture2;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;2;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SaturateNode;174;-320,848;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;156;-1776,896;Inherit;True;Property;_MaskMapRGBA;Mask Map *RGB(A);2;1;[NoScaleOffset];Create;True;0;0;0;False;0;False;-1;None;6769dcf67ae0e6d479647b0609d231ec;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RegisterLocalVarNode;248;-1504,-96;Inherit;False;DetailNormalMap;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;244;-2608,960;Float;False;Property;_Float6;Coverage Smoothness ;19;1;[Header];Create;False;2;Coverage Texture Settings;(Coverage Smoothness);0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;324;-2224,3776;Inherit;True;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;216;-1024,-224;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;245;-2304,928;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;261;-1248,368;Inherit;False;248;DetailNormalMap;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;280;-176,976;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;159;-1760,1088;Float;False;Property;_Float4;Smoothness;6;1;[Header];Create;False;1;(Smoothness);0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector3Node;297;-1216,992;Inherit;False;Constant;_Vector0;Vector 0;28;1;[Header];Create;True;0;0;0;False;0;False;0,0,1;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RegisterLocalVarNode;327;-1968,3776;Inherit;False;TriplanarMossColor_Output;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;179;-1440,1088;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WireNode;285;-1824,1216;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;262;0,480;Inherit;False;327;TriplanarMossColor_Output;1;0;OBJECT;;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.GetLocalVarNode;329;64,576;Inherit;False;258;TriplanarAlbedo;1;0;OBJECT;;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.BlendNormalsNode;194;-672,224;Inherit;True;0;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.StaticSwitch;276;16,816;Inherit;False;Property;_EdgeSlope;Edge Slope;27;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;158;-32,1456;Float;False;Property;_Float5;Ambient Occlusion;7;1;[Header];Create;False;1;(Ambient Occlusion);0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;251;-848,-224;Inherit;False;DetailAlbedoMap;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;298;-992,960;Inherit;False;Property;_NormalBlur;Normal Blur;21;0;Create;True;0;0;0;False;0;False;1;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;295;-2576,1552;Float;False;Property;_Float7;Coverage Ao ;20;1;[Header];Create;False;1;(Coverage Ao);0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WireNode;281;-368,1200;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WireNode;282;-384,1248;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WireNode;284;256,672;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;178;336,1328;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.BlendNormalsNode;168;-656,464;Inherit;True;0;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;256;303.1814,394.8387;Inherit;False;251;DetailAlbedoMap;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.ToggleSwitchNode;330;288,224;Inherit;False;Property;_MossColor;Moss Color;31;0;Create;True;0;0;0;False;0;False;1;True;2;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.WireNode;300;128,352;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.LerpOp;182;636.6612,437.9536;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.LerpOp;293;656,1168;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;196;640,704;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;351;688,1744;Inherit;True;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.LerpOp;180;656,928;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.AbsOpNode;393;-1440,1440;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.AbsOpNode;394;-2256,1392;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;296;-2112,1520;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;383;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;384;926.938,702.4413;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Tobyfredson/Detail Map Coverage (Tessellation);94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;39;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;1;638537112730726395;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638537112780881905;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;385;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;386;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;387;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;388;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;389;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormals;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;390;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;391;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;392;926.938,702.4413;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+WireConnection;371;0;370;0
+WireConnection;373;0;371;0
+WireConnection;373;1;372;0
+WireConnection;268;0;267;0
+WireConnection;374;0;371;0
+WireConnection;374;1;373;0
+WireConnection;269;0;268;0
+WireConnection;269;1;267;0
+WireConnection;375;0;374;0
+WireConnection;271;0;269;0
+WireConnection;378;0;375;1
+WireConnection;378;1;272;0
+WireConnection;378;2;270;0
+WireConnection;273;0;376;0
+WireConnection;273;1;377;0
+WireConnection;273;2;271;0
+WireConnection;379;0;378;0
+WireConnection;274;0;273;0
+WireConnection;382;1;274;0
+WireConnection;382;0;379;0
+WireConnection;275;0;382;0
+WireConnection;339;0;338;0
+WireConnection;339;3;146;0
+WireConnection;339;4;143;0
+WireConnection;145;0;140;2
+WireConnection;145;1;138;0
+WireConnection;355;0;339;0
+WireConnection;149;0;145;0
+WireConnection;365;1;366;0
+WireConnection;365;0;278;0
+WireConnection;350;0;353;0
+WireConnection;350;1;149;0
+WireConnection;350;2;348;0
+WireConnection;350;3;365;0
+WireConnection;147;0;137;0
+WireConnection;147;1;139;0
+WireConnection;232;0;147;0
+WireConnection;110;0;109;0
+WireConnection;110;1;108;0
+WireConnection;151;0;142;0
+WireConnection;151;3;146;0
+WireConnection;151;4;143;0
+WireConnection;150;1;235;0
+WireConnection;150;5;144;0
+WireConnection;231;0;110;0
+WireConnection;249;0;150;0
+WireConnection;259;0;151;0
+WireConnection;157;0;155;0
+WireConnection;157;3;146;0
+WireConnection;157;4;143;0
+WireConnection;258;0;157;0
+WireConnection;152;0;254;0
+WireConnection;152;1;263;0
+WireConnection;152;2;149;0
+WireConnection;220;1;233;0
+WireConnection;212;0;220;0
+WireConnection;212;1;218;0
+WireConnection;265;0;235;0
+WireConnection;154;0;152;0
+WireConnection;192;1;233;0
+WireConnection;192;5;197;0
+WireConnection;223;1;235;0
+WireConnection;317;0;326;0
+WireConnection;317;1;315;0
+WireConnection;320;0;312;2
+WireConnection;320;1;368;0
+WireConnection;320;2;367;0
+WireConnection;213;0;221;4
+WireConnection;211;0;212;0
+WireConnection;211;1;221;4
+WireConnection;250;0;223;0
+WireConnection;264;0;265;0
+WireConnection;246;0;253;0
+WireConnection;246;1;192;0
+WireConnection;246;2;221;4
+WireConnection;160;0;154;2
+WireConnection;160;1;138;0
+WireConnection;316;0;326;0
+WireConnection;316;1;314;0
+WireConnection;321;0;317;0
+WireConnection;321;1;318;0
+WireConnection;323;0;320;0
+WireConnection;215;0;211;0
+WireConnection;215;1;213;0
+WireConnection;289;0;292;0
+WireConnection;289;3;146;0
+WireConnection;289;4;143;0
+WireConnection;174;0;160;0
+WireConnection;156;1;264;0
+WireConnection;248;0;246;0
+WireConnection;324;0;316;0
+WireConnection;324;1;321;0
+WireConnection;324;2;323;0
+WireConnection;216;0;252;0
+WireConnection;216;1;215;0
+WireConnection;245;0;289;4
+WireConnection;245;1;244;0
+WireConnection;280;0;174;0
+WireConnection;280;1;278;0
+WireConnection;327;0;324;0
+WireConnection;179;0;156;4
+WireConnection;179;1;159;0
+WireConnection;285;0;245;0
+WireConnection;194;0;261;0
+WireConnection;194;1;254;0
+WireConnection;276;1;174;0
+WireConnection;276;0;280;0
+WireConnection;251;0;216;0
+WireConnection;298;0;254;0
+WireConnection;298;1;297;0
+WireConnection;281;0;179;0
+WireConnection;282;0;285;0
+WireConnection;284;0;276;0
+WireConnection;178;0;393;0
+WireConnection;178;1;158;0
+WireConnection;168;0;298;0
+WireConnection;168;1;263;0
+WireConnection;330;0;329;0
+WireConnection;330;1;262;0
+WireConnection;300;0;194;0
+WireConnection;182;0;256;0
+WireConnection;182;1;330;0
+WireConnection;182;2;284;0
+WireConnection;293;0;178;0
+WireConnection;293;1;296;0
+WireConnection;293;2;276;0
+WireConnection;196;0;300;0
+WireConnection;196;1;168;0
+WireConnection;196;2;276;0
+WireConnection;351;0;350;0
+WireConnection;351;1;349;0
+WireConnection;180;0;281;0
+WireConnection;180;1;282;0
+WireConnection;180;2;276;0
+WireConnection;393;0;156;2
+WireConnection;394;0;289;2
+WireConnection;296;0;394;0
+WireConnection;296;1;295;0
+WireConnection;384;0;182;0
+WireConnection;384;1;196;0
+WireConnection;384;4;180;0
+WireConnection;384;5;293;0
+WireConnection;384;8;351;0
+ASEEND*/
+//CHKSM=932520FC226442CCDEAB79F6086CD57BFF718321

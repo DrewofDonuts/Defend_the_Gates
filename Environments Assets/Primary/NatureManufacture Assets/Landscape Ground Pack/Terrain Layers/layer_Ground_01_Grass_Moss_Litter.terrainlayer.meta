@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 029bee9396e454d4d8ec5780ec398e7a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63023
+  packageName: Landscape Ground Pack
+  packageVersion: 2.0.1
+  assetPath: Assets/NatureManufacture Assets/Landscape Ground Pack/Terrains/Terrain
+    Layers/layer_Ground_01_Grass_Moss_Litter.terrainlayer
+  uploadId: 664267

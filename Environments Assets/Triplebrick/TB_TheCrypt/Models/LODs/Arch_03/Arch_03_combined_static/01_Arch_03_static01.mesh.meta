@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 65f9b580a0e27b843abf94b339815afb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Models/LODs/Arch_03/Arch_03_combined_static/01_Arch_03_static01.mesh
+  uploadId: 718913

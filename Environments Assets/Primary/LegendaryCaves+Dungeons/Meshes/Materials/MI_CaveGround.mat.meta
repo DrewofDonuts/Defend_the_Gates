@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4d6b96c9b1cbfe44f853f0ddc1e2eaa7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 288695
+  packageName: Legendary Caves & Dungeons
+  packageVersion: 1.0
+  assetPath: Assets/LegendaryCaves+Dungeons/Meshes/Materials/MI_CaveGround.mat
+  uploadId: 676247

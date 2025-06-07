@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: a6da8b34100f52741b20be62b657cb6c
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 60072b568d64c40a485e0fc55012dc9f, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 288695
+  packageName: Legendary Caves & Dungeons
+  packageVersion: 1.0
+  assetPath: Assets/LegendaryCaves+Dungeons/Shaders/MF_Func_NoiseSimple.shadersubgraph
+  uploadId: 676247

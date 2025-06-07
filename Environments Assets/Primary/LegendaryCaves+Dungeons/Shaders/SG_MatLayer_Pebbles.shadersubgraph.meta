@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f888277d0ae8bf8488e19b9c5c949851
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 60072b568d64c40a485e0fc55012dc9f, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 288695
+  packageName: Legendary Caves & Dungeons
+  packageVersion: 1.0
+  assetPath: Assets/LegendaryCaves+Dungeons/Shaders/SG_MatLayer_Pebbles.shadersubgraph
+  uploadId: 676247

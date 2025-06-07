@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: cd083051129ee2249bc33a264fe0d84f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73547
+  packageName: Landscape Ground Pack 2
+  packageVersion: 2.0.1
+  assetPath: Assets/NatureManufacture Assets/Landscape Ground Pack 2/Demo_Scenes/Terrain
+    Layers/layer_T_Ground_13_Mud.terrainlayer
+  uploadId: 664304

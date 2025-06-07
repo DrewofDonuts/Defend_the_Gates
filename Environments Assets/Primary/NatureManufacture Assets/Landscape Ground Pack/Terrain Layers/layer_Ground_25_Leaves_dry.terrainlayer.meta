@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d3a86b1ef3696d24c8d517b6fbb4a613
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63023
+  packageName: Landscape Ground Pack
+  packageVersion: 2.0.1
+  assetPath: Assets/Asset Packs/Environments Assets/NatureManufacture Assets/Landscape
+    Ground Pack/Terrain Layers/layer_Ground_25_Leaves_dry.terrainlayer
+  uploadId: 664267

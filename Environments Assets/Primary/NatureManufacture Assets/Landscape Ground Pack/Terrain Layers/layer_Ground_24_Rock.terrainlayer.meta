@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 08bc7b404bd31dd4590cfdd7e5ede262
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63023
+  packageName: Landscape Ground Pack
+  packageVersion: 2.0.1
+  assetPath: Assets/NatureManufacture Assets/Landscape Ground Pack/Terrains/Terrain
+    Layers/layer_Ground_24_Rock.terrainlayer
+  uploadId: 664267

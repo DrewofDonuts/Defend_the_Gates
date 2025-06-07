@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 41092d07a7d9e7847bca9d6d5037cf1f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Materials/Floor_01.mat
+  uploadId: 718913

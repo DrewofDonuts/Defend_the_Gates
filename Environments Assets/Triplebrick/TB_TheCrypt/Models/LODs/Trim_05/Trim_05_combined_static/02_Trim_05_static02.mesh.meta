@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c4630d71cd93a464ebae61dc690b70ea
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283914
+  packageName: The Ancient Crypt
+  packageVersion: 1.1
+  assetPath: Assets/TB_TheCrypt/Models/LODs/Trim_05/Trim_05_combined_static/02_Trim_05_static02.mesh
+  uploadId: 718913
