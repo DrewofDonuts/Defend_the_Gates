@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: df4e9cf963a6843a1a6bb9915ec9725f
+timeCreated: 1493418968
+licenseType: Store
+AudioImporter:
+  serializedVersion: 6
+  defaultSettings:
+    loadType: 0
+    sampleRateSetting: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  preloadAudioData: 1
+  loadInBackground: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 74548
+  packageName: Weeper Horror Ghost Pack PBR - Fantasy RPG
+  packageVersion: 4.3.1
+  assetPath: Assets/InfinityPBR - Magic Pig Games/Characters/Weeper/Sound Effects/Weeper_Cast_Fog_Release.wav
+  uploadId: 717443

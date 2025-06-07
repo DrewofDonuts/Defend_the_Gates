@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: f69dbe1620800e84184b3c9ca9d99a4d
+timeCreated: 1472607173
+licenseType: Store
+AudioImporter:
+  serializedVersion: 6
+  defaultSettings:
+    loadType: 0
+    sampleRateSetting: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  preloadAudioData: 1
+  loadInBackground: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70674
+  packageName: Human Vocalizations
+  packageVersion: 1.0
+  assetPath: Assets/Gamemaster Audio - Human Vocalizations/Human Male C/voice_male_c_death_08.wav
+  uploadId: 134995

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b44331b5c14a97a48996318e32ee7a23
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303267
+  packageName: Steelcone Executioner
+  packageVersion: 1.0
+  assetPath: Assets/Steelcone Executioner/Steelcone Executioner.controller
+  uploadId: 710906

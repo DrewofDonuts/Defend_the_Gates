@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2953b96da2368bc44b0a14410c4163ca
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214642
+  packageName: Skeleton Mega Pack
+  packageVersion: 1.1
+  assetPath: Assets/Skeleton Mega Pack/SkeletonArcher/DemoScene/SkeletonArcher.controller
+  uploadId: 506071
