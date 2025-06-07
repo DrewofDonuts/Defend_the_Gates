@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b4ec81f02f442de4c8b0d690821220c7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Core/RagdollUtility.cs
+  uploadId: 726550

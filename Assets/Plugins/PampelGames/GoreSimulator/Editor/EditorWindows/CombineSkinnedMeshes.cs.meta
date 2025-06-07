@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 32e7f46b11107c94b8556108e17c40fc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Editor/EditorWindows/CombineSkinnedMeshes.cs
+  uploadId: 726550

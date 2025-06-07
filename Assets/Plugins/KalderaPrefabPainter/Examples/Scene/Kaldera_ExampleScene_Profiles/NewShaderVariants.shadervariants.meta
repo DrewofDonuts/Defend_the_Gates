@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f0db4afabc0a01c4e8dc74960261812d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 20000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Scene/Kaldera_ExampleScene_Profiles/NewShaderVariants.shadervariants
+  uploadId: 726450

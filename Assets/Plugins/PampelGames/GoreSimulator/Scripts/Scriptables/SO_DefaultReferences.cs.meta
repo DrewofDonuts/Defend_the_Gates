@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fd8163f65b2753149854c7bdd10062e6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Scriptables/SO_DefaultReferences.cs
+  uploadId: 726550

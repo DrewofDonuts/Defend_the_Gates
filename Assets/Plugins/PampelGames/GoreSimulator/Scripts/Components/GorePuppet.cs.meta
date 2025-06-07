@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ce318c17a857f924eb4f68435d9579ee
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Components/GorePuppet.cs
+  uploadId: 726550

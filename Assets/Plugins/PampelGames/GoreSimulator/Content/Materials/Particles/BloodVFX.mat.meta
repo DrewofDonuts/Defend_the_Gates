@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1750e12b0fab7664b9732920a1068b8f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Content/Materials/Particles/BloodVFX.mat
+  uploadId: 726550

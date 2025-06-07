@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c9caaa5f33c577f4a87b1d5324f90167
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Scriptables/SO_Storage.cs
+  uploadId: 726550

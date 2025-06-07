@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 73cce5c0ca32bfc40b150ae183958b55
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Modules/SubModuleDecal.cs
+  uploadId: 726550

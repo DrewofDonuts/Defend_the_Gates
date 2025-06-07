@@ -1,0 +1,51 @@
+﻿
+***October 6***
+How to fix inconsistent collisions
+Add another game object
+* has matching collider that follows the moving object
+* calls move position every  update (maybe fixed?)
+RG.MovePosition()
+one object
+
+
+
+***October 20***
+How to manager data persistence when moving between scenes
+
+Two options
+1) Just save anyway - persist and autosave, then just reload the data when you load the scene
+
+2) Done in the coursework - have a datastructure that holds onto the information and then when you load the scene, 
+you can just pass the datastructure to the new scene
+
+Also have to save off the state of all the specific scenes (things killed, doors opened, etc.) and then load that
+when you load the scene
+* if a couple hundred items, can just hold in memory on some object. 
+* otherwise, just hold some level data structure and autosave 
+
+
+
+use additive always - bootstrapper class to load
+
+
+
+Portfolio: 
+Custom Systems
+* Scene Dialogue
+* Combat System
+* Ability System
+* Event System
+* Cooldown System
+* Topdown Character Controller System
+
+Integrated Systems
+* Feel (feedback system)
+* Save System
+* Rayfire Mesh Destruction System
+* Dialogue and Quest System
+
+
+
+
+
+

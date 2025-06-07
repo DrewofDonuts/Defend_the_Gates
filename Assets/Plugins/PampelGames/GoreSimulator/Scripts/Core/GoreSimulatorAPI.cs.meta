@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0e2c7b63c017ab646af24b50bb473c72
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Core/GoreSimulatorAPI.cs
+  uploadId: 726550

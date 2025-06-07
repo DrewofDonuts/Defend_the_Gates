@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e534a123805620143a34426219a2191b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Prefabs/TerrainMaterials/Vulcan_Dirt_TerrainLayer.terrainlayer
+  uploadId: 726450

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 6c488977dd21edb4f860a0df70287b15
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Tools/PGTween/Core/PGTweenSetup.cs
+  uploadId: 726550

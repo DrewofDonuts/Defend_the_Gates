@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 40f645c5de942d64e99080c5b5e6a1cc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Core/Classes/HierarchyDataClass.cs
+  uploadId: 726550

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c69ca92ddc9601c4195cbd31361a58f7
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Prefabs/Kaldera_Grass/Cactus_01.prefab
+  uploadId: 726450

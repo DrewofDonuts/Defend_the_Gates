@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 1a8e32affdeb4f63bec142c0a049d4be
+timeCreated: 1699092769
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Editor/PropertyDrawer/SubModuleAutoDespawnDrawer.cs
+  uploadId: 726550

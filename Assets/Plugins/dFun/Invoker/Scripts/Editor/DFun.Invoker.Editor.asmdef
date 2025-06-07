@@ -1,0 +1,21 @@
+{
+    "name": "DFun.Invoker.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f0e3bc22bbb334a409fb59f7d7c4eae7",
+        "GUID:b8fb368479779a44b82a5f6ca70ed214",
+        "GUID:aa430615a9aa055449b47452ef4343de",
+        "GUID:ca465741086e45ba8bb105f41852c043"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

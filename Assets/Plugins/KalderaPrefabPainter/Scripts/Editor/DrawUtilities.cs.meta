@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b552fd8e804d26e469ad14c11c37a8ac
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Scripts/Editor/DrawUtilities.cs
+  uploadId: 726450

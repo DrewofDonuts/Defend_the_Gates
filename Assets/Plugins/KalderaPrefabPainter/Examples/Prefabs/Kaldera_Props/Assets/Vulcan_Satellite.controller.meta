@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b0ef6cddb23a0d04da1e063b76b50502
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Prefabs/Kaldera_Props/Assets/Vulcan_Satellite.controller
+  uploadId: 726450

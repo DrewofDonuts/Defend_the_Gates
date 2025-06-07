@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8b468e2fa15bc5d4c8c2701e857defff
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/PG.GoreSimulator.asmdef
+  uploadId: 726550

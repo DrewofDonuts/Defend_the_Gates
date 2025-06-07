@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c8c4aa35c8e28dd43a9af7b62ccc6d7b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Prefabs/Kaldera_Rocks/Assets/Rocks_Mat.mat
+  uploadId: 726450

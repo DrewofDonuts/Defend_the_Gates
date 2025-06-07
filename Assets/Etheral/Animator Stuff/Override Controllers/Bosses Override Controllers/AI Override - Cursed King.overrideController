@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AI Override - Cursed King
+  m_Controller: {fileID: 9100000, guid: 06ba2731a074ca3419ecac41d5532269, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: f9ecb4ae16700ea478f71ae0701ff436, type: 2}
+    m_OverrideClip: {fileID: 8992522252433359312, guid: 69b5c2c9d33cf1a4ab552ba5401e2018,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: acb867c0ae2966549b1b8383c990774b, type: 2}
+    m_OverrideClip: {fileID: 8992522252433359312, guid: da341ff5ea4bad742a6286ee4dc1671e,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 3dc611dafdf1dac45a13129c58026956, type: 2}
+    m_OverrideClip: {fileID: 8457827382905983551, guid: 25f9778624bf9c643804f2b189fbbfbb,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 5f2b5f4639141a84db11df68c010d65f, type: 3}
+    m_OverrideClip: {fileID: -976898594618116144, guid: c83787d6d8a41c445a96f5bae6704b3a,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: bd4b179798e45b1419908bfbae478987, type: 3}
+    m_OverrideClip: {fileID: 1384550906009214363, guid: 5c533a35ecb4fb64ca33b7d4697009ef,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 5b09c57663e1bd44c864309914890120, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f27a07ae57463ad4d96174c10070b5ae, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: bb19bae468a141a4687d548e771632f4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cb2ea23697a20d54a86dfcf61dc6ce81, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: d6f515363db22054aba8a08ccc3ed59f, type: 2}
+    m_OverrideClip: {fileID: 8457827382905983551, guid: 6449b4f56b4ad90468050e9e100138b4,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 8b760a597006eba4c86d35de9f97943f, type: 2}
+    m_OverrideClip: {fileID: 6755783923598356370, guid: f839d9861372b6a4cae72c7d575df6e6,
+      type: 3}

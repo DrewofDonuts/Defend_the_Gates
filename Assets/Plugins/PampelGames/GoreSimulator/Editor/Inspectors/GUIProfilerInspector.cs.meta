@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 825a4408d204e1646a167b9c68d37f25
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Editor/Inspectors/GUIProfilerInspector.cs
+  uploadId: 726550

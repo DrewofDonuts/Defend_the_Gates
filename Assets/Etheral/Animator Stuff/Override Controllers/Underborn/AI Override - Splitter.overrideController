@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AI Override - Splitter
+  m_Controller: {fileID: 9100000, guid: 06ba2731a074ca3419ecac41d5532269, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 7fffb2140956b7f4b873006b559d501d, type: 2}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 7a00c75c79d351f4295e29158d7c8e59,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: f9ecb4ae16700ea478f71ae0701ff436, type: 2}
+    m_OverrideClip: {fileID: 8992522252433359312, guid: 69b5c2c9d33cf1a4ab552ba5401e2018,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: d6f515363db22054aba8a08ccc3ed59f, type: 2}
+    m_OverrideClip: {fileID: 1827226128182048838, guid: e4e43c0f093703647ac034d3c976213e,
+      type: 3}

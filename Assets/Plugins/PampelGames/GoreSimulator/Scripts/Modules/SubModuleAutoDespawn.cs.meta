@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 95e7f233cccb2b546a1289b44f6abab9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Modules/SubModuleAutoDespawn.cs
+  uploadId: 726550

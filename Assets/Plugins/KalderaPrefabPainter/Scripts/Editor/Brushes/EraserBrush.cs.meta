@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9a466984b5a4c6148aa40c9d901708e2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Scripts/Editor/Brushes/EraserBrush.cs
+  uploadId: 726450

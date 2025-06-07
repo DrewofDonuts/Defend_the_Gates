@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 36cd8911c458b364f84f8eded47976af
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Prefabs/Kaldera_Props/Creature_Skeleton_01.prefab
+  uploadId: 726450

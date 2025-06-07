@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c568eff07a2e2724d8f686970df4276e
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/PG.Shared.asmdef
+  uploadId: 726550

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9e97185658046c548a051212b0fa96ce
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Editor/Utility/BoneWeightsUtility.cs
+  uploadId: 726550

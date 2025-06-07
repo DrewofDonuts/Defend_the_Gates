@@ -1,0 +1,34 @@
+{
+    "name": "UtilityInput",
+    "maps": [
+        {
+            "name": "Utility",
+            "id": "b851b37e-b991-4708-ad27-22a994646961",
+            "actions": [
+                {
+                    "name": "ScreenCapture",
+                    "type": "Button",
+                    "id": "2cb5fe37-ba1a-4e2c-83ef-ca27e2dd9b5a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d173fd3f-1cc7-4b99-acf4-aec75d4e9d50",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScreenCapture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e984a77ecba8a40458b301dc10cf68e0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Content/Materials/Particles/BloodSmoke.mat
+  uploadId: 726550

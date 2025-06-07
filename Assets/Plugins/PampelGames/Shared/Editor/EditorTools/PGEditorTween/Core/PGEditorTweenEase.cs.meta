@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4c00b085fa21a8d4282dd791adddbb79
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Editor/EditorTools/PGEditorTween/Core/PGEditorTweenEase.cs
+  uploadId: 726550

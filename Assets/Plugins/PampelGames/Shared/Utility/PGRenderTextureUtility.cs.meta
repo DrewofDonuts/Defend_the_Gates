@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e0c12d7acaeb0dc439d2611b892932d3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Utility/PGRenderTextureUtility.cs
+  uploadId: 726550

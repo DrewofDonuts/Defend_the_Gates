@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: abd9051f80e56994db7d16e7955adb8a
+timeCreated: 1666513066
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Tools/PGInspector/Editor/Modules/StopModules/PGStopOnCollisionEnterPropertyDrawer.cs
+  uploadId: 726550

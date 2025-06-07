@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7accfbc821421a346a86a8522f67e7ba
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Prefabs/Kaldera_Structures/Assets/Satellite__NoGlow_Mat.mat
+  uploadId: 726450

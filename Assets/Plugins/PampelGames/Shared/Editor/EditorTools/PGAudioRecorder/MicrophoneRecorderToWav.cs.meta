@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 6cfb160282050714796d4319cf51b44c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Editor/EditorTools/PGAudioRecorder/MicrophoneRecorderToWav.cs
+  uploadId: 726550

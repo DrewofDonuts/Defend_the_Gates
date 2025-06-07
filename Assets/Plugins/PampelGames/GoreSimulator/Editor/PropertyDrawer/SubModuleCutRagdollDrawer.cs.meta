@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 2f54d334bf174bff967d97affd67b882
+timeCreated: 1695910026
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Editor/PropertyDrawer/SubModuleCutRagdollDrawer.cs
+  uploadId: 726550

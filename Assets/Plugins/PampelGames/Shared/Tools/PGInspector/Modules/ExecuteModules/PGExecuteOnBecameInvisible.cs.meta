@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 5c41c66609154b459247716193322d2b
+timeCreated: 1666520890
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Tools/PGInspector/Modules/ExecuteModules/PGExecuteOnBecameInvisible.cs
+  uploadId: 726550

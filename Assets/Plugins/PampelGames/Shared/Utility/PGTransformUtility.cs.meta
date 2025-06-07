@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 943b9989e3f61f94a9f22756a99c5743
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Utility/PGTransformUtility.cs
+  uploadId: 726550

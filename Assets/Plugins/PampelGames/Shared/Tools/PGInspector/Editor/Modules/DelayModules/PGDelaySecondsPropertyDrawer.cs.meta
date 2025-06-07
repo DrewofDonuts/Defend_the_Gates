@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 9502fa4af1a24e5ab5c36e7422f0d883
+timeCreated: 1666537759
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Tools/PGInspector/Editor/Modules/DelayModules/PGDelaySecondsPropertyDrawer.cs
+  uploadId: 726550

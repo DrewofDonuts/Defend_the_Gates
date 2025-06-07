@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AI Override - Unbound Warrior Sword and Shield
+  m_Controller: {fileID: 9100000, guid: 06ba2731a074ca3419ecac41d5532269, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8911d80e5595c514dbaafe2dde8ccfde, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1590cdcebe2c1b94ea16ba6a5b9362d6, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: fde2669d333e61c408252feeaa06dade, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 05b04c61b6cd0434d9acaf41c5dd1d45, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 833ce176149eb3b499a26ffba374f0c0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4d45db1d92a05c147a253ba00c4e7199, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: a39c485a40924a04b85a42be567a9eef, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6541b52491c4426468f85fc333737a93, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: d8357827515f4634486c941b16632617, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 85d291ef762059e42889454a18df42b9, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 1fac3694a6f557e4183a93082fa2f849, type: 2}
+    m_OverrideClip: {fileID: 8423723088463212609, guid: 76ceab43096910842b798f0ab82f76e0,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: f9ecb4ae16700ea478f71ae0701ff436, type: 2}
+    m_OverrideClip: {fileID: 5501873075033434663, guid: 1189d2c3794bb8d4195fb8103ed60eba,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: d6f515363db22054aba8a08ccc3ed59f, type: 2}
+    m_OverrideClip: {fileID: -3145162640104776425, guid: f98cd297688ea52448ab686fe494d33e,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 8b760a597006eba4c86d35de9f97943f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: bfffe8e914b560c429e5b94d7d23c8a5, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 4fd2316369091284b8995fb413309713, type: 2}
+    m_OverrideClip: {fileID: -2465972572157378186, guid: c879d2a3672667b4fa693caa11315970,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 3043a959deb9403418afbb805236cd70, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 4d45db1d92a05c147a253ba00c4e7199, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: bd4b179798e45b1419908bfbae478987, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 4d45db1d92a05c147a253ba00c4e7199, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f3012039763fe44bb8d99e4a16292af, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 606837e4c41631d43bfd5fe1b185c474, type: 3}

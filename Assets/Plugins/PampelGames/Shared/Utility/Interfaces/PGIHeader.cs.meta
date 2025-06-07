@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e1e8b58ba68e3084ab549608baa5dca5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Utility/Interfaces/PGIHeader.cs
+  uploadId: 726550

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d3960939b12bc3b45a20165722da451e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Scripts/Editor/Brushes/SprayBrush.cs
+  uploadId: 726450

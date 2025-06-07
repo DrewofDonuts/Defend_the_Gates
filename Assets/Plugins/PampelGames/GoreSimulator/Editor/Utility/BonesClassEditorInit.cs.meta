@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7fa96d109e033ef4d9e923c7c54086e3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Editor/Utility/BonesClassEditorInit.cs
+  uploadId: 726550

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7b8c2eeb5f151d044a19b40b3a4857d3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/Shared/Editor/EditorTools/PGAudioRecorder/SaveWavUtility.cs
+  uploadId: 726550

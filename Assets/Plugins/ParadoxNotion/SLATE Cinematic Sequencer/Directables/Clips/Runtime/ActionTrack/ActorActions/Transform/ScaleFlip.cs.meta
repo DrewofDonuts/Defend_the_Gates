@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2c2eb78373a24af41b2e45218b7c0567
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 56558
+  packageName: Slate Cinematic Sequencer
+  packageVersion: 2.2.5f
+  assetPath: Assets/ParadoxNotion/SLATE Cinematic Sequencer/Directables/Clips/Runtime/ActionTrack/ActorActions/Transform/ScaleFlip.cs
+  uploadId: 745748

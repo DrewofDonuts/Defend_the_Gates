@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 479034e5eb2df1846baad7b61575418b
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Content/Shaders/UVTransformation.shader
+  uploadId: 726550

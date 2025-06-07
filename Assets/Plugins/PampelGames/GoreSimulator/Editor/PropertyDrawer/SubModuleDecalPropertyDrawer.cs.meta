@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: db1f0947d59946cd9360b708df017ac5
+timeCreated: 1694586535
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Editor/PropertyDrawer/SubModuleDecalPropertyDrawer.cs
+  uploadId: 726550

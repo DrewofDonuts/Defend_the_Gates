@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 34df74c9cd1e1374291f7c2412ae7538
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 257737
+  packageName: Gore Simulator
+  packageVersion: 1.8
+  assetPath: Assets/PampelGames/GoreSimulator/Scripts/Core/Cut/ObjectCreationUtility.cs
+  uploadId: 726550

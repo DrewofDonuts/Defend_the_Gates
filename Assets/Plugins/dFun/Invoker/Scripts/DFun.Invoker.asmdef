@@ -1,0 +1,16 @@
+{
+    "name": "DFun.Invoker",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b8fb368479779a44b82a5f6ca70ed214"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

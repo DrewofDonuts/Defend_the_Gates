@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a07a99dfcaaebbb4cb02f48f2627b954
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 249492
+  packageName: Kaldera Prefab Painter
+  packageVersion: 1.7.1
+  assetPath: Assets/KalderaPrefabPainter/Examples/Prefabs/TerrainMaterials/Vulcan_Rock_TerrainLayer.terrainlayer
+  uploadId: 726450
