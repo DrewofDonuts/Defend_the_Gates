@@ -9,6 +9,7 @@ namespace Etheral.Defenses
         [SerializeField] int startingResources = 100;
         
         DefenseUpgrade currentUpgrade;
+        TowerNode currentNode;
 
         void Start()
         {
@@ -25,6 +26,16 @@ namespace Etheral.Defenses
         public bool CanAffordUpgrade(int cost)
         {
             return startingResources >= cost;
+        }
+        
+        public void SetCurrentNode(TowerNode node)
+        {
+            currentNode = node;
+        }
+        
+        public TowerNode GetCurrentNode()
+        {
+            return currentNode;
         }
 
         public void SetCurrentUpgrade(DefenseUpgrade upgrade)

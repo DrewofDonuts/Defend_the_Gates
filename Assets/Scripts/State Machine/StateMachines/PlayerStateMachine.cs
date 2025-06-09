@@ -285,12 +285,12 @@ namespace Etheral
             isThirdPerson = _isThirdPerson;
             if (_isThirdPerson)
             {
-                // SwitchState(new PlayerOffensiveState(this));
+                SwitchState(new PlayerOffensiveState(this));
                 EventBusPlayerController.NearCamera(this);
             }
             else
             {
-                // SwitchState(new PlayerTowerState(this));
+                SwitchState(new PlayerTowerMovementState(this));
                 EventBusPlayerController.FarCamera(this);
             }
         }

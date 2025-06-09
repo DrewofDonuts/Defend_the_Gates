@@ -3,18 +3,14 @@ using UnityEngine;
 
 namespace Etheral
 {
-    public class ObjectTarget : MonoBehaviour, ITargetable
+    public class DefenseTarget : MonoBehaviour, ITargetable
     {
-        [field: SerializeField] public bool isObject { get; private set; } = true;
-        [SerializeField]  int priority = 5;
+        [field: SerializeField] public TargetType TargetType { get; set; }
+        [field: SerializeField] public Affiliation Affiliation { get; set; }
 
-        public int Priority => priority;
 
-        [field: SerializeField] public bool IsTargetable { get; private set; } = false;
-        public TargetType TargetType { get; }
         public Transform Transform { get; private set; }
         public event Action<ITargetable> OnDestroyed;
-        [field: SerializeField] public Affiliation Affiliation { get; set; }
 
         public bool IsDead { get; private set; }
 
