@@ -8,13 +8,17 @@ namespace Etheral.Defenses
     {
         [SerializeField] protected int upgradeLevel = 0;
         [SerializeField] protected List<int> upgradeCosts = new();
+        
+        [Tooltip("The stuff that will be upgraded, like the tower model, etc.")]
         [SerializeField] protected List<GameObject> upgradeStuff;
         [SerializeField] Canvas upgradeCanvas;
+        
+       protected GameObject currentUpgradeStuff;
 
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerBaseController _baseController))
+            if (other.TryGetComponent(out PlayerTowerController _baseController))
             {
                 var baseController = _baseController;
                 if (baseController != null)
@@ -27,7 +31,7 @@ namespace Etheral.Defenses
         
         void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out PlayerBaseController _baseController))
+            if (other.TryGetComponent(out PlayerTowerController _baseController))
             {
                 var baseController = _baseController;
                 if (baseController != null)
