@@ -6,7 +6,7 @@ namespace Etheral
     {
         readonly int Impact = Animator.StringToHash("Impact");
 
-        public NpcImpactState(NPCStateMachine npcStateMachine) : base(npcStateMachine)
+        public NpcImpactState(CompanionStateMachine companionStateMachine) : base(companionStateMachine)
         {
             
         }
@@ -26,7 +26,7 @@ namespace Etheral
 
             if (normalizedvalue >= 1)
             {
-                stateMachine.SwitchState(new NPCIdleCombatState(stateMachine));
+                stateMachine.SwitchState(new CompanionIdleCombatState(stateMachine));
             }
         }
 

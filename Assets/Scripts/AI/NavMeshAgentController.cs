@@ -12,7 +12,12 @@ namespace Etheral
 
         public Transform testDestination;
 
-        
+
+        void Awake()
+        {
+            DisableAgentUpdate();
+        }
+
         public Vector3 GetSteeringTarget()
         {
             return agent.steeringTarget;

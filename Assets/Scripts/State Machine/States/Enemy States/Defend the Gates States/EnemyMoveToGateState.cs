@@ -15,6 +15,8 @@ namespace Etheral
         public override void Tick(float deltaTime)
         {
             Move(deltaTime);
+            
+            if(stateMachine.AITestingControl.blockMovement) return;
 
             var gatePosition = aiComponents.GetAIGateHandler().GetClosestGate().position;
 
@@ -26,6 +28,7 @@ namespace Etheral
             {
                 // Switch to the next state when close enough to the gate
                 stateMachine.SwitchState(new EnemyAttackingState(enemyStateMachine));
+                // enemyStateBlocks.CheckAttacksFromLocomotionState();
                 return;
             }
 

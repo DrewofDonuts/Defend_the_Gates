@@ -30,12 +30,7 @@ namespace Etheral
             if (enemyStateMachine.stateIndicator != null)
                 enemyStateMachine.stateIndicator.color = Color.blue;
 
-            // enemyStateMachine.GetAIComponents().navMeshAgentController.ResetNavAgent();
-            enemyStateMachine.GetAIComponents().navMeshAgentController.DisableAgentUpdate();
-
-            // aiComponents.GetNavMeshAgentController().ResetNavAgent();
-            // enemyStateMachine.GetAIComponents().navMeshAgentController.EnableAgentUpdate();
-
+            
             if (enemyStateBlocks == null)
                 enemyStateBlocks = new EnemyStateBlocks(enemyStateMachine, this);
 

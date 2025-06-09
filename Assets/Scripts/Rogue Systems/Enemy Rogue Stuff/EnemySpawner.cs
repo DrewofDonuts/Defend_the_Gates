@@ -2,12 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
-using TeleportFX;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Etheral

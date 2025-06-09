@@ -4,7 +4,7 @@
     {
         string animationName;
 
-        public NPCDialogueState(NPCStateMachine stateMachine, string animationName) : base(stateMachine)
+        public NPCDialogueState(CompanionStateMachine stateMachine, string animationName) : base(stateMachine)
         {
             this.animationName = animationName;
         }

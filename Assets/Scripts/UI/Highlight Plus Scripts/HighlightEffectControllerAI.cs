@@ -14,16 +14,20 @@ namespace Etheral
         [SerializeField] HighlightEffect attackEffect;
         [SerializeField] HighlightEffect lockedOnLowHealthEffect;
         [SerializeField] HighlightEffect lockedOnEffect;
-        
-        
-        
+
+
         protected override void Start()
         {
             base.Start();
+
             // attackEffect.SetTarget(rootTarget);
             attackEffect.highlighted = true;
-            lockedOnEffect.SetTarget(rootTarget);
-            lockedOnLowHealthEffect.SetTarget(rootTarget);
+
+            if (lockedOnEffect != null)
+                lockedOnEffect.SetTarget(rootTarget);
+
+            if (lockedOnLowHealthEffect != null)
+                lockedOnLowHealthEffect.SetTarget(rootTarget);
         }
 
         public void TriggerAttackEffect() => attackEffect.HitFX();

@@ -20,8 +20,6 @@ namespace Etheral
         {
             MoveEnemyToExecutionPoint();
             stateMachine.GetCharComponents().GetCC().enabled = false;
-            enemyStateMachine.GetAIComponents().navMeshAgentController.DisableAgentUpdate();
-
 
             animationHandler.CompensateForTimeScale();
             animationHandler.SetRootMotion(true);

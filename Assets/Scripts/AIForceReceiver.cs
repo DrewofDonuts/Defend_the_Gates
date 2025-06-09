@@ -9,6 +9,7 @@ namespace Etheral
     public class AIForceReceiver : ForceReceiver
     {
         [SerializeField] NavMeshAgentController agentController;
+        [Tooltip("Ignore layers for collisions when falling off ledge")]
         [SerializeField] LayerMask ignoreLayers;
 
         Vector3 predictImpact;

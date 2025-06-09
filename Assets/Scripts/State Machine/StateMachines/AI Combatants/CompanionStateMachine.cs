@@ -1,10 +1,11 @@
 using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using AIStateMachine = Etheral.AIStateMachine;
 
 namespace Etheral
 {
-    public class NPCStateMachine : AIStateMachine
+    public class CompanionStateMachine : AIStateMachine
     {
         CompanionStateMachineProcessor stateMachineProcessor = new();
         [SerializeField] NPCComponents npcComponents;
@@ -18,17 +19,33 @@ namespace Etheral
 
             EnterStartingState();
 
-            if (AITestingControl != null && !AITestingControl.displayStateIndicator)
+            if (AITestingControl != null && !AITestingControl.displayStateIndicator && stateIndicator != null)
                 stateIndicator.enabled = false;
+        }
+
+        protected new void Update()
+        {
+            base.Update();
+
+            targetCheckTimer += Time.deltaTime;
+
+            if (targetCheckTimer < targetCheckInterval) return;
+            if (aiComponents.GetAILockOnController() == null) return;
+            if (currentState == null) return;
+            currentTarget = GetTarget();
+            currentState.SetCurrentTarget(currentTarget);
+
+            targetCheckTimer = 0f;
         }
 
         public override ITargetable GetTarget()
         {
-            var target = GetAIComponents().GetEnemyLockOnController().GetTarget();
+            var target = GetAIComponents().GetAILockOnController().GetTarget();
 
-            if (target == null) return null;
-            
-            Target = target.Transform;
+            if (target != null && target.Transform != Target)
+                Target = target.Transform;
+
+            // Target = target.GetCharComponents().GetHead().transform;
 
             return target;
         }
@@ -70,7 +87,7 @@ namespace Etheral
             if (isNPC)
                 SwitchState(new NPCIdleState(this));
             else
-                SwitchState(new NPCIdleCombatState(this));
+                SwitchState(new CompanionIdleCombatState(this));
         }
 
         public override AttackToken GetCurrentAttackToken()
@@ -90,7 +107,7 @@ namespace Etheral
         [Button("Enter Companion Idle State"), GUIColor(.25f, .50f, 0f)]
         public void EnterIdleState()
         {
-            SwitchState(new NPCIdleCombatState(this));
+            SwitchState(new CompanionIdleCombatState(this));
         }
 
 #endif

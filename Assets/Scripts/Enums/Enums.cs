@@ -7,6 +7,7 @@
         AI = 2,
         Gate = 3,
         Tower = 4,
+        Enemy = 5,
     }
 
 

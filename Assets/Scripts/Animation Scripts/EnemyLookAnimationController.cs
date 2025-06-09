@@ -7,7 +7,7 @@ namespace Etheral
 {
     public class EnemyLookAnimationController : MonoBehaviour
     {
-        [SerializeField] EnemyLockOnController lockOnController;
+        [SerializeField] AILockOnController lockOnController;
         [SerializeField] Transform target;
         [SerializeField] FLookAnimator lookAnimator;
 

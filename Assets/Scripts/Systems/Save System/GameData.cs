@@ -101,7 +101,7 @@ namespace Etheral
 
     [Serializable]
     public class DoorData : INamed
-    {
+    {   
         public bool isOpen;
         [field: SerializeField] public string Name { get; set; }
     }

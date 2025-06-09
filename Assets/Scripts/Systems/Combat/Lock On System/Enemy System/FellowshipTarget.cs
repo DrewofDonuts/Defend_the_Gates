@@ -13,14 +13,32 @@ namespace Etheral
         public Transform Transform => transform;
         public TargetType TargetType => targetType;
 
-        public void HandleDeadTarget()
-        {
-            throw new NotImplementedException();
-        }
 
-        public bool IsDead { get; }
+        public bool IsDead { get; private set; }
         public int Priority { get; }
         public bool IsTargetable { get; }
+
+        void Start()
+        {
+            if (stateMachine != null)
+                stateMachine.Health.OnDie += HandleDeadTarget;
+        }
+
+        void OnDestroy()
+        {
+            if (stateMachine != null)
+                stateMachine.Health.OnDie -= HandleDeadTarget;
+        }
+
+
+        public void HandleDeadTarget(Health health)
+        {
+            OnDestroyed?.Invoke(this);
+            IsDead = true;
+        }
+
+        //required for now - I know it's redundant but may be needed for other systems
+        public void HandleDeadTarget() { }
 
 
         public void ShowThatIsTargeted(bool enable) { }

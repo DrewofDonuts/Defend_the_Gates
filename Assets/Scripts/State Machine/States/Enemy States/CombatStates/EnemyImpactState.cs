@@ -12,7 +12,6 @@ namespace Etheral
             RotateTowardsTargetSnap();
 
             enemyStateMachine.WeaponHandler.DisableAllMeleeWeapons();
-            aiComponents.GetNavMeshAgentController().DisableAgentUpdate();
         }
 
         public override void Tick(float deltaTime)

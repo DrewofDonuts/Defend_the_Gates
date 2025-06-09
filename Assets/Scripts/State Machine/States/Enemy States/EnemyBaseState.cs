@@ -22,7 +22,7 @@ namespace Etheral
             aiComponents = enemyStateMachine.GetAIComponents();
             enemyStateBlocks = new EnemyStateBlocks(enemyStateMachine, this);
             animationHandler = enemyStateMachine.GetAIComponents().GetAnimationHandler();
-            targetTypes = aiComponents.GetEnemyLockOnController().AIPriorities;
+            targetTypes = aiComponents.GetAILockOnController().AIPriorities;
 
             if (targetTypes.Contains(TargetType.Gate))
                 gateIndex = targetTypes.IndexOf(TargetType.Gate);

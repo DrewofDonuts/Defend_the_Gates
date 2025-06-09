@@ -10,7 +10,7 @@ namespace Etheral
     {
         [Title("Load Components from Enemy Component Handler")]
         [field: SerializeField] public EnemyStateMachine StateMachine { get; private set; }
-        public TargetType TargetType { get; }
+        public TargetType TargetType { get; } = TargetType.Enemy;
         public Transform Transform { get; private set; }
         [field: SerializeField] public bool isObject { get; private set; }
         public event Action<ITargetable> OnDestroyed;

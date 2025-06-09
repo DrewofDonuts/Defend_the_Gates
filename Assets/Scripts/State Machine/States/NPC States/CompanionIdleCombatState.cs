@@ -5,7 +5,7 @@ namespace Etheral
     //Do not automatically SetHostile to false, so that the companion can attack enemies
     //Only following the player should set Hostile to false
 
-    public class NPCIdleCombatState : NPCBaseState
+    public class CompanionIdleCombatState : NPCBaseState
     {
         bool shouldFollow;
         float timeBeforeFollow = .25f;
@@ -14,14 +14,13 @@ namespace Etheral
         float distanceBeforeFollowingPlayer = 3f;
 
 
-        public NPCIdleCombatState(NPCStateMachine npcStateMachine) : base(npcStateMachine)
+        public CompanionIdleCombatState(CompanionStateMachine companionStateMachine) : base(companionStateMachine)
         {
         }
 
         public override void Enter()
         {
             animationHandler.CrossFadeInFixedTime("Idle", .2f);
-            Debug.Log("Switching to idle combat state");
         }
 
         public override void Tick(float deltaTime)
@@ -34,9 +33,15 @@ namespace Etheral
                 stateMachine.SwitchState(new NPCAttackState(stateMachine));
                 return;
             }
+            
+            if(IsInChaseRangeTarget() && !stateMachine.AITestingControl.blockSwitchState)
+            {
+                // Check if the companion has a target to chase
+                stateMachine.SwitchState(new NPCChaseState(stateMachine));
+            }
 
             // Only call ChaseEnemyHandler() if stateMachine.GetHostile() is true
-            if (stateMachine.GetHostile() && ChaseEnemyHandler()) return;
+            // if (stateMachine.GetHostile() && ChaseEnemyHandler()) return;
         }
 
         bool ChaseEnemyHandler()

@@ -4,7 +4,7 @@ namespace Etheral
 {
     public class NPCChaseState : NPCBaseState
     {
-        public NPCChaseState(NPCStateMachine _stateMachine) : base(_stateMachine)
+        public NPCChaseState(CompanionStateMachine _stateMachine) : base(_stateMachine)
         {
         }
 
@@ -30,7 +30,6 @@ namespace Etheral
 
                 if (movementSpeed < 2f)
                 {
-                    Debug.Log("Switching to attack");
                     stateMachine.SwitchState(new NPCAttackState(stateMachine));
                     return;
                 }

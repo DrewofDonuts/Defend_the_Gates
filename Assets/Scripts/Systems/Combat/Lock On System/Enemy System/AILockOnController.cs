@@ -6,10 +6,11 @@ using UnityEngine;
 
 namespace Etheral
 {
-     public class EnemyLockOnController : MonoBehaviour
+     public class AILockOnController : MonoBehaviour
     {
         [SerializeField] List<TargetType> aiPriorities;
         [SerializeField] float timeBetweenChecks = 0.5f;
+        
 
         public List<TargetType> AIPriorities => aiPriorities;
 
@@ -39,22 +40,11 @@ namespace Etheral
         List<ITargetable> targets = new();
 
 
-        protected int gateIndex = -1;
-        protected int fellowshipIndex = -1;
 
 
         // public CompanionStateMachine companion;
 
-        void Start()
-        {
-            if (aiPriorities.Contains(TargetType.Gate))
-                gateIndex = aiPriorities.IndexOf(TargetType.Gate);
-
-            if (aiPriorities.Contains(TargetType.Fellowship))
-                fellowshipIndex = aiPriorities.IndexOf(TargetType.Fellowship);
-        }
-
-
+        
         void Update()
         {
             if (targets.Count == 0)
@@ -114,11 +104,15 @@ namespace Etheral
 
         void OnTriggerStay(Collider other)
         {
+            timer += Time.deltaTime;
+            
+            if (timer < timeBetweenChecks) return;
+            
             if (other.transform.root == transform.root) return;
             if (targetTransforms.Contains(other.transform)) return;
             if (!other.TryGetComponent(out ITargetable target)) return;
-            if (target.Affiliation == Affiliation.Enemy) return;
-            // if (!aiPriorities.Contains(target.TargetType)) return;
+            // if (target.Affiliation == Affiliation.Enemy) return;
+            if (!aiPriorities.Contains(target.TargetType)) return;
             
             Debug.Log($"Adding target: {target.TargetType}");
             
@@ -130,13 +124,15 @@ namespace Etheral
                 targetTransforms.Add(target.Transform);
                 target.OnDestroyed += RemoveTarget;
             }
+            
+            timer = 0f;
         }
 
         void OnTriggerExit(Collider other)
         {
             if (!other.TryGetComponent(out ITargetable target)) return;
             if (!targetTransforms.Contains(other.transform)) return;
-            if (target.Affiliation == Affiliation.Enemy) return;
+            // if (target.Affiliation == Affiliation.Enemy) return;
             if (!aiPriorities.Contains(target.TargetType)) return;
 
 
@@ -146,17 +142,18 @@ namespace Etheral
             // OnTargetChanged?.Invoke(null);
         }
 
-        void RemoveTarget(ITargetable obj)
+        void RemoveTarget(ITargetable targetToRemove)
         {
-            targets.Remove(obj);
-            if (currentTarget == obj.Transform)
+            targetToRemove.OnDestroyed -= RemoveTarget;
+            targets.Remove(targetToRemove);
+            targetTransforms.Remove(targetToRemove.Transform);
+            if (currentTarget == targetToRemove.Transform)
             {
                 Debug.Log("Setting current target to null");
                 currentTarget = null;
                 OnTargetChanged?.Invoke(null);
             }
 
-            obj.OnDestroyed -= RemoveTarget;
         }
     }
 }

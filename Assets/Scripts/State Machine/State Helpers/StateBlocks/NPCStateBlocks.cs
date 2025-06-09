@@ -4,10 +4,10 @@ using UnityEngine;
 public class NPCStateBlocks 
 {
     NPCBaseState npcBaseState;
-    NPCStateMachine stateMachine;
+    CompanionStateMachine stateMachine;
     
     
-    public NPCStateBlocks(NPCStateMachine _stateMachine, NPCBaseState npcBaseState)
+    public NPCStateBlocks(CompanionStateMachine _stateMachine, NPCBaseState npcBaseState)
     {
         stateMachine = _stateMachine;
         this.npcBaseState = npcBaseState;

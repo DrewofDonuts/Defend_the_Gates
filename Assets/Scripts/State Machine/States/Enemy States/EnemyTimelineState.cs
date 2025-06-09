@@ -7,8 +7,7 @@
         public override void Enter()
         {
             aiComponents.GetCC().enabled = false;
-            aiComponents.GetNavMeshAgentController().DisableAgentUpdate();
-            aiComponents.GetNavMeshAgentController().DisableAgentUpdate();
+
 
             EtheralMessageSystem.OnCondition += OnCondition;
         }

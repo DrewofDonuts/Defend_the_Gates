@@ -14,7 +14,7 @@ namespace Etheral
         Vector3 previousTargetPosition;
 
 
-        public NpcFollowState(NPCStateMachine npcStateMachine) : base(npcStateMachine) { }
+        public NpcFollowState(CompanionStateMachine companionStateMachine) : base(companionStateMachine) { }
 
         public override void Enter()
         {
@@ -75,12 +75,12 @@ namespace Etheral
             }
             else if (shouldFollow && isFacingEachOther)
             {
-                stateMachine.SwitchState(new NPCIdleCombatState(stateMachine));
+                stateMachine.SwitchState(new CompanionIdleCombatState(stateMachine));
                 return;
             }
             else if ((!shouldFollow || isFacingEachOther))
             {
-                stateMachine.SwitchState(new NPCIdleCombatState(stateMachine));
+                stateMachine.SwitchState(new CompanionIdleCombatState(stateMachine));
                 return;
             }
 

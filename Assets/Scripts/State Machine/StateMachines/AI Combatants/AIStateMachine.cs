@@ -8,8 +8,6 @@ namespace Etheral
 {
     public abstract class AIStateMachine : StateMachine
     {
-        
-        
         [BoxGroup("Components")]
         [SerializeField] protected AIComponentHandler aiComponents;
         [field: SerializeField] public AIAttributes AIAttributes { get; protected set; }
@@ -35,8 +33,9 @@ namespace Etheral
         public string attackTokenName;
 
         protected ITargetable currentTarget;
-        
-        
+
+        protected float targetCheckInterval = 0.25f;
+        protected float targetCheckTimer;
 
 
         #region PlayerStuff
@@ -75,6 +74,7 @@ namespace Etheral
                 }
             }
         }
+
 
         public int GetCurrentAttackCount() => currentAttackCount;
 

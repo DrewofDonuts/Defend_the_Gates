@@ -7,9 +7,9 @@ namespace Etheral
         float newAttackSpeed;
         protected static readonly int AttackSpeed = Animator.StringToHash("attackSpeed");
 
-        public NPCAttackState(NPCStateMachine npcStateMachine, int attackIndex = 0) : base(npcStateMachine)
+        public NPCAttackState(CompanionStateMachine companionStateMachine, int attackIndex = 0) : base(companionStateMachine)
         {
-            characterAction = npcStateMachine.AIAttributes.BasicAttacks[attackIndex];
+            characterAction = companionStateMachine.AIAttributes.BasicAttacks[attackIndex];
         }
 
 
@@ -33,7 +33,7 @@ namespace Etheral
             animationHandler.SetFloat(AttackSpeed, newAttackSpeed);
 
 
-            RotateTowardsTargetSmooth(stateMachine.AIAttributes.RotateSpeed);
+            // RotateTowardsTargetSmooth(stateMachine.AIAttributes.RotateSpeed);
 
             float normalizedTime = GetNormalizedTime(stateMachine.Animator, characterAction.AnimationName);
 
@@ -42,7 +42,7 @@ namespace Etheral
 
             if (normalizedTime >= 1)
             {
-                stateMachine.SwitchState(new NPCIdleCombatState(stateMachine));
+                stateMachine.SwitchState(new CompanionIdleCombatState(stateMachine));
             }
         }
 

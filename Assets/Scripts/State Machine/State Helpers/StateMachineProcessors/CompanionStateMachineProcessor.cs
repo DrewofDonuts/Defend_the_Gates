@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Etheral;
 using UnityEngine;
 
-public class CompanionStateMachineProcessor : StateMachineProcessor<NPCStateMachine>
+public class CompanionStateMachineProcessor : StateMachineProcessor<CompanionStateMachine>
 {
-    public override void TakeHit(IDamage iDamage, NPCStateMachine stateMachine)
+    public override void TakeHit(IDamage iDamage, CompanionStateMachine stateMachine)
     {
         stateMachine.CharacterAudio.AudioSelector.WeaponHitAudioHandler(iDamage.AudioImpact);
         var health = stateMachine.Health;
@@ -20,11 +20,11 @@ public class CompanionStateMachineProcessor : StateMachineProcessor<NPCStateMach
         }
     }
 
-    public override void HandleBlock(IDamage iDamage, NPCStateMachine stateMachine)
+    public override void HandleBlock(IDamage iDamage, CompanionStateMachine stateMachine)
     {
     }
 
-    public override void HandleDead(NPCStateMachine stateMachine)
+    public override void HandleDead(CompanionStateMachine stateMachine)
     {
         stateMachine.SwitchState(new NpcDownedState(stateMachine));
     }

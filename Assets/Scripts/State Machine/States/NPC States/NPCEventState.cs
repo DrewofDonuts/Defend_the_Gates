@@ -4,7 +4,7 @@ namespace Etheral
     {
         string animation;
 
-        public NPCEventState(NPCStateMachine npcStateMachine, string animation) : base(npcStateMachine)
+        public NPCEventState(CompanionStateMachine companionStateMachine, string animation) : base(companionStateMachine)
         {
             this.animation = animation;
         }

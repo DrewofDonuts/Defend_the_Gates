@@ -42,8 +42,9 @@ namespace Etheral
         [SerializeField] HighlightEffectControllerAI _highlightEffectControllerAI;
         [FoldoutGroup("Enemy Components")]
         [SerializeField] HeadExecutionPoint headExecutionPoint;
+        [FormerlySerializedAs("enemyLockOnController")]
         [FoldoutGroup("Enemy Components")]
-        [SerializeField] EnemyLockOnController enemyLockOnController;
+        [SerializeField] AILockOnController aiLockOnController;
         [FormerlySerializedAs("overrideStateController")]
         [FoldoutGroup("Enemy Components")]
         [SerializeField] StateOverrideController _stateOverrideController;
@@ -53,7 +54,7 @@ namespace Etheral
         [SerializeField] Component customController;
 
         public HeadExecutionPoint GetHeadExecutionPoint() => headExecutionPoint;
-        public EnemyLockOnController GetEnemyLockOnController() => enemyLockOnController;
+        public AILockOnController GetAILockOnController() => aiLockOnController;
         public StateOverrideController GetOverrideStateController() => _stateOverrideController;
         public NavMeshAgentController GetNavMeshAgentController() => navMeshAgentController;
         public EnemyControlledSpawner GetEnemySpawner() => enemySpawner;
@@ -92,7 +93,7 @@ namespace Etheral
         [Button("Load Enemy  Components")]
         public void LoadEnemyComponents()
         {
-            enemyLockOnController = GetComponentInChildren<EnemyLockOnController>();
+            aiLockOnController = GetComponentInChildren<AILockOnController>();
             _stateOverrideController = GetComponent<StateOverrideController>();
             _highlightEffectControllerAI = GetComponentInChildren<HighlightEffectControllerAI>();
             headExecutionPoint = GetComponentInChildren<HeadExecutionPoint>();

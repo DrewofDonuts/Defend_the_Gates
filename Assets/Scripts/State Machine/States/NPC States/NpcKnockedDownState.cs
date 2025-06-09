@@ -2,7 +2,7 @@
 {
     public class NpcKnockedDownState : NPCBaseState
     {
-        public NpcKnockedDownState(NPCStateMachine npcStateMachine) : base(npcStateMachine)
+        public NpcKnockedDownState(CompanionStateMachine companionStateMachine) : base(companionStateMachine)
         {
         }
 
@@ -19,7 +19,7 @@
 
             if (normalizedvalue >= 1)
             {
-                stateMachine.SwitchState(new NPCIdleCombatState(stateMachine));
+                stateMachine.SwitchState(new CompanionIdleCombatState(stateMachine));
             }
         }
 

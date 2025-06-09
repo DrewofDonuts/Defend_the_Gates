@@ -50,7 +50,6 @@ namespace Etheral
         {
             yield return base.Start();
 
-            AITestingControl = new AITestingControl(this);
             GetAIComponents().GetHeadExecutionPoint().OnDestroyed += Health.TriggerOnDie;
             GetAIComponents().GetHeadExecutionPoint().OnDestroyed += Health.SetIsDead;
             aiHealth.OnFallingToDeath += HandleFallingAfterHit;
@@ -90,13 +89,13 @@ namespace Etheral
         {
             // if (!CharacterManager.Instance.IsReady) return default;
 
-            if (GetAIComponents().GetEnemyLockOnController() == null)
+            if (GetAIComponents().GetAILockOnController() == null)
             {
                 Debug.LogError("Enemy Lock On Controller is null");
                 return null;
             }
 
-            var target = GetAIComponents().GetEnemyLockOnController().GetTarget();
+            var target = GetAIComponents().GetAILockOnController().GetTarget();
 
             if (target != null && target.Transform != Target)
                 Target = target.Transform;
@@ -151,7 +150,7 @@ namespace Etheral
         {
             base.Update();
 
-            if (aiComponents.GetEnemyLockOnController() == null) return;
+            if (aiComponents.GetAILockOnController() == null) return;
             if(currentState == null) return;
             currentTarget = GetTarget();
             currentState.SetCurrentTarget(currentTarget);

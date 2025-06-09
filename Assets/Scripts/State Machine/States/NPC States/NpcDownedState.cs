@@ -8,7 +8,7 @@ namespace Etheral
         
         readonly int KnockDown = Animator.StringToHash("KnockDown");
 
-        public NpcDownedState(NPCStateMachine npcStateMachine) : base(npcStateMachine)
+        public NpcDownedState(CompanionStateMachine companionStateMachine) : base(companionStateMachine)
         {
         }
 

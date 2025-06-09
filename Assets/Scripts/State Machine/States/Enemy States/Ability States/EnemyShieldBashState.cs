@@ -23,7 +23,6 @@ namespace Etheral
             enemyStateMachine.Animator.CrossFadeInFixedTime(characterAction.AnimationName,
                 characterAction.TransitionDuration);
 
-            enemyStateMachine.GetAIComponents().navMeshAgentController.DisableAgentUpdate();
             enemyStateMachine.Health.SetSturdy(true);
 
             actionProcessor.SetupActionProcessorForThisAction(enemyStateMachine, characterAction);

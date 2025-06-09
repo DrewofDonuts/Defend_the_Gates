@@ -5,12 +5,12 @@ namespace Etheral
 {
     public abstract class NPCBaseState : AIBaseState
     {
-        protected NPCStateMachine stateMachine;
+        protected CompanionStateMachine stateMachine;
 
 
-        public NPCBaseState(NPCStateMachine npcStateMachine) : base(npcStateMachine)
+        public NPCBaseState(CompanionStateMachine companionStateMachine) : base(companionStateMachine)
         {
-            stateMachine = npcStateMachine;
+            stateMachine = companionStateMachine;
             animationHandler = stateMachine.GetAIComponents().GetAnimationHandler();
         }
     }

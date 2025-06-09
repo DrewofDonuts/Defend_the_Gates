@@ -6,7 +6,7 @@ namespace Etheral
     public class NPCStateSelector : AIStateSelector
     {
         [FormerlySerializedAs("npcStateMachine")] [SerializeField]
-        NPCStateMachine stateMachine;
+        CompanionStateMachine stateMachine;
 
         public override void EnterDialogueStateWithAnimation(string animationName)
         {
@@ -14,7 +14,7 @@ namespace Etheral
 
         public override void EnterIdleState()
         {
-            stateMachine.SwitchState(new NPCIdleCombatState(stateMachine));
+            stateMachine.SwitchState(new CompanionIdleCombatState(stateMachine));
         }
 
         public override void EnterDeadState()

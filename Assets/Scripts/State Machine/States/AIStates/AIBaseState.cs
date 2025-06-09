@@ -11,7 +11,6 @@ namespace Etheral
     {
         public float movementSpeed { get; protected set; }
         protected AIStateMachine stateMachine;
-        [FormerlySerializedAs("aiStateOverrides")]
         public BaseAIStateOverrides overrides;
         protected PatrolController patrolController;
         

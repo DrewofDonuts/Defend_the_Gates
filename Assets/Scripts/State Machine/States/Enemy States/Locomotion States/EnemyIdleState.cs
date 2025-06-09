@@ -27,7 +27,6 @@ namespace Etheral
             //         return;
 
             enemyStateMachine.WeaponHandler.DisableAllMeleeWeapons();
-            aiComponents.GetNavMeshAgentController().DisableAgentUpdate();
 
 
             stateMachine.OnChangeStateMethod(StateType.Idle);

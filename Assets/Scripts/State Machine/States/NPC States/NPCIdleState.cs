@@ -4,7 +4,7 @@ namespace Etheral
 {
     public class NPCIdleState : NPCBaseState
     {
-        public NPCIdleState(NPCStateMachine npcStateMachine) : base(npcStateMachine)
+        public NPCIdleState(CompanionStateMachine companionStateMachine) : base(companionStateMachine)
         {
         }
 
