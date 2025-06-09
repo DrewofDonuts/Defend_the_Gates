@@ -1,51 +1,59 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Etheral.Defenses
 {
     public class PlayerTowerController : MonoBehaviour
     {
         [SerializeField] InputObject inputObject;
-        [SerializeField] int startingResources = 100;
+       [SerializeField] int resources = 100;
         
-        DefenseUpgrade currentUpgrade;
-        TowerNode currentNode;
+        // DefenseUpgrade currentUpgrade;
+        // TowerNode currentNode;
 
-        void Start()
+        public int CurrentResources()
         {
-            inputObject.SouthButtonEvent += OnSouthButtonPressed;
-        }
-
-        void OnSouthButtonPressed()
-        {
-            if(currentUpgrade !=null )
-                currentUpgrade.ApplyUpgrade();
+            //future logic to reduce resources when upgrades are applied can go here
             
+            return resources;
         }
 
-        public bool CanAffordUpgrade(int cost)
-        {
-            return startingResources >= cost;
-        }
-        
-        public void SetCurrentNode(TowerNode node)
-        {
-            currentNode = node;
-        }
-        
-        public TowerNode GetCurrentNode()
-        {
-            return currentNode;
-        }
-
-        public void SetCurrentUpgrade(DefenseUpgrade upgrade)
-        {
-            currentUpgrade = upgrade;
-        }
-
-        public void RemoveCurrentUpgrade()
-        {
-            currentUpgrade = null;
-        }
+        // void Start()
+        // {
+        //     inputObject.SouthButtonEvent += OnSouthButtonPressed;
+        // }
+        //
+        // void OnSouthButtonPressed()
+        // {
+        //     if(currentUpgrade !=null )
+        //         currentUpgrade.ApplyUpgrade();
+        //     
+        // }
+        //
+        // public bool CanAffordUpgrade(int cost)
+        // {
+        //     return startingResources >= cost;
+        // }
+        //
+        // public void SetCurrentNode(TowerNode node)
+        // {
+        //     currentNode = node;
+        // }
+        //
+        // public TowerNode GetCurrentNode()
+        // {
+        //     return currentNode;
+        // }
+        //
+        // public void SetCurrentUpgrade(DefenseUpgrade upgrade)
+        // {
+        //     currentUpgrade = upgrade;
+        // }
+        //
+        // public void RemoveCurrentUpgrade()
+        // {
+        //     currentUpgrade = null;
+        // }
     }
 }

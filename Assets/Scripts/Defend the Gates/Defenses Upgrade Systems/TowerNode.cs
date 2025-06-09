@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -12,26 +14,72 @@ namespace Etheral.Defenses
     {
         [Header("Tower Node Settings")]
         [SerializeField] UpgradeBranch upgradeBranch;
-        [SerializeField] List<int> upgradeCosts = new List<int>();
+        [SerializeField] List<int> upgradeCosts = new();
 
-        [Header("UI References")]
-        [SerializeField] Canvas towerCanvas;
-        [SerializeField] GameObject uiPanel;
+        [FormerlySerializedAs("towerCanvas")]
+        [Header("Upgrade UI References")]
+        [SerializeField] Canvas upgradeCanvas;
         [SerializeField] GameObject buttonHolder;
         [SerializeField] UpgradeButton upgradeButtonPrefab;
 
+        [Header("World Space UI References")]
+        [SerializeField] Canvas worldSpaceCanvas;
+        [SerializeField] TextMeshProUGUI nextUpgradeCostText;
+
+
+        [Header("References")]
+        [SerializeField] InputObject inputObject;
+
         [Header("Debug")]
-        public TowerObject currentTowerObject;
+        public GameObject currentTowerPrefab;
 
         int currentUpgradeLevel;
-        
+
         List<UpgradeButton> upgradeButtons = new();
+
+        PlayerTowerController playerTowerController;
+
+        //Update for Multiplayer
+        bool isPlayerOccupyingNode;
+
+        void Start()
+        {
+            inputObject.SouthButtonEvent += OnSouthButtonPressed;
+
+            worldSpaceCanvas.enabled = false;
+            upgradeCanvas.enabled = false;
+        }
+
+        void OnDisable() =>
+            inputObject.SouthButtonEvent -= OnSouthButtonPressed;
+
+
+        void OnSouthButtonPressed()
+        {
+            if (isPlayerOccupyingNode && playerTowerController != null)
+            {
+                if (upgradeBranch != null)
+                {
+                    DisplayCurrentUpgradeBranchOptions();
+                }
+            }
+        }
 
 
         void DisplayCurrentUpgradeBranchOptions()
         {
-            upgradeButtons.Clear();
+            if (upgradeCosts.Count <= currentUpgradeLevel) return;
+                
+
             
+            foreach (var upgradeButton in upgradeButtons)
+            {
+                Destroy(upgradeButton.gameObject);
+            }
+            upgradeButtons.Clear();
+            worldSpaceCanvas.enabled = false;
+            upgradeCanvas.enabled = true;
+
             foreach (var towerObject in upgradeBranch.towerDataList)
             {
                 if (currentUpgradeLevel == towerObject.TowerData.Level)
@@ -45,35 +93,62 @@ namespace Etheral.Defenses
 
         public void Upgrade(TowerData data)
         {
+            if (currentTowerPrefab != null)
+            {
+                // Destroy the current tower prefab if it exists
+                Destroy(currentTowerPrefab);
+            }
+
             //Instantiate on network
             var newTower = Instantiate(data.TowerPrefab, transform.position, Quaternion.identity);
-            towerCanvas.enabled = false;
+            currentTowerPrefab = newTower;
+            upgradeCanvas.enabled = false;
+            currentUpgradeLevel++;
         }
 
 
         void OnTriggerEnter(Collider other)
         {
+            if (playerTowerController != null)
+            {
+                // If a player is already occupying the node, do not allow another player to occupy it.
+                return;
+            }
+
             if (other.TryGetComponent(out PlayerTowerController _baseController))
             {
                 var baseController = _baseController;
                 if (baseController != null)
                 {
-                    baseController.SetCurrentNode(this);
-                    towerCanvas.enabled = true;
-                    DisplayCurrentUpgradeBranchOptions();
+                    isPlayerOccupyingNode = true;
+                    playerTowerController = baseController;
+
+                    if (upgradeCosts.Count > currentUpgradeLevel)
+                    {
+                        nextUpgradeCostText.text = upgradeCosts[currentUpgradeLevel].ToString();
+                        worldSpaceCanvas.enabled = true;
+                    }
                 }
             }
         }
 
         void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out PlayerTowerController _baseController))
+            if (other.TryGetComponent(out PlayerTowerController _playerTowerController))
             {
-                var baseController = _baseController;
+                if (playerTowerController != _playerTowerController)
+                {
+                    // If the exiting player is not the one occupying the node, do nothing.
+                    return;
+                }
+
+                var baseController = _playerTowerController;
                 if (baseController != null)
                 {
-                    baseController.SetCurrentNode(null);
-                    towerCanvas.enabled = false;
+                    upgradeCanvas.enabled = false;
+                    isPlayerOccupyingNode = false;
+                    playerTowerController = null;
+                    worldSpaceCanvas.enabled = false;
                 }
             }
         }

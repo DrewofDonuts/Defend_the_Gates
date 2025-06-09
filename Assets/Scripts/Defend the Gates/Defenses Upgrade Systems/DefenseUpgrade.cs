@@ -23,7 +23,7 @@ namespace Etheral.Defenses
                 var baseController = _baseController;
                 if (baseController != null)
                 {
-                    baseController.SetCurrentUpgrade(this);
+                    // baseController.SetCurrentUpgrade(this);
                     upgradeCanvas.enabled = true;
                 }
             }
@@ -36,7 +36,7 @@ namespace Etheral.Defenses
                 var baseController = _baseController;
                 if (baseController != null)
                 {
-                    baseController.RemoveCurrentUpgrade();
+                    // baseController.RemoveCurrentUpgrade();
                     upgradeCanvas.enabled = false;
                 }
             }

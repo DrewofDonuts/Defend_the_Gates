@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -6,8 +7,12 @@ namespace Etheral.Defenses
 {
     public class UpgradeButton : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] Button upgradeButton;
-        [SerializeField] TowerObject towerObject;
+        
+        [Header("Text References")]
+        [SerializeField] TextMeshProUGUI nameText;
+        [SerializeField] TextMeshProUGUI descriptionText;
         
         TowerNode towerNode;
         TowerData towerData;
@@ -16,6 +21,8 @@ namespace Etheral.Defenses
         {
             towerData = data;
             towerNode = node;
+            nameText.text = towerData.TowerName;
+            descriptionText.text = towerData.Description;
             upgradeButton.onClick.AddListener(OnUpgradeButtonClicked);
         }
 
