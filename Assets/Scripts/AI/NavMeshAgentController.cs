@@ -135,5 +135,10 @@ namespace Etheral
         {
             agent.speed = speed;
         }
+
+        public bool IsUpdateRotation()
+        {
+            return agent.updateRotation;
+        }
     }
 }

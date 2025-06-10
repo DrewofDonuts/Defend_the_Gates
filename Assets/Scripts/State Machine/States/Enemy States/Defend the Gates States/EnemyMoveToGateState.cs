@@ -4,30 +4,37 @@ namespace Etheral
 {
     public class EnemyMoveToGateState : EnemyBaseState
     {
+        Gate currentGate;
+        Vector3 gatePosition;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public EnemyMoveToGateState(EnemyStateMachine _stateMachine) : base(_stateMachine) { }
 
         public override void Enter()
         {
             animationHandler.CrossFadeInFixedTime(Locomotion);
+
+            aiComponents.GetNavMeshAgentController().SetRotation(true);
+            GetGate();
         }
 
         public override void Tick(float deltaTime)
         {
             Move(deltaTime);
-            
-            if(stateMachine.AITestingControl.blockMovement) return;
 
-            var gatePosition = aiComponents.GetAIGateHandler().GetClosestGate().position;
+            if (stateMachine.AITestingControl.blockMovement) return;
 
-            // RotateTowardsTargetSmooth(30f);
-            RotateTowardsGateSmooth(30f);
+
+            if (Vector3.Distance(stateMachine.transform.position, gatePosition) <
+                stateMachine.AIAttributes.MeleeAttackRange)
+                RotateTowardsGateSmooth(30f);
             Move(gatePosition, stateMachine.AIAttributes.WalkSpeed, deltaTime);
 
             if (Vector3.Distance(stateMachine.transform.position, gatePosition) < 2f)
             {
                 // Switch to the next state when close enough to the gate
                 stateMachine.SwitchState(new EnemyAttackingState(enemyStateMachine));
+
                 // enemyStateBlocks.CheckAttacksFromLocomotionState();
                 return;
             }
@@ -35,16 +42,39 @@ namespace Etheral
             CheckHowAIShouldRespondToCombatRootMethod(deltaTime);
         }
 
+        void GetGate()
+        {
+            currentGate = aiComponents.GetAIGateHandler().GetClosestGate();
+            currentGate.OnGateDestroyed += HandleGateDestroyed;
+            gatePosition = currentGate.transform.position;
+        }
+
+        void HandleGateDestroyed(Gate destroyedGate)
+
+        {
+            currentGate.OnGateDestroyed -= HandleGateDestroyed;
+            GetGate();
+        }
+
 
         void RotateTowardsGateSmooth(float rotationSpeed)
         {
-            var targetPosition = aiComponents.GetAIGateHandler().GetClosestGate().position;
+            if (aiComponents.GetNavMeshAgentController().IsUpdateRotation())
+                aiComponents.GetNavMeshAgentController().SetRotation(false);
+
+            var targetPosition = gatePosition;
             var direction = (targetPosition - stateMachine.transform.position).normalized;
             var lookRotation = Quaternion.LookRotation(direction);
             stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, lookRotation,
                 rotationSpeed * Time.deltaTime);
         }
 
-        public override void Exit() { }
+        public override void Exit()
+        {
+            aiComponents.GetNavMeshAgentController().SetRotation(false);
+            
+            if(!currentGate.IsDestroyed)
+                currentGate.OnGateDestroyed -= HandleGateDestroyed;
+        }
     }
 }

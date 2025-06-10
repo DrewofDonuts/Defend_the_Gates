@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Etheral
@@ -9,24 +10,50 @@ namespace Etheral
         public List<Gate> gates = new();
 
 
-        public Transform GetClosestGate()
+        public Gate GetClosestGate()
         {
-            gates = GateManager.Instance.GetGates();
-            
+            if (gates.Count <= 0)
+            {
+                gates = GateManager.Instance.GetGates().FindAll(a => !a.IsDestroyed);
+            }
+
             var closestDistance = Mathf.Infinity;
-            Transform closestGate = null;
+            Gate closestGate = null;
 
             foreach (var gate in gates)
             {
+                if (gate == null || gate.IsDestroyed)
+                    continue;
                 float distance = Vector3.Distance(transform.position, gate.transform.position);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    closestGate = gate.transform;
+                    closestGate = gate;
                 }
             }
 
             return closestGate;
         }
+
+
+        // public Transform GetClosestGate()
+        // {
+        //     gates = GateManager.Instance.GetGates();
+        //     
+        //     var closestDistance = Mathf.Infinity;
+        //     Transform closestGate = null;
+        //
+        //     foreach (var gate in gates)
+        //     {
+        //         float distance = Vector3.Distance(transform.position, gate.transform.position);
+        //         if (distance < closestDistance)
+        //         {
+        //             closestDistance = distance;
+        //             closestGate = gate.transform;
+        //         }
+        //     }
+        //
+        //     return closestGate;
+        // }
     }
 }
