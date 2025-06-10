@@ -76,7 +76,7 @@ namespace Etheral
         //     OnDialogueEvent?.Invoke();
         // }
 
-        public static void FeedbackBasedOnDistanceFromPlayer(object feedbackName, Vector3 position,
+        public static void FeedbackBasedOnIDAndDistance(object feedbackName, Vector3 position,
             DamageData damageData)
         {
             OnFeedbackDistanceDamageData?.Invoke(position, damageData);

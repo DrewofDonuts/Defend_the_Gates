@@ -104,8 +104,11 @@ namespace Etheral
             };
 
             // EventBusPlayerController.FeedbackIgnoringDistanceFromPlayer(this, newDamageData.FeedbackType);
-            EventBusPlayerController.FeedbackBasedOnDistanceFromPlayer(this, transform.position, newDamageData);
-            
+
+            //Checks if there is any feedback to play, otherwise it will not call the event
+            if (newDamageData.FeedbackType != FeedbackType.None && newDamageData.AttackerID != -1)
+                EventBusPlayerController.FeedbackBasedOnIDAndDistance(this, transform.position, newDamageData);
+
 
             var isLedgeAhead = forceReceiver.IsLedgeAhead(newDamageData.Direction, 2f);
 
