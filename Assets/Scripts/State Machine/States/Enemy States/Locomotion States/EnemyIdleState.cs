@@ -66,7 +66,7 @@ namespace Etheral
 
             if (!enemyStateMachine.GetHostile()) return;
 
-            CheckHowAIShouldRespondToCombatRootMethod(deltaTime);
+            CheckCombatWIthTimer(deltaTime);
         }
 
 

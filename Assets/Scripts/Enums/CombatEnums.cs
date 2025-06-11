@@ -68,6 +68,7 @@
         Patrol = 19,
         AbsoluteChase = 20,
         JumpOffMeshLink = 21,
+        MoveToGate = 22,
     }
 
 

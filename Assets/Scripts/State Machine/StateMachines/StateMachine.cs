@@ -105,6 +105,7 @@ namespace Etheral
         }
 
         public StateType GetStateType() => StateType;
+        public StateType SetStateType(StateType newStateType) => StateType = newStateType;
 
         protected abstract void DisableCanvasGroup();
 

@@ -16,11 +16,15 @@ namespace Etheral
 
             aiComponents.GetNavMeshAgentController().SetRotation(true);
             GetGate();
+            stateMachine.SetStateType(StateType.MoveToGate);
         }
 
         public override void Tick(float deltaTime)
         {
             Move(deltaTime);
+
+            // if (currentGate == null)
+            //     GetGate();
 
             if (stateMachine.AITestingControl.blockMovement) return;
 
@@ -29,6 +33,7 @@ namespace Etheral
                 stateMachine.AIAttributes.MeleeAttackRange)
                 RotateTowardsGateSmooth(30f);
             Move(gatePosition, stateMachine.AIAttributes.WalkSpeed, deltaTime);
+
 
             if (Vector3.Distance(stateMachine.transform.position, gatePosition) < 2f)
             {
@@ -39,12 +44,14 @@ namespace Etheral
                 return;
             }
 
-            CheckHowAIShouldRespondToCombatRootMethod(deltaTime);
+            CheckCombatWIthTimer(deltaTime);
         }
 
         void GetGate()
         {
             currentGate = aiComponents.GetAIGateHandler().GetClosestGate();
+            
+            
             currentGate.OnGateDestroyed += HandleGateDestroyed;
             gatePosition = currentGate.transform.position;
         }
@@ -72,8 +79,8 @@ namespace Etheral
         public override void Exit()
         {
             aiComponents.GetNavMeshAgentController().SetRotation(false);
-            
-            if(!currentGate.IsDestroyed)
+
+            if (currentGate != null && !currentGate.IsDestroyed)
                 currentGate.OnGateDestroyed -= HandleGateDestroyed;
         }
     }

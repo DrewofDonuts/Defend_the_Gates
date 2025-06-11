@@ -18,7 +18,7 @@ namespace Etheral
         protected bool hasBeenOnScreen;
 
 
-        protected float checkNextActionInterval = 0.25f;
+        protected float checkNextActionInterval = 0.15f;
         protected float checkNextActionTimer = 0;
 
         protected static readonly int ForwardSpeed = Animator.StringToHash("ForwardSpeed");

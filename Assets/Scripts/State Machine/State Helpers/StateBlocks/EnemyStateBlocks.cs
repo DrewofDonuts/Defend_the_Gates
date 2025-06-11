@@ -121,7 +121,7 @@ namespace Etheral
 
         public void SwitchToBaseState()
         {
-            if (enemyBaseState.overrides?.IsGateAttacking == true)
+            if (enemyBaseState.overrides?.IsGateAttacking == true && !enemyBaseState.aiComponents.GetAIGateHandler().IsAllGatesDestroyed)
             {
                 SwitchToMoveToGate();
                 return;

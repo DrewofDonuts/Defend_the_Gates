@@ -47,20 +47,20 @@ namespace Etheral
         
         void Update()
         {
-            if (targets.Count == 0)
-            {
-                if (timer > 0)
-                    timer = 0;
-                return;
-            }
-
-            timer += Time.deltaTime;
-
-            if (timer < timeBetweenChecks)
-                return;
-
-
-            timer = 0f;
+            // if (targets.Count == 0)
+            // {
+            //     if (timer > 0)
+            //         timer = 0;
+            //     return;
+            // }
+            //
+            // timer += Time.deltaTime;
+            //
+            // if (timer < timeBetweenChecks)
+            //     return;
+            //
+            //
+            // timer = 0f;
         }
 
         ITargetable FindClosestTarget()

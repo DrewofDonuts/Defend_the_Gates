@@ -10,12 +10,25 @@ namespace Etheral
 
         [Header("Debug")]
         [SerializeField] int currentHealth;
-        public Affiliation Affiliation { get; set; }
+        [SerializeField] Affiliation affiliation;
+        public Affiliation Affiliation 
+        {
+            get => affiliation;
+            set => affiliation = value;
+        }
         public event Action OnDie;
         public bool isHooked { get; set; }
 
+        void Start()
+        {
+            currentHealth = maxHealth;
+        }
+
         public void TakeHit(IDamage damage, float angle = default)
         {
+            
+            
+            
             if (currentHealth <= 0)
                 return;
 

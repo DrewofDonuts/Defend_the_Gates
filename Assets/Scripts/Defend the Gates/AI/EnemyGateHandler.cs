@@ -8,6 +8,8 @@ namespace Etheral
     public class EnemyGateHandler : MonoBehaviour
     {
         public List<Gate> gates = new();
+        
+        public bool IsAllGatesDestroyed => gates.All(gate => gate.IsDestroyed);
 
 
         public Gate GetClosestGate()

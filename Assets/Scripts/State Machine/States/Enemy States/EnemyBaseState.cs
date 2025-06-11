@@ -8,7 +8,7 @@ namespace Etheral
         protected bool isCounterAction;
         protected float timeBeforePatrol = 3f;
         protected float timerBeforePatrol;
-        protected AIComponentHandler aiComponents;
+        public AIComponentHandler aiComponents;
         protected List<TargetType> targetTypes;
         protected int gateIndex = -1;
         protected int fellowshipIndex = -1;
@@ -53,10 +53,10 @@ namespace Etheral
 
 
         #region AI Behavior Checking
-        protected void CheckHowAIShouldRespondToCombatRootMethod(float deltaTime)
+        protected void CheckCombatWIthTimer(float deltaTime)
         {
             checkNextActionTimer += deltaTime;
-
+            
             if (checkNextActionTimer > checkNextActionInterval)
             {
                 if (CheckPriorityAndTokenBeforeActions() && !enemyStateMachine.AITestingControl.idleAndImpactOnly)
