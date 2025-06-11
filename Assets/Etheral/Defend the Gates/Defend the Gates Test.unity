@@ -563,6 +563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 3
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!1 &88173614
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 3
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!1 &106718767
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,6 +917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 0
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!1 &161377385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3328,6 +3331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 0
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!54 &660744450
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5802,6 +5806,10 @@ MonoBehaviour:
   - {fileID: 1476481713}
   - {fileID: 1639430689}
   - {fileID: 2064728652}
+  defensesTargets:
+  - {fileID: 77374108}
+  - {fileID: 98443570}
+  - {fileID: 2059176122}
   gateVisuals: {fileID: 57434264}
 --- !u!1 &1166183538
 GameObject:
@@ -5899,6 +5907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 0
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!1001 &1184912167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9053,6 +9062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 0
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!1 &1703976490
 GameObject:
   m_ObjectHideFlags: 0
@@ -10464,6 +10474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 0
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!1 &1972516368
 GameObject:
   m_ObjectHideFlags: 0
@@ -10950,6 +10961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TargetType>k__BackingField: 3
   <Affiliation>k__BackingField: 1
+  gate: {fileID: 0}
 --- !u!1 &2064728650
 GameObject:
   m_ObjectHideFlags: 0
@@ -10995,7 +11007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d45ad38dec21a4da02a525311f0808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 50
   currentHealth: 0
   affiliation: 0
 --- !u!135 &2064728653
