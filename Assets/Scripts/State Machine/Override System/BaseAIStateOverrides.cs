@@ -7,7 +7,7 @@ namespace Etheral
     [InlineEditor]
     public abstract class BaseAIStateOverrides : ScriptableObject
     {
-        [field: SerializeField] public bool IsGateAttacking { get; private set; } = false;
+        [field: SerializeField] public bool IsGateAttacking { get;  set; } = false;
          
         [field: Header("Locomotion")]
         [field: SerializeField] public bool IsOverrideIdleState { get; private set; }
@@ -31,5 +31,7 @@ namespace Etheral
         public virtual void StartingOverrideState<T>(T stateMachine) where T : StateMachine { }
         public virtual void SpecialAttackOverrideState<T>(T stateMachine, int attackIndex = 0) where T : StateMachine { }
         public virtual void CounterAttackOverrideState<T>(T stateMachine, int attackIndex = 0) where T : StateMachine { }
+        
+        
     }
 }       

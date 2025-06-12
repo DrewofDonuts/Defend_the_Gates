@@ -29,9 +29,9 @@ namespace Etheral
         [SerializeField] PatrolController patrolController;
         [FoldoutGroup("AI Components")]
         [SerializeField] StatHandler statHandler;
-        [FormerlySerializedAs("aiGateHandler")]
+        [FormerlySerializedAs("enemyGateHandler")]
         [FoldoutGroup("AI Components")]
-        [SerializeField] EnemyGateHandler enemyGateHandler;
+        [SerializeField] AIGateHandler aiGateHandler;
 
 
         public AIStateSelector GetStateSelector() => stateSelector;
@@ -62,7 +62,7 @@ namespace Etheral
         public PatrolController GetPatrolController() => patrolController;
         public HighlightEffectControllerAI GetHighlightEffectController() => _highlightEffectControllerAI;
         public StatHandler GetStatHandler() => statHandler;
-        public EnemyGateHandler GetAIGateHandler() => enemyGateHandler;
+        public AIGateHandler GetAIGateHandler() => aiGateHandler;
 
         public T GetCustomController<T>() where T : Component
         {

@@ -66,6 +66,7 @@ namespace Defend_the_Gates.AI
 
                 // var spawnedEnemy = ObjectPoolManager.Instance.GetObject(enemyPrefab, randomPosition, Quaternion.identity,10);
                 var spawnedEnemy = Instantiate(enemyPrefab, randomPosition, transform.rotation);
+                spawnedEnemy.SetIsGateAttacking(true);
 
                 if (spawnedEnemy.Health != null)
                 {

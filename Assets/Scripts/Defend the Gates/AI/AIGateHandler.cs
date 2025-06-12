@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace Etheral
 {
-    public class EnemyGateHandler : MonoBehaviour
+    [DisallowMultipleComponent]
+    public class AIGateHandler : MonoBehaviour
     {
         public List<Gate> gates = new();
         

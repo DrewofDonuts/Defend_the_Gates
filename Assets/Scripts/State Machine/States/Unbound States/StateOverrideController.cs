@@ -42,6 +42,13 @@ namespace Etheral
                 return false;
             return _aiStateOverrides.IsOverrideIdleState;
         }
+        
+        public void SetIsGateAttackingOverride(bool isGateAttacking)
+        {
+            if (_aiStateOverrides == null)
+                return;
+            _aiStateOverrides.IsGateAttacking = isGateAttacking;
+        }
 
 
         //ST

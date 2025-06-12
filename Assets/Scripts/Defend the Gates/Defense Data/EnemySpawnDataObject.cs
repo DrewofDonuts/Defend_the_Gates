@@ -9,8 +9,11 @@ namespace Etheral.DefendTheGates
     public class EnemySpawnDataObject : ScriptableObject
     {
         [SerializeField] List<EnemySpawnData> enemySpawnData = new();
+        [SerializeField] bool isGateAttacking = true;
+        
         public List<EnemySpawnData> EnemySpawnData => enemySpawnData;
-
+       
+        
 
         void OnValidate()
         {

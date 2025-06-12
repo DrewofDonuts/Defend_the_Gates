@@ -46,6 +46,11 @@ namespace Etheral
 
         public bool CheckIfCounterActionIsReady() => counterActionReady;
 
+        public void SetIsGateAttacking(bool isGateAttacking)
+        {
+            aiComponents.GetOverrideStateController().SetIsGateAttackingOverride(isGateAttacking);
+        }
+
         protected override IEnumerator Start()
         {
             yield return base.Start();
