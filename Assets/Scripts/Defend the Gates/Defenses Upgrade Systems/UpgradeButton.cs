@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Etheral.Defenses
+namespace Etheral.DefendTheGates
 {
     public class UpgradeButton : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Etheral.Defenses
+namespace Etheral.DefendTheGates
 {
     public abstract class DefenseUpgrade : MonoBehaviour
     {

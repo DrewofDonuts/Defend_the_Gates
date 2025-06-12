@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Etheral.Defenses
+namespace Etheral.DefendTheGates
 {
     //Used to hold data for a specific upgrade branch in the upgrade system.
     //Branches are determined by what each upgrade level is

@@ -1,4 +1,4 @@
-﻿namespace Etheral.Defenses
+﻿namespace Etheral.DefendTheGates
 {
     public class ArcherTowerUpgrade : DefenseUpgrade
     {

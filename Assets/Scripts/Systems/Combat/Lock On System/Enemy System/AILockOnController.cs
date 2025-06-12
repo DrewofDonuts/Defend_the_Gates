@@ -149,7 +149,6 @@ namespace Etheral
             targetTransforms.Remove(targetToRemove.Transform);
             if (currentTarget == targetToRemove.Transform)
             {
-                Debug.Log("Setting current target to null");
                 currentTarget = null;
                 OnTargetChanged?.Invoke(null);
             }

@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using Etheral.DefendTheGates;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 
 namespace Etheral
 {
-    public class PlayerStateMachine : StateMachine
+    public class PlayerStateMachine : StateMachine, IGameStateListener
     {
         [field: BoxGroup("Components")]
         [field: SerializeField] public PlayerComponents PlayerComponents { get; private set; }
@@ -27,6 +28,7 @@ namespace Etheral
         public bool isThirdPerson;
 
 
+        public GameState CurrentGameState { get; set; }
         readonly PlayerProcessor processor = new();
 
         public bool isWalking { get; private set; }
@@ -73,6 +75,7 @@ namespace Etheral
                 Debug.LogError("Character Attributes is null in PlayerStateMachine");
 
             InputReader.PauseEvent += OnPauseButtonDown;
+            RegisterListener();
         }
 
         void OnDestroy()
@@ -80,6 +83,8 @@ namespace Etheral
             EventBusPlayerController.OnWalkEvent -= SetIfWalking;
             EventBusPlayerController.OnGroundAttackingEvent -= SetIsBeingGroundAttacked;
             InputReader.PauseEvent -= OnPauseButtonDown;
+            PlayerComponents.LockOnController.OnCurrentTarget -= SetCurrentTarget;
+            UnregisterListener();
         }
 
 
@@ -161,30 +166,9 @@ namespace Etheral
         }
 
 
-        // public override Transform GetTarget(Transform targetOverride = null)
-        // {
-        //     if (targetOverride != null)
-        //     {
-        //         Target = targetOverride;
-        //         return Target;
-        //     }
-        //
-        //     if (PlayerComponents.LockOnController.SelectTarget())
-        //     {
-        //         Target = PlayerComponents.LockOnController.GetCurrentTargetTransform();
-        //     }
-        //     else
-        //     {
-        //         Target = null;
-        //     }
-        //
-        //
-        //     return Target;
-        // }
-
         protected override void DisableCanvasGroup() => PlayerComponents.GetCanvasGroup().SetActive(false);
 
-        void Update()
+        new void  Update()
         {
             base.Update();
 
@@ -269,20 +253,19 @@ namespace Etheral
         }
 
 
-#if UNITY_EDITOR
-        [Button(ButtonSizes.Medium), GUIColor(.25f, .50f, 0f)]
-        public void LoadComponents()
+        public void OnGameStateChanged(GameState newGameState)
         {
-            LoadCommonComponents();
-            PlayerComponents = GetComponent<PlayerComponents>();
-
-            InputReader = GetComponentInChildren<InputReader>();
+            Debug.Log($"OnGameStateChanged: {newGameState}");
+            CurrentGameState = newGameState;
+            ChangePerspective(newGameState is GameState.AttackPhase or GameState.ExplorePhase or GameState.WavePhase );
         }
 
-        [Button("Change Perspective")]
+        public void RegisterListener() => GameStateManager.Instance?.RegisterListener(this);
+        public void UnregisterListener() => GameStateManager.Instance?.UnregisterListener(this);
+
+
         public void ChangePerspective(bool _isThirdPerson)
         {
-            isThirdPerson = _isThirdPerson;
             if (_isThirdPerson)
             {
                 SwitchState(new PlayerOffensiveState(this));
@@ -295,6 +278,15 @@ namespace Etheral
             }
         }
 
+#if UNITY_EDITOR
+        [Button(ButtonSizes.Medium), GUIColor(.25f, .50f, 0f)]
+        public void LoadComponents()
+        {
+            LoadCommonComponents();
+            PlayerComponents = GetComponent<PlayerComponents>();
+
+            InputReader = GetComponentInChildren<InputReader>();
+        }
 
         [Button("Switch to PlayerOffensiveState")]
         public void SwitchToOffensiveState()
@@ -304,5 +296,6 @@ namespace Etheral
 
 
 #endif
+
     }
 }

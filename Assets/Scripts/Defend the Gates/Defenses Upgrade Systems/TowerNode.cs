@@ -5,12 +5,12 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Etheral.Defenses
+namespace Etheral.DefendTheGates
 {
     //Tower node is the base class for all tower nodes in the game. 
     //This represents where the tower will be placed
     //And provides option for what kind of tower will be placed on it.
-    public class TowerNode : MonoBehaviour
+    public class TowerNode : MonoBehaviour, IGameStateListener
     {
         [Header("Tower Node Settings")]
         [SerializeField] UpgradeBranch upgradeBranch;
@@ -38,6 +38,8 @@ namespace Etheral.Defenses
         List<UpgradeButton> upgradeButtons = new();
 
         PlayerTowerController playerTowerController;
+        [field: SerializeField] public GameState CurrentGameState { get; private set; }
+
 
         //Update for Multiplayer
         bool isPlayerOccupyingNode;
@@ -48,6 +50,7 @@ namespace Etheral.Defenses
 
             worldSpaceCanvas.enabled = false;
             upgradeCanvas.enabled = false;
+            RegisterListener();
         }
 
         void OnDisable() =>
@@ -69,13 +72,13 @@ namespace Etheral.Defenses
         void DisplayCurrentUpgradeBranchOptions()
         {
             if (upgradeCosts.Count <= currentUpgradeLevel) return;
-                
 
-            
+
             foreach (var upgradeButton in upgradeButtons)
             {
                 Destroy(upgradeButton.gameObject);
             }
+
             upgradeButtons.Clear();
             worldSpaceCanvas.enabled = false;
             upgradeCanvas.enabled = true;
@@ -107,26 +110,45 @@ namespace Etheral.Defenses
         }
 
 
+        public void OnGameStateChanged(GameState newGameState)
+        {
+            CurrentGameState = newGameState;
+        }
+
+        public void RegisterListener()
+        {
+            GameStateManager.Instance?.RegisterListener(this);
+        }
+
+        public void UnregisterListener()
+        {
+            GameStateManager.Instance?.UnregisterListener(this);
+        }
+
+
         void OnTriggerEnter(Collider other)
         {
-            if (playerTowerController != null)
+            if (CurrentGameState is GameState.BasePhase)
             {
-                // If a player is already occupying the node, do not allow another player to occupy it.
-                return;
-            }
-
-            if (other.TryGetComponent(out PlayerTowerController _baseController))
-            {
-                var baseController = _baseController;
-                if (baseController != null)
+                if (playerTowerController != null)
                 {
-                    isPlayerOccupyingNode = true;
-                    playerTowerController = baseController;
+                    // If a player is already occupying the node, do not allow another player to occupy it.
+                    return;
+                }
 
-                    if (upgradeCosts.Count > currentUpgradeLevel)
+                if (other.TryGetComponent(out PlayerTowerController _baseController))
+                {
+                    var baseController = _baseController;
+                    if (baseController != null)
                     {
-                        nextUpgradeCostText.text = upgradeCosts[currentUpgradeLevel].ToString();
-                        worldSpaceCanvas.enabled = true;
+                        isPlayerOccupyingNode = true;
+                        playerTowerController = baseController;
+
+                        if (upgradeCosts.Count > currentUpgradeLevel)
+                        {
+                            nextUpgradeCostText.text = upgradeCosts[currentUpgradeLevel].ToString();
+                            worldSpaceCanvas.enabled = true;
+                        }
                     }
                 }
             }

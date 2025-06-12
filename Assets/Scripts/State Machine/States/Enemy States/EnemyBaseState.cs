@@ -99,7 +99,6 @@ namespace Etheral
         //IMPORTANT LOGIC TO DETERMINE PLAYER AND TARGETING PRIORITY
         bool ShouldEngageInTarget(bool isPlayerAttacking)
         {
-            Debug.Log($"Current Target is: {currentTarget?.Transform.name}");
 
             if (currentTarget == null) return false;
 

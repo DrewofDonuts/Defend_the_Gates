@@ -36,7 +36,7 @@ namespace Etheral
         public List<Health> spawnedEnemies = new(); // Track spawned enemies
         RunSceneData runSceneData;
         
-        WaitForSeconds wait = new(.15f);
+        WaitForSeconds waitTimeBeforeSpawn = new(.15f);
 
         bool stopSpawning;
 
@@ -74,12 +74,12 @@ namespace Etheral
 
             for (int i = 0; i < enemiesToSpawn; i++)
             {
-                yield return wait;
+                yield return waitTimeBeforeSpawn;
                 SpawnEnemy();
             }
         }
 
-        public void SpawnEnemy()
+         void SpawnEnemy()
         {
             if (stopSpawning) return;
 

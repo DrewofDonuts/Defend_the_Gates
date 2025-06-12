@@ -25,7 +25,7 @@ namespace Etheral
         //when the player is not loading a game - like when player is HandlingSceneLoaded
         public bool IsLoading;
         public bool isGameStarted;
-        public Action<GameState> OnSceneLoading;
+        public Action<string> OnSceneLoading;
 
         bool isNewGame;
 
@@ -177,12 +177,13 @@ namespace Etheral
             if (arg0.name == "Main Menu Scene")
             {
                 Debug.Log("Main Menu Scene Loaded");
-                OnSceneLoading?.Invoke(GameState.MainMenu);
             }
             else
             {
                 Debug.Log($"Handling Scene Loaded: {arg0.name}");
-                OnSceneLoading?.Invoke(GameState.BasePhase);
+
+                
+                OnSceneLoading?.Invoke(arg0.name);
 
                 //save the current level name to the gameData
                 gameData.CurrentLevelName = arg0.name;
@@ -218,6 +219,8 @@ namespace Etheral
                 // }
             }
         }
+
+
 
 
         void FindAndBindPlayer()

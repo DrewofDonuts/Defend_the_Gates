@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Etheral.Defenses
+namespace Etheral.DefendTheGates
 {
-    [CreateAssetMenu(fileName = "TowerData", menuName = "Etheral/DefendTheGates/TowerData", order = 1)]
+    [CreateAssetMenu(fileName = "TowerData", menuName = "Etheral/Defend The Gates/TowerData", order = 1)]
     public class TowerObject : ScriptableObject
     {
         [SerializeField] TowerData towerData;

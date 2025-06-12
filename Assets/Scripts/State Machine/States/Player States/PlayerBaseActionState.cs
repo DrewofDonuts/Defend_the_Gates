@@ -29,6 +29,8 @@ namespace Etheral
 
         void OnTowerModeDown()
         {
+            //Disabling for Testing - 06/12/2025
+            return;
             Debug.Log("Tower Mode Down");
             if (stateMachine.isThirdPerson)
             {

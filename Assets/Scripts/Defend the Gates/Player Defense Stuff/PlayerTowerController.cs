@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Etheral.Defenses
+namespace Etheral.DefendTheGates
 {
     public class PlayerTowerController : MonoBehaviour
     {

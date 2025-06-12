@@ -19,10 +19,13 @@ namespace Etheral
         public event Action JournalEvent;
         public event Action DRightEvent;
         public event Action LeftBumperEvent;
+        public event Action ModeSelectEvent;
+        public event Action ModeSelectCancelEvent;
 
 
         public bool IsSouthButton { get; set; }
         public bool IsNorthButton { get; set; }
+        public bool IsWaveToggle { get; set; }
 
         public event Action EventCanceled;
 
@@ -150,8 +153,21 @@ namespace Etheral
         }
 
         public void OnWeaponAbility(InputAction.CallbackContext context) { }
+
         public void OnTowerModeTabSelect(InputAction.CallbackContext context)
-        { }
+        {
+            if (context.performed)
+            {
+                IsWaveToggle = true;
+                ModeSelectEvent?.Invoke();
+            }
+
+            if (context.canceled)
+            {
+                IsWaveToggle = false;
+                ModeSelectCancelEvent?.Invoke();
+            }
+        }
 
         public void OnMousePosition(InputAction.CallbackContext context)
         {

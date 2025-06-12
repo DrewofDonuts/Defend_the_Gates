@@ -97,8 +97,6 @@ namespace Etheral
             if (WeaponDamage == null) return;
             if (_alreadyCollidedWith.Contains(other)) return;
             
-            Debug.Log($"WeaponRigidBody collided with: {other.name}");
-            
                 _alreadyCollidedWith.Add(other);
                 WeaponDamage.HandleCollision(other);
                 
