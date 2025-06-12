@@ -10,6 +10,8 @@ namespace Defend_the_Gates.AI
 {
     public class EnemyWaveSpawner : MonoBehaviour
     {
+        [SerializeField] GameStateController gameStateController;
+        
         [Header("Enemy Spawner")]
         int numberOfEnemies;
 
@@ -18,8 +20,8 @@ namespace Defend_the_Gates.AI
         [SerializeField] float rectWidth = 10f;
         [Tooltip("Define the dimensions of the rectangular area")]
         [SerializeField] float rectHeight = 5f;
-        
-        
+
+
         float minSpawnDistance;
         bool spawnOnStart;
 
@@ -32,14 +34,20 @@ namespace Defend_the_Gates.AI
 
         bool stopSpawning;
 
+        //How many waves to spawn in total for this sequence
+        int totalSwarmsForCurrentWave;
+        int currentSwarmCount;
 
-        public void SpawnEnemies(int numberToSpawn, EnemySpawnDataObject spawnData )
+
+        public void SpawnEnemies(SwarmInfo swarmInfo)
         {
             if (stopSpawning) return;
-            
-            StartCoroutine(SpawnEnemyCoroutine(numberToSpawn, spawnData));
+
+            var swarm = swarmInfo;
+            totalSwarmsForCurrentWave = swarm.swarmsToSpawn;
+            StartCoroutine(SpawnEnemyCoroutine(swarm.enemyCount, swarmInfo.enemySpawnDataObject));
         }
-        
+
 
         IEnumerator SpawnEnemyCoroutine(int numberToSpawn, EnemySpawnDataObject spawnDataObject)
         {
@@ -47,6 +55,7 @@ namespace Defend_the_Gates.AI
 
             for (int i = 0; i < enemiesToSpawn; i++)
             {
+                currentSwarmCount++;
                 yield return waitTimeBeforeSpawn;
                 SpawnEnemy(spawnDataObject);
             }
@@ -80,6 +89,11 @@ namespace Defend_the_Gates.AI
         {
             DeRegisterEvents(obj);
             spawnedEnemies.Remove(obj);
+
+            if (currentSwarmCount >= totalSwarmsForCurrentWave && spawnedEnemies.Count == 0)
+            {
+                gameStateController.EndWavePhase();
+            }
         }
 
         void DeRegisterEvents(Health enemy)

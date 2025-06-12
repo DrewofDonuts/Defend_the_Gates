@@ -129,6 +129,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 2112036232}
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
       propertyPath: enemyGateHandler
       value: 
       objectReference: {fileID: 2112036232}
@@ -1626,6 +1631,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 363642628}
     m_Modifications:
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 325418981}
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
       propertyPath: enemyGateHandler
@@ -3184,6 +3194,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 363642628}
     m_Modifications:
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 637324860}
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
       propertyPath: enemyGateHandler
@@ -5764,6 +5779,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 1054115109}
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
       propertyPath: enemyGateHandler
       value: 
       objectReference: {fileID: 1054115109}
@@ -5983,7 +6003,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1146620856}
-  m_Father: {fileID: 1560554267}
+  m_Father: {fileID: 1971940245}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6936,7 +6956,7 @@ GameObject:
   - component: {fileID: 1192379997}
   - component: {fileID: 1192379996}
   m_Layer: 0
-  m_Name: Enemy Wave Spawner
+  m_Name: 'Enemy  Spawner [Waves]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6954,6 +6974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b88824ba44dc4f1b969a0fd1afacc59c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameStateController: {fileID: 1971940244}
   rectWidth: 20
   rectHeight: 10
   spawnedEnemies: []
@@ -6980,6 +7001,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 363642628}
     m_Modifications:
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 1230829850}
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
       propertyPath: enemyGateHandler
@@ -7246,6 +7272,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 363642628}
     m_Modifications:
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 1242623622}
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
       propertyPath: enemyGateHandler
@@ -8080,6 +8111,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 1353447124}
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
       propertyPath: enemyGateHandler
       value: 
       objectReference: {fileID: 1353447124}
@@ -8781,6 +8817,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 1555969114}
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
       propertyPath: enemyGateHandler
       value: 
       objectReference: {fileID: 1555969114}
@@ -8977,34 +9018,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1560554267}
-  - component: {fileID: 1560554266}
   - component: {fileID: 1560554268}
   m_Layer: 0
-  m_Name: WaveHandler
+  m_Name: Wave System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1560554266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560554265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 121061c4e0ec4424b01ea65c8701c552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveCanvas: {fileID: 1067648333}
-  inputObject: {fileID: 11400000, guid: d967bb0cfb34b344e93bd45efc705a37, type: 2}
-  radialFill: {fileID: 1153150807}
-  holdTime: 2
-  resetSpeed: 2
-  holdProgress: 0
-  isHolding: 0
 --- !u!4 &1560554267
 Transform:
   m_ObjectHideFlags: 0
@@ -9017,8 +9038,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1067648330}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1560554268
@@ -9034,11 +9054,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - enemyCount: 30
+  - enemyCount: 1
+    swarmsToSpawn: 1
+    currentSwarmCount: 0
+    timeBetweenSwarms: 5
     enemySpawnDataObject: {fileID: 11400000, guid: 01f4c4352c3740a4881b5e51adfff01e,
       type: 2}
   enemySpawner: {fileID: 1192379996}
-  currentWave: 0
+  currentWaveIndex: 0
 --- !u!1001 &1564528146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10216,6 +10239,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 1798907530}
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
       propertyPath: enemyGateHandler
       value: 
       objectReference: {fileID: 1798907530}
@@ -11101,6 +11129,58 @@ MonoBehaviour:
   <TargetType>k__BackingField: 0
   <Affiliation>k__BackingField: 1
   gate: {fileID: 0}
+--- !u!1 &1971940243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1971940245}
+  - component: {fileID: 1971940244}
+  m_Layer: 0
+  m_Name: Game State Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1971940244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971940243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121061c4e0ec4424b01ea65c8701c552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveCanvas: {fileID: 1067648333}
+  inputObject: {fileID: 11400000, guid: d967bb0cfb34b344e93bd45efc705a37, type: 2}
+  radialFill: {fileID: 1153150807}
+  holdTime: 2
+  resetSpeed: 2
+  holdProgress: 0
+  isHolding: 0
+--- !u!4 &1971940245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971940243}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.8973556, y: 4.2450914, z: 14.101012}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1067648330}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972516368
 GameObject:
   m_ObjectHideFlags: 0
@@ -12376,6 +12456,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
         type: 3}
+      propertyPath: aiGateHandler
+      value: 
+      objectReference: {fileID: 2123453475}
+    - target: {fileID: 134389521023567059, guid: 8342334af4f88e2479bde89640176166,
+        type: 3}
       propertyPath: enemyGateHandler
       value: 
       objectReference: {fileID: 2123453475}
@@ -12719,17 +12804,17 @@ PrefabInstance:
     - target: {fileID: 8293689711017104481, guid: 2de5471d3999f664ba4e1eb5bc4a3b91,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8293689711017104481, guid: 2de5471d3999f664ba4e1eb5bc4a3b91,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8293689711017104481, guid: 2de5471d3999f664ba4e1eb5bc4a3b91,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8638131457988471349, guid: 2de5471d3999f664ba4e1eb5bc4a3b91,
         type: 3}
@@ -12879,3 +12964,4 @@ SceneRoots:
   - {fileID: 1588238240}
   - {fileID: 1560554267}
   - {fileID: 1192379997}
+  - {fileID: 1971940245}

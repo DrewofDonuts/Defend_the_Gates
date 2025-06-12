@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Etheral.DefendTheGates
 {
-    public class WaveInitializer : MonoBehaviour
+    public class GameStateController : MonoBehaviour
     {
         [SerializeField] Canvas waveCanvas;
         [SerializeField] InputObject inputObject;
@@ -39,8 +39,7 @@ namespace Etheral.DefendTheGates
 
             isHolding = inputObject.IsWaveToggle;
         }
-
-
+        
         void Update()
         {
             if (isHolding)
@@ -49,7 +48,7 @@ namespace Etheral.DefendTheGates
 
                 if (holdProgress >= 1f)
                 {
-                    OnComplete();
+                    OnStartWavePhase();
                     holdProgress = 0f;
                     isHolding = false;
                 }
@@ -62,10 +61,14 @@ namespace Etheral.DefendTheGates
             radialFill.fillAmount = Mathf.Clamp01(holdProgress);
         }
 
-
-        void OnComplete()
+        void OnStartWavePhase()
         {
             GameStateManager.Instance.SetGameState(GameState.WavePhase);
+        }
+
+        public void EndWavePhase()
+        {
+            GameStateManager.Instance.SetGameState(GameState.BasePhase);
         }
     }
 }
