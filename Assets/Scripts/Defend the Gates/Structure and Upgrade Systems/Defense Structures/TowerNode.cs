@@ -16,7 +16,6 @@ namespace Etheral.DefendTheGates
         [SerializeField] UpgradeBranch upgradeBranch;
         [SerializeField] List<int> upgradeCosts = new();
 
-        [FormerlySerializedAs("towerCanvas")]
         [Header("Upgrade UI References")]
         [SerializeField] Canvas upgradeCanvas;
         [SerializeField] GameObject buttonHolder;

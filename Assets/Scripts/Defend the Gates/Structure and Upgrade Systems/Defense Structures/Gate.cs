@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Etheral.DefendTheGates;
 using UnityEngine;
 
 namespace Etheral
 {
-    public class Gate : MonoBehaviour
+    public class Gate : MonoBehaviour, IStructure
     {
         [Header("Gate References")]
         [SerializeField] List<DefensesHealth> defensesHealth;
