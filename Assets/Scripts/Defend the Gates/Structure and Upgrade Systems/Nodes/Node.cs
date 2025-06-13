@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace Etheral.DefendTheGates
 {
-    //Tower node is the base class for all tower nodes in the game. 
-    //This represents where the tower will be placed
-    //And provides option for what kind of tower will be placed on it.
-    public class TowerNode : MonoBehaviour, IGameStateListener, INode
+    public class Node : MonoBehaviour, INode, IGameStateListener
     {
-        [Header("Tower Node Settings")]
-        [SerializeField] UpgradeBranch<TowerObject> upgradeBranch;
+        [Header("Settings")]
+        [Tooltip(" This determines what upgrades are available for this node.")]
+        [SerializeField] UpgradeBranch<StructureObject> upgradeBranch;
+        [Tooltip("Costs for each upgrade level, starting from level 0.")]
         [SerializeField] List<int> upgradeCosts = new();
+
 
         [Header("Upgrade UI References")]
         [SerializeField] Canvas upgradeCanvas;
@@ -29,19 +26,14 @@ namespace Etheral.DefendTheGates
         [Header("References")]
         [SerializeField] InputObject inputObject;
 
-        [Header("Debug")]
-        public GameObject currentTowerPrefab;
-
-        int currentUpgradeLevel;
-
-        List<UpgradeButton> upgradeButtons = new();
-
-        PlayerTowerController playerTowerController;
-        [field: SerializeField] public GameState CurrentGameState { get; private set; }
-
 
         //Update for Multiplayer
         bool isPlayerOccupyingNode;
+        GameObject currentPrefab;
+        public GameState CurrentGameState { get; private set; }
+        PlayerTowerController playerTowerController;
+        List<UpgradeButton> upgradeButtons = new();
+        int currentUpgradeLevel;
 
         void Start()
         {
@@ -82,12 +74,12 @@ namespace Etheral.DefendTheGates
             worldSpaceCanvas.enabled = false;
             upgradeCanvas.enabled = true;
 
-            foreach (var towerObject in upgradeBranch.upgradeDataList)
+            foreach (var towerObject in upgradeBranch.upgradeObjectList)
             {
-                if (currentUpgradeLevel == towerObject.TowerData.Level)
+                if (currentUpgradeLevel == towerObject.UpgradeData.Level)
                 {
                     var button = Instantiate(upgradeButtonPrefab, buttonHolder.transform);
-                    button.Initialize(towerObject.TowerData, this);
+                    button.Initialize(towerObject.UpgradeData, this);
                     upgradeButtons.Add(button);
                 }
             }
@@ -95,15 +87,15 @@ namespace Etheral.DefendTheGates
 
         public void Upgrade(IUpgradable data)
         {
-            if (currentTowerPrefab != null)
+            if (currentPrefab != null)
             {
                 // Destroy the current tower prefab if it exists
-                Destroy(currentTowerPrefab);
+                Destroy(currentPrefab);
             }
 
             //Instantiate on network
             var newTower = Instantiate(data.Prefab, transform.position, Quaternion.identity);
-            currentTowerPrefab = newTower;
+            currentPrefab = newTower;
             upgradeCanvas.enabled = false;
             currentUpgradeLevel++;
         }

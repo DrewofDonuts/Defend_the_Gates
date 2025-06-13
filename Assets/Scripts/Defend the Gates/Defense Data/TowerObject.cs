@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Etheral.DefendTheGates
 {
     [CreateAssetMenu(fileName = "TowerData", menuName = "Etheral/Defend The Gates/TowerData", order = 1)]
-    public class TowerObject : ScriptableObject
+    public class TowerObject : StructureObject
     {
         [SerializeField] TowerData towerData;
 
-        public TowerData TowerData => towerData;
+        public override IUpgradable UpgradeData => towerData;
     }
 
     [Serializable]

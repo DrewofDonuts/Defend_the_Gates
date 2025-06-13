@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Etheral.DefendTheGates
 {
@@ -8,8 +9,8 @@ namespace Etheral.DefendTheGates
     //Branches are determined by what each upgrade level is
     //EX: all level 1 upgrades are in one branch, all level 2 upgrades are in another branch, etc.
     [Serializable]
-    public class UpgradeBranch<T> where T :  ScriptableObject
+    public class UpgradeBranch<T> where T :  StructureObject
     {
-        public List<T> upgradeDataList = new ();
+       public List<T> upgradeObjectList = new ();
     }
 }

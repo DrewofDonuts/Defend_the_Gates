@@ -4,10 +4,10 @@ using UnityEngine;
 namespace Etheral.DefendTheGates
 {
     [CreateAssetMenu(fileName = "GeneratorObject", menuName = "Defend The Gates/GeneratorObject", order = 1)]
-    public class GeneratorObject : ScriptableObject
+    public class GeneratorObject : StructureObject
     {
         [SerializeField] GeneratorData generatorData;
-        public GeneratorData GeneratorData => generatorData;
+        public override IUpgradable UpgradeData => generatorData;
     }
 
     [Serializable]
