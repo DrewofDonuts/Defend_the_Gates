@@ -8,8 +8,8 @@ namespace Etheral.DefendTheGates
     //Branches are determined by what each upgrade level is
     //EX: all level 1 upgrades are in one branch, all level 2 upgrades are in another branch, etc.
     [Serializable]
-    public class UpgradeBranch
+    public class UpgradeBranch<T> where T :  ScriptableObject
     {
-        public List<TowerObject> towerDataList = new ();
+        public List<T> upgradeDataList = new ();
     }
 }

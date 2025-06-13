@@ -11,7 +11,7 @@ namespace Etheral.DefendTheGates
     }
 
     [Serializable]
-    public class GeneratorData
+    public class GeneratorData : IUpgradable
     {
         [SerializeField] string generatorName;
         [SerializeField] GameObject generatorPrefab;
@@ -21,11 +21,11 @@ namespace Etheral.DefendTheGates
         [SerializeField] int resourceBonusPerWave;
         [SerializeField] float health;
 
-        public string GeneratorName => generatorName;
-        public GameObject GeneratorPrefab => generatorPrefab;
+        public string Name => generatorName;
         public string Description => description;
         public Sprite GeneratorIcon => generatorIcon;
         public int Level => level;
+        public GameObject Prefab => generatorPrefab;
         public int ResourceBonusPerWave => resourceBonusPerWave;
         public float Health => health;
     }

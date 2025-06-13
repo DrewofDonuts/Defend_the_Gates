@@ -14,21 +14,21 @@ namespace Etheral.DefendTheGates
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI descriptionText;
         
-        TowerNode towerNode;
-        TowerData towerData;
+        INode node;
+        IUpgradable upgradeData;
         
-        public void Initialize(TowerData data, TowerNode node)
+        public void Initialize(IUpgradable data, INode _node)
         {
-            towerData = data;
-            towerNode = node;
-            nameText.text = towerData.TowerName;
-            descriptionText.text = towerData.Description;
+            upgradeData = data;
+            node = _node;
+            nameText.text = upgradeData.Name;
+            descriptionText.text = upgradeData.Description;
             upgradeButton.onClick.AddListener(OnUpgradeButtonClicked);
         }
 
         void OnUpgradeButtonClicked()
         {
-            towerNode.Upgrade(towerData);
+            node.Upgrade(upgradeData);
         }
     }
 }

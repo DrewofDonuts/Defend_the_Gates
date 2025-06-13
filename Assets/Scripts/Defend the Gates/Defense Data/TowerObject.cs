@@ -12,7 +12,7 @@ namespace Etheral.DefendTheGates
     }
 
     [Serializable]
-    public class TowerData
+    public class TowerData : IUpgradable
     {
         [SerializeField] string towerName;
         [SerializeField] GameObject towerPrefab;
@@ -25,8 +25,10 @@ namespace Etheral.DefendTheGates
         [SerializeField] float health;
         [SerializeField] float projectileSpeed;
         
-        public string TowerName => towerName;
-        public GameObject TowerPrefab => towerPrefab;
+        // public string TowerName => towerName;
+        public string Name => towerName;
+        // public GameObject TowerPrefab => towerPrefab;
+        public GameObject Prefab => towerPrefab;
         public string Description => description;
         public Sprite TowerIcon => towerIcon;
         public int Level => level;

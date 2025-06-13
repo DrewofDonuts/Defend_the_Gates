@@ -10,10 +10,10 @@ namespace Etheral.DefendTheGates
     //Tower node is the base class for all tower nodes in the game. 
     //This represents where the tower will be placed
     //And provides option for what kind of tower will be placed on it.
-    public class TowerNode : MonoBehaviour, IGameStateListener
+    public class TowerNode : MonoBehaviour, IGameStateListener, INode
     {
         [Header("Tower Node Settings")]
-        [SerializeField] UpgradeBranch upgradeBranch;
+        [SerializeField] UpgradeBranch<TowerObject> upgradeBranch;
         [SerializeField] List<int> upgradeCosts = new();
 
         [Header("Upgrade UI References")]
@@ -82,7 +82,7 @@ namespace Etheral.DefendTheGates
             worldSpaceCanvas.enabled = false;
             upgradeCanvas.enabled = true;
 
-            foreach (var towerObject in upgradeBranch.towerDataList)
+            foreach (var towerObject in upgradeBranch.upgradeDataList)
             {
                 if (currentUpgradeLevel == towerObject.TowerData.Level)
                 {
@@ -93,7 +93,7 @@ namespace Etheral.DefendTheGates
             }
         }
 
-        public void Upgrade(TowerData data)
+        public void Upgrade(IUpgradable data)
         {
             if (currentTowerPrefab != null)
             {
@@ -102,7 +102,7 @@ namespace Etheral.DefendTheGates
             }
 
             //Instantiate on network
-            var newTower = Instantiate(data.TowerPrefab, transform.position, Quaternion.identity);
+            var newTower = Instantiate(data.Prefab, transform.position, Quaternion.identity);
             currentTowerPrefab = newTower;
             upgradeCanvas.enabled = false;
             currentUpgradeLevel++;
