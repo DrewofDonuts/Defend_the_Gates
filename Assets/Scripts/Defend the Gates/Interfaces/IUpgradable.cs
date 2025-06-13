@@ -9,4 +9,5 @@ namespace Etheral.DefendTheGates
         GameObject Prefab { get; }
         string Description { get; }
     }
+    
 }

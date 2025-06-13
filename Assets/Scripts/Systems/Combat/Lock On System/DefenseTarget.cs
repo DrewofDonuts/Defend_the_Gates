@@ -7,9 +7,7 @@ namespace Etheral
     {
         [field: SerializeField] public TargetType TargetType { get; set; }
         [field: SerializeField] public Affiliation Affiliation { get; set; }
-        [SerializeField] Gate gate;
-
-
+        
         public Transform Transform { get; private set; }
         public event Action<ITargetable> OnDestroyed;
 

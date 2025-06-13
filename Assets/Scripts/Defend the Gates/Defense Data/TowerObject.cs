@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Etheral.DefendTheGates
 {
@@ -22,11 +23,12 @@ namespace Etheral.DefendTheGates
         [SerializeField] int damage;
         [SerializeField] float attackRange;
         [SerializeField] float attackSpeed;
-        [SerializeField] float health;
+        [SerializeField] float maxMaxHealth;
         [SerializeField] float projectileSpeed;
-        
+
         // public string TowerName => towerName;
         public string Name => towerName;
+
         // public GameObject TowerPrefab => towerPrefab;
         public GameObject Prefab => towerPrefab;
         public string Description => description;
@@ -35,7 +37,7 @@ namespace Etheral.DefendTheGates
         public int Damage => damage;
         public float AttackRange => attackRange;
         public float AttackSpeed => attackSpeed;
-        public float Health => health;
+        public float MaxHealth => maxMaxHealth;
         public float ProjectileSpeed => projectileSpeed;
     }
 }
