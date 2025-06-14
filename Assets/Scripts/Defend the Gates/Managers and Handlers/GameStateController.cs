@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -64,10 +65,17 @@ namespace Etheral.DefendTheGates
         void OnStartWavePhase()
         {
             GameStateManager.Instance.SetGameState(GameState.WavePhase);
+            GameStateManager.Instance.IncrementWave();
         }
 
         public void EndWavePhase()
         {
+            StartCoroutine( EndWavePhaseCoroutine());
+        }
+
+        IEnumerator EndWavePhaseCoroutine()
+        {
+            yield return new WaitForSeconds(4f); // Wait for 1 second before transitioning
             GameStateManager.Instance.SetGameState(GameState.BasePhase);
         }
     }

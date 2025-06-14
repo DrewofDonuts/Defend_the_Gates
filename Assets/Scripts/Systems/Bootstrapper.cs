@@ -32,11 +32,20 @@ namespace Etheral
         {
             foreach (var system in systems)
             {
+                system.gameObject.SetActive(true);
                 if (system is IInitialize initializer)
                 {
                     initializers.Add(initializer);
                     initializer.Initialize();
                 }
+            }
+        }
+
+        void OnValidate()
+        {
+            foreach (var sys in systems)
+            {
+                sys.gameObject.SetActive(false);
             }
         }
     }

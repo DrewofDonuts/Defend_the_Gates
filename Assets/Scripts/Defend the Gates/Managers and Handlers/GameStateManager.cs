@@ -12,6 +12,10 @@ namespace Etheral
         static GameStateManager instance;
         public static GameStateManager Instance => instance;
 
+
+        public int CurrentWave { get; private set; } = 0;
+
+
         void Awake()
         {
             if (instance == null)
@@ -45,13 +49,18 @@ namespace Etheral
         public void SetGameState(GameState newGameState)
         {
             if (CurrentGameState == newGameState) return;
-            
+
             CurrentGameState = newGameState;
 
             foreach (var listener in gameStateListeners)
             {
                 listener.OnGameStateChanged(newGameState);
             }
+        }
+
+        public void IncrementWave()
+        {
+            CurrentWave++;
         }
 
         GameState SetGameModeBasedOnSceneName(string arg0)

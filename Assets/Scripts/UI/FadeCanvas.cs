@@ -14,7 +14,6 @@ namespace Etheral
 
         void Start()
         {
-
             if (fadeOnStart)
             {
                 switch (fadeType)
@@ -30,8 +29,7 @@ namespace Etheral
                 }
             }
         }
-
-
+        
         public void FadeToOne()
         {
             StartCoroutine(Fade(canvasGroup.alpha, 1f));
