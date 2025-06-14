@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace Etheral.DefendTheGates
 {
-    public class PlayerTowerController : MonoBehaviour
+    public class PlayerNodeController : MonoBehaviour
     {
         [SerializeField] InputObject inputObject;
        [SerializeField] int resources = 100;

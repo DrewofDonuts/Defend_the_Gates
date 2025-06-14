@@ -61,7 +61,6 @@ namespace Etheral.DefendTheGates
 
             foreach (var gen in activeGenerators)
             {
-                if (gen.IsDestroyed) continue;
                 totalGain += gen.GetResourceBonus();
             }
 
@@ -81,6 +80,7 @@ namespace Etheral.DefendTheGates
 
         public void RegisterGenerator(Generator generator)
         {
+            Debug.Log($"Attempting to register generator: {generator.name}");
             if (!activeGenerators.Contains(generator))
                 activeGenerators.Add(generator);
         }

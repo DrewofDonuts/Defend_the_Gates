@@ -88,6 +88,8 @@ namespace Etheral
                 Debug.Log(
                     $"GameStateManager: Registering listener {listener.GetType().Name} for game state {CurrentGameState}");
                 gameStateListeners.Add(listener);
+                
+                // Notify the listener of the current game state - this is important for initial setup
                 listener.OnGameStateChanged(CurrentGameState);
             }
         }

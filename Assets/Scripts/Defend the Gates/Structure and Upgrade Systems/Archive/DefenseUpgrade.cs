@@ -18,7 +18,7 @@ namespace Etheral.DefendTheGates
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerTowerController _baseController))
+            if (other.TryGetComponent(out PlayerNodeController _baseController))
             {
                 var baseController = _baseController;
                 if (baseController != null)
@@ -31,7 +31,7 @@ namespace Etheral.DefendTheGates
         
         void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out PlayerTowerController _baseController))
+            if (other.TryGetComponent(out PlayerNodeController _baseController))
             {
                 var baseController = _baseController;
                 if (baseController != null)
