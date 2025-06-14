@@ -13,7 +13,7 @@ namespace Etheral
         public static GameStateManager Instance => instance;
 
 
-        public int CurrentWave { get; private set; } = 0;
+        public int CurrentWave { get; private set; }
 
 
         void Awake()
@@ -61,6 +61,7 @@ namespace Etheral
         public void IncrementWave()
         {
             CurrentWave++;
+            Debug.Log($"Wave incremented to {CurrentWave}");
         }
 
         GameState SetGameModeBasedOnSceneName(string arg0)

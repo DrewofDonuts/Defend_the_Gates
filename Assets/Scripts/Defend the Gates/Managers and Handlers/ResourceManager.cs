@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Etheral.DefendTheGates
@@ -13,8 +14,9 @@ namespace Etheral.DefendTheGates
         List<Generator> activeGenerators = new();
 
         [SerializeField] int baseResourcesPerWave = 100;
+        public event Action<int> OnResourcesChanged; 
 
-        public int LastWaveResources { get; private set; }
+        // public int LastWaveResources { get; private set; }
 
         void Awake()
         {
@@ -55,7 +57,6 @@ namespace Etheral.DefendTheGates
             // Only grant resources if the game is in the base phase and a wave has been completed
             if (GameStateManager.Instance.CurrentWave == 0) return;
 
-            LastWaveResources = 0;
             int totalGain = baseResourcesPerWave;
 
             foreach (var gen in activeGenerators)
@@ -65,7 +66,8 @@ namespace Etheral.DefendTheGates
             }
 
             CurrentResources += totalGain;
-            LastWaveResources = totalGain;
+            OnResourcesChanged?.Invoke(totalGain);
+       
             Debug.Log($"Wave complete. Gained {totalGain} resources. Total: {CurrentResources}");
         }
 
