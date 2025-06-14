@@ -3,39 +3,26 @@ using UnityEngine;
 
 namespace Etheral.DefendTheGates
 {
-    public class Generator : MonoBehaviour, IStructure
+    public class Generator : Structure
     {
         [SerializeField] int resourceBonusPerWave = 50;
-        [SerializeField] DefensesHealth defensesHealth;
-        public bool IsDestroyed { get; private set; }
 
         int currentResourceBonusPerWave;
 
 
         void Start()
         {
-            defensesHealth.OnDie += HandleGeneratorDestroyed;
             currentResourceBonusPerWave = resourceBonusPerWave;
         }
-
-        void OnDisable()
-        {
-            if (defensesHealth != null)
-            {
-                defensesHealth.OnDie -= HandleGeneratorDestroyed;
-            }
-        }
-
-        void HandleGeneratorDestroyed()
+        
+        public override void HandleDestroyed()
         {
             IsDestroyed = true;
         }
-        
+
         public int GetResourceBonus()
         {
             return currentResourceBonusPerWave;
-
         }
     }
-    
 }

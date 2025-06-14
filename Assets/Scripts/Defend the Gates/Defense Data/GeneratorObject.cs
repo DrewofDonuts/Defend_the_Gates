@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Etheral.DefendTheGates
 {
-    [CreateAssetMenu(fileName = "GeneratorObject", menuName = "Defend The Gates/GeneratorObject", order = 1)]
+    [CreateAssetMenu(fileName = "GeneratorObject", menuName = "Etheral/Defend The Gates/GeneratorObject", order = 1)]
     public class GeneratorObject : StructureObject
     {
         [SerializeField] GeneratorData generatorData;

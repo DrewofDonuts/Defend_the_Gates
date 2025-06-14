@@ -10,8 +10,7 @@ namespace Etheral
         protected float timerBeforePatrol;
         public AIComponentHandler aiComponents;
         protected List<TargetType> targetTypes;
-        protected int gateIndex = -1;
-        protected int fellowshipIndex = -1;
+
 
         protected EnemyStateMachine enemyStateMachine;
         protected EnemyStateBlocks enemyStateBlocks;
@@ -23,12 +22,7 @@ namespace Etheral
             enemyStateBlocks = new EnemyStateBlocks(enemyStateMachine, this);
             animationHandler = enemyStateMachine.GetAIComponents().GetAnimationHandler();
             targetTypes = aiComponents.GetAILockOnController().AIPriorities;
-
-            if (targetTypes.Contains(TargetType.Gate))
-                gateIndex = targetTypes.IndexOf(TargetType.Gate);
-
-            if (targetTypes.Contains(TargetType.Fellowship))
-                fellowshipIndex = targetTypes.IndexOf(TargetType.Fellowship);
+            
         }
 
 

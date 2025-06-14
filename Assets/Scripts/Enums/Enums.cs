@@ -6,7 +6,7 @@
         Fellowship = 1,
         AI = 2,
         Gate = 3,
-        Tower = 4,
+        Structure = 4,
         Enemy = 5,
     }
 
