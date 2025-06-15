@@ -32,13 +32,13 @@ namespace Etheral
             if (targetCheckTimer < targetCheckInterval) return;
             if (aiComponents.GetAILockOnController() == null) return;
             if (currentState == null) return;
-            currentTarget = GetTarget();
+            currentTarget = GetLockedOnTarget();
             currentState.SetCurrentTarget(currentTarget);
 
             targetCheckTimer = 0f;
         }
 
-        public override ITargetable GetTarget()
+        public override ITargetable GetLockedOnTarget()
         {
             var target = GetAIComponents().GetAILockOnController().GetTarget();
 

@@ -106,8 +106,11 @@ namespace Etheral
         }
 
 
-        void Update()
+        //TODO: MUST OPTIMIZE
+        void FixedUpdate()
         {
+            if(!WeaponDamage.isActive) return;
+            
             if (transform.localPosition != Vector3.zero)
                 transform.localPosition = Vector3.zero;
 

@@ -23,7 +23,7 @@ namespace Etheral.DefendTheGates
         {
             inputObject.ModeSelectEvent += OnModeSelectPressed;
             inputObject.ModeSelectCancelEvent += OnModeSelectPressed;
-            radialFill.fillAmount = 0f; // Initialize fill amount
+            radialFill.fillAmount = 0f; // Initialize fill amount   
         }
 
         void OnDisable()

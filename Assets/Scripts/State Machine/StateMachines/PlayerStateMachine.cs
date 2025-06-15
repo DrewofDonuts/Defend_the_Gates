@@ -107,6 +107,7 @@ namespace Etheral
 
         protected override void HandleTakeHit(IDamage iDamage)
         {
+            if (IsGodMode) return;
             processor.TakeHit(iDamage, this);
         }
 
@@ -168,7 +169,7 @@ namespace Etheral
 
         protected override void DisableCanvasGroup() => PlayerComponents.GetCanvasGroup().SetActive(false);
 
-        new void  Update()
+        new void Update()
         {
             base.Update();
 
@@ -257,7 +258,7 @@ namespace Etheral
         {
             Debug.Log($"OnGameStateChanged: {newGameState}");
             CurrentGameState = newGameState;
-            ChangePerspective(newGameState is GameState.AttackPhase or GameState.ExplorePhase or GameState.WavePhase );
+            ChangePerspective(newGameState is GameState.AttackPhase or GameState.ExplorePhase or GameState.WavePhase);
         }
 
         public void RegisterListener() => GameStateManager.Instance?.RegisterListener(this);
@@ -296,6 +297,5 @@ namespace Etheral
 
 
 #endif
-
     }
 }

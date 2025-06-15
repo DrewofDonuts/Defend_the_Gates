@@ -54,8 +54,13 @@ namespace Etheral
 
         protected abstract void EnterStartingState();
         protected abstract void HandlePlayerStateChange(StateType newstatetype);
-        public abstract ITargetable GetTarget();
+        public abstract ITargetable GetLockedOnTarget();
 
+
+        public ITargetable GetCurrentTarget()
+        {
+            return currentTarget;
+        }
 
         protected virtual IEnumerator Start()
         {

@@ -19,15 +19,16 @@ public class EnemyProcessor : StateMachineProcessor<EnemyStateMachine>
 
             if (stateMachine.canPreventImpacts && stateMachine.impactCounter >= stateMachine.impactCounterMax)
                 return;
-            stateMachine.SwitchState(new EnemyImpactState(stateMachine));
+   
+            stateMachine.SwitchState(new EnemyImpactState(stateMachine, iDamage));
         }
 
         if (health.CurrentDefense > 0)
             stateMachine.GetAIComponents().GetHighlightEffectController().TriggerDefenseHitEffect();
         else
             stateMachine.GetAIComponents().GetHighlightEffectController().TriggerTakeHitEffect();
-        
-        
+
+
         // if (CheckIfKnockedBack(iDamage.KnockBackForce, health.CharacterAttributes.KnockBackDefense))
         //     stateMachine.ForceReceiver.AddForce(iDamage.Direction);
     }

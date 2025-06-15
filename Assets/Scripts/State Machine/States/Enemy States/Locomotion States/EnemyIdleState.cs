@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Etheral
 {
-     public class EnemyIdleState : EnemyBaseState
+    public class EnemyIdleState : EnemyBaseState
     {
         // static readonly int LocomotionState = Animator.StringToHash("Locomotion");
         // static readonly int ForwardSpeed = Animator.StringToHash("ForwardSpeed");
@@ -38,7 +38,7 @@ namespace Etheral
             else
                 animationHandler.CrossFadeInFixedTime(IdleState);
 
-            if (enemyStateMachine.stateIndicator != null)
+            if (enemyStateMachine.stateIndicator != null && enemyStateMachine.AITestingControl.displayStateIndicator)
                 enemyStateMachine.stateIndicator.color = Color.green;
 
             EventBusPlayerStatesToDeprecate.OnPlayerChangeState += OnPlayerChangeStateChanged;
@@ -51,7 +51,7 @@ namespace Etheral
 
             if (!IsInChaseRangeTarget())
                 HandlePatrolLogic(deltaTime);
-            
+
             if (IsInChaseRangeTarget() && enemyStateMachine.GetHostile())
                 RotateTowardsTargetSmooth(60f);
 
@@ -68,8 +68,6 @@ namespace Etheral
 
             CheckCombatWIthTimer(deltaTime);
         }
-
-
 
 
         public override void Exit()

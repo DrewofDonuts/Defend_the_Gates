@@ -108,12 +108,7 @@ namespace Etheral
 
             return targetDistanceSqr <= detectionRange * detectionRange;
         }
-
-        protected void GetTargetInUpdateLoop()
-        {
-            currentTarget = stateMachine.GetTarget();
-        }
-
+        
         protected float GetPlayerDistance()
         {
             return Vector3.Distance(stateMachine.transform.position, stateMachine.GetPlayer().transform.position);
@@ -143,7 +138,7 @@ namespace Etheral
 
         public bool IsInMeleeRange()
         {
-            if (stateMachine.GetTarget() == null) return false;
+            if(currentTarget == null) return false;
             if (!stateMachine.AIAttributes.isMelee) return false;
 
             var targetDistanceSqr =
@@ -156,7 +151,7 @@ namespace Etheral
 
         public bool IsInCustomRange(float range)
         {
-            if (stateMachine.GetTarget() == null) return false;
+            if(currentTarget == null) return false;
             var targetDistanceSqr =
                 (GetCurrentTargetPosition() - stateMachine.transform.position).sqrMagnitude;
 
@@ -166,7 +161,7 @@ namespace Etheral
         // Checks if the enemy is a Ranged Unit and is in the Ranged Attack Range
         public bool IsInRangedRange()
         {
-            if (stateMachine.GetTarget() == null) return false;
+            if(currentTarget == null) return false;
 
             //Commented out because it leads to issues for non-ranged AI who have a ranged attack
             // if (!stateMachine.AIAttributes.isRanged) return false;
@@ -250,7 +245,7 @@ namespace Etheral
         #region Rotation Methods
         protected void RotateTowardsTargetSnap()
         {
-            if (stateMachine.GetTarget() == null) return;
+            if (currentTarget == null) return;
             if (stateMachine.AITestingControl.blockRotate) return;
 
             var lookPos = GetCurrentTargetPosition() - stateMachine.transform.position;
@@ -262,7 +257,7 @@ namespace Etheral
         protected void RotateTowardsTargetSmooth(float rotationSpeed)
         {
             if (stateMachine.AITestingControl.blockRotate) return;
-            if (stateMachine.GetTarget() == null) return;
+            if (stateMachine.GetLockedOnTarget() == null) return;
 
 
             var lookDirection = (GetCurrentTargetPosition() - stateMachine.transform.position).normalized;

@@ -13,6 +13,9 @@ namespace Etheral
         public PlayerPositionData playerPositionData = new();
         public string Name => CharacterAttributes.Name;
 
+        [Header("Dev Mode")]
+        public bool godHealth;
+
 
         public override float CurrentHolyCharge { get; set; }
 
@@ -146,6 +149,8 @@ namespace Etheral
 
         public override void TakeHit(IDamage damage, float angle = default)
         {
+            if (godHealth) return;
+
             if (CurrentHealth <= 0 || IsVulnerable) return;
 
 

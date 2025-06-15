@@ -66,7 +66,7 @@ namespace Etheral
                         return;
                     }
 
-                    if (!IsInMeleeRange())
+                    if (IsInChaseRangeTarget())
                     {
                         enemyStateBlocks.SwitchToChase();
                         return;

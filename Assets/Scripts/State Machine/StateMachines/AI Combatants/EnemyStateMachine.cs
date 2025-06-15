@@ -89,8 +89,10 @@ namespace Etheral
             Release();
         }
 
+        
+        
 
-        public override ITargetable GetTarget()
+        public override ITargetable GetLockedOnTarget()
         {
             // if (!CharacterManager.Instance.IsReady) return default;
 
@@ -151,13 +153,23 @@ namespace Etheral
             GetAIComponents().GetCanvasGroup().SetActive(false);
         }
 
+        float updateInterval = 0.1f; // run every 100ms (10 FPS)
+        float updateTimer = 0f;
+
+
+        //TODO: MUST OPTIMIZE
         protected new void Update()
         {
             base.Update();
 
+            updateTimer += Time.deltaTime;
+            if (updateTimer < updateInterval) return;
+            updateTimer = 0f;
+            
             if (aiComponents.GetAILockOnController() == null) return;
             if(currentState == null) return;
-            currentTarget = GetTarget();
+            
+            currentTarget = GetLockedOnTarget();
             currentState.SetCurrentTarget(currentTarget);
 
 
@@ -173,9 +185,10 @@ namespace Etheral
         protected override void HandleTakeHit(IDamage iDamage)
         {
             if (AITestingControl.blockSwitchState) return;
-
+            
             // stateMachineProcessor.TakeHit(iDamage, this);
             processor.TakeHit(iDamage, this);
+            
         }
 
         protected override void HandleBlock(IDamage iDamage)
@@ -242,8 +255,8 @@ namespace Etheral
         {
             // if (!AIAttributes.CanCounterAction) return;
 
-            if (isStartcounterTimer)
-            {
+            if(!isStartcounterTimer && currentTarget  == null) return;
+    
                 impactCounterTimer += Time.deltaTime;
 
                 if (impactCounterTimer >= impactCounterTime)
@@ -253,7 +266,7 @@ namespace Etheral
                     impactCounterTimer = 0;
                     isStartcounterTimer = false;
                 }
-            }
+            
         }
 
         void OnDrawGizmosSelected()

@@ -6,6 +6,8 @@ namespace Etheral
     {
         Gate currentGate;
         Vector3 gatePosition;
+        float gateCheckTimer;
+        float gateCheckInterval = 1.5f; // Interval to check for the gate
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public EnemyMoveToGateState(EnemyStateMachine _stateMachine) : base(_stateMachine) { }
@@ -17,10 +19,28 @@ namespace Etheral
             aiComponents.GetNavMeshAgentController().SetRotation(true);
             GetGate();
             stateMachine.SetStateType(StateType.MoveToGate);
+
+            if (enemyStateMachine.stateIndicator != null && enemyStateMachine.AITestingControl.displayStateIndicator)
+                enemyStateMachine.stateIndicator.color = Color.magenta;
         }
 
         public override void Tick(float deltaTime)
         {
+            gateCheckTimer += deltaTime;
+            if (gateCheckTimer > gateCheckInterval)
+            {
+                if (Vector3.Distance(stateMachine.transform.position, gatePosition) < 2f)
+                {
+                    // Switch to the next state when close enough to the gate
+                    stateMachine.SwitchState(new EnemyAttackingState(enemyStateMachine));
+
+                    // enemyStateBlocks.CheckAttacksFromLocomotionState();
+                    return;
+                }
+
+                gateCheckTimer = 0f;
+            }
+
             Move(deltaTime);
 
             // if (currentGate == null)
@@ -35,23 +55,14 @@ namespace Etheral
             Move(gatePosition, stateMachine.AIAttributes.WalkSpeed, deltaTime);
 
 
-            if (Vector3.Distance(stateMachine.transform.position, gatePosition) < 2f)
-            {
-                // Switch to the next state when close enough to the gate
-                stateMachine.SwitchState(new EnemyAttackingState(enemyStateMachine));
-
-                // enemyStateBlocks.CheckAttacksFromLocomotionState();
-                return;
-            }
-
             CheckCombatWIthTimer(deltaTime);
         }
 
         void GetGate()
         {
             currentGate = aiComponents.GetAIGateHandler().GetClosestGate();
-            
-            
+
+
             currentGate.OnGateDestroyed += HandleGateDestroyed;
             gatePosition = currentGate.transform.position;
         }

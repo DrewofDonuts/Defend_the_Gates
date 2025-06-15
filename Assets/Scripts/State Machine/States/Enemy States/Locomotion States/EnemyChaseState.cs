@@ -22,6 +22,8 @@ namespace Etheral
         public override void Enter()
         {
             stateMachine.OnChangeStateMethod(StateType.Chase);
+            aiComponents.GetNavMeshAgentController().SetRotation(true);
+
 
             animationHandler.CrossFadeInFixedTime(Locomotion);
             if (enemyStateMachine.AIAttributes.CanBlock && enemyStateMachine.Health.CurrentDefense > 0)
@@ -138,6 +140,8 @@ namespace Etheral
         public override void Exit()
         {
             enemyStateMachine.StopAllCoroutines();
+            aiComponents.GetNavMeshAgentController().SetRotation(false);
+
             EventBusPlayerStatesToDeprecate.OnPlayerChangeState -= OnPlayerChangeStateChanged;
 
             enemyStateMachine.GetAIComponents().navMeshAgentController.ResetNavAgent();

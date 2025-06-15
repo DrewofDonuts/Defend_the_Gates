@@ -4,14 +4,38 @@ namespace Etheral
 {
     public class EnemyImpactState : EnemyBaseState
     {
-        public EnemyImpactState(EnemyStateMachine stateMachine) : base(stateMachine) { }
+        IDamage attackerInfo;
+
+        public EnemyImpactState(EnemyStateMachine stateMachine, IDamage _attackerInfo) : base(stateMachine)
+        {
+            attackerInfo = _attackerInfo;
+        }
 
         public override void Enter()
         {
             animationHandler.CrossFadeInFixedTime(Impact);
-            RotateTowardsTargetSnap();
+            // RotateTowardsTargetSnap();
+            // RotateTowardsAttackerSnap();
+
+            
 
             enemyStateMachine.WeaponHandler.DisableAllMeleeWeapons();
+        }
+
+        void RotateTowardsAttackerSnap()
+        {
+            if (attackerInfo == null) return;
+            if(attackerInfo.AttackerID == -1) return; 
+            if (stateMachine.AITestingControl.blockRotate) return;
+            
+            if(attackerInfo.Transform == null)
+                Debug.Log("Attacker Transform is null in Impact State");
+            
+
+            var lookPos = attackerInfo.Transform.position - enemyStateMachine.transform.position;
+            lookPos.y = 0f;
+
+            stateMachine.transform.rotation = Quaternion.LookRotation(lookPos);
         }
 
         public override void Tick(float deltaTime)
