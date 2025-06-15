@@ -37,40 +37,44 @@ namespace Etheral.DefendTheGates
         {
             if (GameStateManager.Instance.CurrentGameState != GameState.BasePhase) return;
 
-
             isHolding = inputObject.IsWaveToggle;
         }
-        
+
         void Update()
         {
-            if (isHolding)
-            {
-                holdProgress += Time.deltaTime / holdTime;
+            if (GameStateManager.Instance.CurrentGameState != GameState.BasePhase) return;
+            holdProgress = UIFillUtility.UpdateRadialFill(radialFill, isHolding, holdProgress, holdTime, resetSpeed,
+                OnStartWavePhase);
 
-                if (holdProgress >= 1f)
-                {
-                    OnStartWavePhase();
-                    holdProgress = 0f;
-                    isHolding = false;
-                }
-            }
-            else if (holdProgress > 0f)
-            {
-                holdProgress -= Time.deltaTime * resetSpeed;
-            }
-
-            radialFill.fillAmount = Mathf.Clamp01(holdProgress);
+            // if (isHolding)
+            // {
+            //     holdProgress += Time.deltaTime / holdTime;
+            //
+            //     if (holdProgress >= 1f)
+            //     {
+            //         OnStartWavePhase();
+            //         holdProgress = 0f;
+            //         isHolding = false;
+            //     }
+            // }
+            // else if (holdProgress > 0f)
+            // {
+            //     holdProgress -= Time.deltaTime * resetSpeed;
+            // }
+            //
+            // radialFill.fillAmount = Mathf.Clamp01(holdProgress);
         }
 
         void OnStartWavePhase()
         {
             GameStateManager.Instance.SetGameState(GameState.WavePhase);
             GameStateManager.Instance.IncrementWave();
+            isHolding = false; // Reset holding state
         }
 
         public void EndWavePhase()
         {
-            StartCoroutine( EndWavePhaseCoroutine());
+            StartCoroutine(EndWavePhaseCoroutine());
         }
 
         IEnumerator EndWavePhaseCoroutine()

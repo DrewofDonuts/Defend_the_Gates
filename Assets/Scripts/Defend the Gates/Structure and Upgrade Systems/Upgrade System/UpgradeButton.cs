@@ -13,6 +13,10 @@ namespace Etheral.DefendTheGates
         [Header("Text References")]
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI descriptionText;
+
+
+        [Header("UI Reference")]
+        [SerializeField] Image radialProgressFill;
         
         INode node;
         IUpgradable upgradeData;
