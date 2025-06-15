@@ -1,6 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Etheral.DefendTheGates
@@ -13,10 +13,9 @@ namespace Etheral.DefendTheGates
         [Header("Text References")]
         [SerializeField] TextMeshProUGUI nameText;
         [SerializeField] TextMeshProUGUI descriptionText;
+        
+        public Button UpgradeButtonComponent => upgradeButton;
 
-
-        [Header("UI Reference")]
-        [SerializeField] Image radialProgressFill;
         
         INode node;
         IUpgradable upgradeData;
@@ -34,5 +33,7 @@ namespace Etheral.DefendTheGates
         {
             node.Upgrade(upgradeData);
         }
+
+  
     }
 }

@@ -12,6 +12,7 @@ namespace Etheral
         public event Action PauseEvent;
         public event Action NorthButtonEvent;
         public event Action SouthButtonEvent;
+        public event Action SouthButtonCancelEvent;
         public event Action<Vector2> RotationEvent;
         public event Action RightStickDown;
         public event Action LeftStickDownEvent;
@@ -94,10 +95,11 @@ namespace Etheral
                 SouthButtonEvent?.Invoke();
                 DialogueEvent?.Invoke();
             }
-            else if (context.canceled)
+
+            if (context.canceled)
             {
-                EventCanceled?.Invoke();
                 IsSouthButton = false;
+                SouthButtonCancelEvent?.Invoke();
             }
         }
 

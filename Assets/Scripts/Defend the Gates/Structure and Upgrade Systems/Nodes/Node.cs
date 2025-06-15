@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Etheral.DefendTheGates
 {
@@ -20,6 +22,7 @@ namespace Etheral.DefendTheGates
         [Header("World Space UI References")]
         [SerializeField] Canvas worldSpaceCanvas;
         [SerializeField] TextMeshProUGUI nextUpgradeCostText;
+        [SerializeField] Image radialFillImage;
 
 
         [Header("References")]
@@ -33,29 +36,58 @@ namespace Etheral.DefendTheGates
         public GameState CurrentGameState { get; private set; }
         PlayerNodeController playerNodeController;
         List<UpgradeButton> upgradeButtons = new();
-        
-        int currentUpgradeIndex ;
+
+        int currentUpgradeIndex;
         int currentUpgradeLevel => currentUpgradeIndex + 1; // Level starts from 0, so index 0 is level 1
+
+        //Network variable to prevent multiple players from accessing  the same node
+        bool isMenuOpen => upgradeCanvas.enabled;
+
+        float holdProgress;
+        bool isHolding;
+
 
         void Start()
         {
             inputObject.SouthButtonEvent += OnSouthButtonPressed;
+            inputObject.SouthButtonCancelEvent += OnSouthButtonPressed;
 
             worldSpaceCanvas.enabled = false;
             upgradeCanvas.enabled = false;
             RegisterListener();
+            radialFillImage.fillAmount = 0f; // Initialize fill amount
         }
 
-        void OnDisable() =>
+        void OnDisable()
+        {
             inputObject.SouthButtonEvent -= OnSouthButtonPressed;
+            inputObject.SouthButtonCancelEvent -= OnSouthButtonPressed;
+        }
 
 
         void OnSouthButtonPressed()
+        {
+            isHolding = inputObject.IsSouthButton;
+        }
+
+        void Update()
+        {
+            holdProgress = UIFillUtility.UpdateRadialFill(
+                radialFillImage,
+                isHolding,
+                holdProgress,
+                2f, // Assuming 1 second to hold for the upgrade
+                2f, // Reset speed
+                OnComplete);
+        }
+
+        void OnComplete()
         {
             if (isPlayerOccupyingNode && playerNodeController != null)
             {
                 if (upgradeBranch != null)
                 {
+                    playerNodeController.EnterUIState();
                     DisplayCurrentUpgradeBranchOptions();
                 }
             }
@@ -65,6 +97,8 @@ namespace Etheral.DefendTheGates
         void DisplayCurrentUpgradeBranchOptions()
         {
             if (upgradeCosts.Count <= currentUpgradeIndex) return;
+            if (isMenuOpen) return;
+            Button firstButton = null;
 
 
             foreach (var upgradeButton in upgradeButtons)
@@ -83,6 +117,12 @@ namespace Etheral.DefendTheGates
                     var button = Instantiate(upgradeButtonPrefab, buttonHolder.transform);
                     button.Initialize(towerObject.UpgradeData, this);
                     upgradeButtons.Add(button);
+
+                    if (firstButton == null)
+                    {
+                        firstButton = button.UpgradeButtonComponent; // Set the first button to be selected
+                        firstButton.Select();
+                    }
                 }
             }
         }
@@ -100,6 +140,8 @@ namespace Etheral.DefendTheGates
             currentPrefab = newTower;
             upgradeCanvas.enabled = false;
             currentUpgradeIndex++;
+
+            playerNodeController.ExitUIState();
         }
 
 

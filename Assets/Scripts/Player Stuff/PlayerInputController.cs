@@ -66,7 +66,7 @@ namespace Etheral
             else if (device is Gamepad)
             {
                 // Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                // Cursor.visible = false;
                 lastInputType = InputType.gamePad;
                 mouseAimController.SetIsMouseAndKeyboardEnabled(false);
             }

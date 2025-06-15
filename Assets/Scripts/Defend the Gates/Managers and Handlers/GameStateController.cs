@@ -45,24 +45,7 @@ namespace Etheral.DefendTheGates
             if (GameStateManager.Instance.CurrentGameState != GameState.BasePhase) return;
             holdProgress = UIFillUtility.UpdateRadialFill(radialFill, isHolding, holdProgress, holdTime, resetSpeed,
                 OnStartWavePhase);
-
-            // if (isHolding)
-            // {
-            //     holdProgress += Time.deltaTime / holdTime;
-            //
-            //     if (holdProgress >= 1f)
-            //     {
-            //         OnStartWavePhase();
-            //         holdProgress = 0f;
-            //         isHolding = false;
-            //     }
-            // }
-            // else if (holdProgress > 0f)
-            // {
-            //     holdProgress -= Time.deltaTime * resetSpeed;
-            // }
-            //
-            // radialFill.fillAmount = Mathf.Clamp01(holdProgress);
+            
         }
 
         void OnStartWavePhase()
