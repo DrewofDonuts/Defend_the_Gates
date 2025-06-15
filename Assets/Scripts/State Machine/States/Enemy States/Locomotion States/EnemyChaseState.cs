@@ -9,6 +9,7 @@ namespace Etheral
         protected const float ChaseDampTime = 0.1f;
         protected const float TimeBeforeStrafe = .1f;
         protected const float TimeBeforeAttack = 0.2f;
+        protected const float TimeBeforeCheck = .15f;
         protected WaitForSeconds waitBeforeGroundAttack = new(1f);
 
 
@@ -24,7 +25,8 @@ namespace Etheral
             Debug.Log("Entering Chase State");
             stateMachine.OnChangeStateMethod(StateType.Chase);
             aiComponents.GetNavMeshAgentController().SetRotation(true);
-            aiComponents.GetNavMeshAgentController().GetAgent().angularSpeed = enemyStateMachine.AIAttributes.RotateSpeed;
+            aiComponents.GetNavMeshAgentController().GetAgent().angularSpeed =
+                enemyStateMachine.AIAttributes.RotateSpeed;
 
 
             animationHandler.CrossFadeInFixedTime(Locomotion);
@@ -33,12 +35,11 @@ namespace Etheral
 
             if (enemyStateMachine.stateIndicator != null)
                 enemyStateMachine.stateIndicator.color = Color.blue;
-            
+
             aiComponents.GetNavMeshAgentController().SetAgentSpeed(enemyStateMachine.AIAttributes.RunSpeed);
         }
 
 
-        
         public override void Tick(float deltaTime)
         {
             Move(deltaTime);
@@ -54,23 +55,21 @@ namespace Etheral
             //     return;
             // }
 
-
             Move(GetCurrentTargetPosition(),
                 enemyStateMachine.AIAttributes.RunSpeed, deltaTime);
+            animationHandler.SetFloatWithDampTime(ForwardSpeed, movementSpeed, ChaseDampTime, deltaTime);
+
+
+            timer += deltaTime;
+            if (timer < TimeBeforeCheck)
+                return;
+            
+            Debug.Log($"Chase State Timer: {timer}");
 
 
             if (IsInMeleeRange() && !CheckPriorityAndTokenBeforeActions())
             {
-
-                // Decelerate(deltaTime);
-                if (!stateMachine.AIAttributes.CanStrafe && movementSpeed < 0.1f)
-                {
-                    Debug.Log("Switching to Base State from Chase");
-                    enemyStateBlocks.SwitchToBaseState();
-                    return;
-                }
-
-                if (stateMachine.AIAttributes.CanStrafe && movementSpeed < 0.1f)
+                if (stateMachine.AIAttributes.CanStrafe)
                 {
                     enemyStateBlocks.SwitchToStrafe();
                     return;
@@ -81,28 +80,20 @@ namespace Etheral
             {
                 if (CheckPriorityAndTokenBeforeActions())
                 {
-                    timer += deltaTime;
-
                     // Decelerate(deltaTime);
-                    if (timer > TimeBeforeAttack)
-                    {
+
                         if (enemyStateBlocks.CheckAttacksFromLocomotionState())
                             return;
-                    }
                 }
             }
-            else
-                timer = 0;
-
-
-            animationHandler.SetFloatWithDampTime(ForwardSpeed, movementSpeed, ChaseDampTime, deltaTime);
-
 
             if (!IsInChaseRangeTarget())
             {
+                Debug.Log("Switching to Base State from Chase");
                 enemyStateBlocks.SwitchToBaseState();
                 return;
             }
+            timer = 0;
         }
 
         protected void HandleSwitchingToStrafe(float deltaTime)
@@ -118,7 +109,7 @@ namespace Etheral
         {
             enemyStateMachine.StopAllCoroutines();
             aiComponents.GetNavMeshAgentController().SetRotation(false);
-            
+
             enemyStateMachine.GetAIComponents().navMeshAgentController.ResetNavAgent();
             enemyStateMachine.GetAIComponents().navMeshAgentController.SetVelocityToKeepInSyncWithCC(
                 Vector3.zero);

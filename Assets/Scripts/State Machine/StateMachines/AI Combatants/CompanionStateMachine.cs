@@ -33,7 +33,6 @@ namespace Etheral
             if (aiComponents.GetAILockOnController() == null) return;
             if (currentState == null) return;
             currentTarget = GetLockedOnTarget();
-            currentState.SetCurrentTarget(currentTarget);
 
             targetCheckTimer = 0f;
         }

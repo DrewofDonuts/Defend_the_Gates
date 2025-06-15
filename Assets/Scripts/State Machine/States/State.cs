@@ -28,11 +28,11 @@ namespace Etheral
         protected static readonly int Idle = Animator.StringToHash("Idle");
 
         
-        protected ITargetable currentTarget;
+        // protected ITargetable currentTarget;
         
                 
-        public void SetCurrentTarget(ITargetable target) =>
-            currentTarget = target;
+        // public void SetCurrentTarget(ITargetable target) =>
+        //     currentTarget = target;
         
 
 

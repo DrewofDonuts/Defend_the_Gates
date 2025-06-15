@@ -94,9 +94,9 @@ namespace Etheral
         bool ShouldEngageInTarget(bool isPlayerAttacking)
         {
 
-            if (currentTarget == null) return false;
+            if (GetCurrentTarget() == null) return false;
 
-            if (!targetTypes.Contains(currentTarget.TargetType))
+            if (!targetTypes.Contains(GetCurrentTarget().TargetType))
                 return false;
 
             if (IsInChaseRangeTarget())

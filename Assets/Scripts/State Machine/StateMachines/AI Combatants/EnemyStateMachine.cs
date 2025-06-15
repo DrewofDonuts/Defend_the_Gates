@@ -170,9 +170,7 @@ namespace Etheral
             if(currentState == null) return;
             
             currentTarget = GetLockedOnTarget();
-            currentState.SetCurrentTarget(currentTarget);
-
-
+            
             // if (aiComponents.GetNavMeshAgentController().GetAgent().isOnOffMeshLink &&
             //     StateType != StateType.JumpOffMeshLink)
             // {

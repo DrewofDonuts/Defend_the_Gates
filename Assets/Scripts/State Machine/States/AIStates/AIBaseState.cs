@@ -40,11 +40,12 @@ namespace Etheral
                 overrides = _stateMachine.GetAIComponents().GetOverrideStateController().GetStateOverrides();
         }
 
+        protected ITargetable GetCurrentTarget() => stateMachine.GetCurrentTarget();
         
         protected Vector3 GetCurrentTargetPosition()
         {
-            if (currentTarget == null) return default;
-            return currentTarget.Transform.position;
+            if (GetCurrentTarget() == null) return default;
+            return GetCurrentTarget().Transform.position;
         }
 
         protected void Move(Vector3 desiredDirection, float deltaTime)
@@ -96,7 +97,7 @@ namespace Etheral
 
         public bool IsInChaseRangeTarget()
         {
-            if (currentTarget == null) return false;
+            if (GetCurrentTarget() == null) return false;
 
             var targetDistanceSqr = (GetCurrentTargetPosition() - stateMachine.transform.position).sqrMagnitude;
 
@@ -127,7 +128,7 @@ namespace Etheral
 
         public bool IsInStrafeRange()
         {
-            if (currentTarget == null) return false;
+            if (GetCurrentTarget() == null) return false;
 
             var targetDistanceSq =
                 (GetCurrentTargetPosition() - stateMachine.transform.position).sqrMagnitude;
@@ -138,7 +139,7 @@ namespace Etheral
 
         public bool IsInMeleeRange()
         {
-            if(currentTarget == null) return false;
+            if(GetCurrentTarget() == null) return false;
             if (!stateMachine.AIAttributes.isMelee) return false;
 
             var targetDistanceSqr =
@@ -151,7 +152,7 @@ namespace Etheral
 
         public bool IsInCustomRange(float range)
         {
-            if(currentTarget == null) return false;
+            if(GetCurrentTarget() == null) return false;
             var targetDistanceSqr =
                 (GetCurrentTargetPosition() - stateMachine.transform.position).sqrMagnitude;
 
@@ -161,7 +162,7 @@ namespace Etheral
         // Checks if the enemy is a Ranged Unit and is in the Ranged Attack Range
         public bool IsInRangedRange()
         {
-            if(currentTarget == null) return false;
+            if(GetCurrentTarget() == null) return false;
 
             //Commented out because it leads to issues for non-ranged AI who have a ranged attack
             // if (!stateMachine.AIAttributes.isRanged) return false;
@@ -192,7 +193,7 @@ namespace Etheral
         // Checks if the enemy is in the adjacent attack range
         public bool IsAdjacentRange()
         {
-            if (currentTarget == null) return false;
+            if (GetCurrentTarget() == null) return false;
 
             var distance = Vector3.Distance(stateMachine.transform.position, GetCurrentTargetPosition());
 
@@ -245,7 +246,7 @@ namespace Etheral
         #region Rotation Methods
         protected void RotateTowardsTargetSnap()
         {
-            if (currentTarget == null) return;
+            if (GetCurrentTarget() == null) return;
             if (stateMachine.AITestingControl.blockRotate) return;
 
             var lookPos = GetCurrentTargetPosition() - stateMachine.transform.position;
