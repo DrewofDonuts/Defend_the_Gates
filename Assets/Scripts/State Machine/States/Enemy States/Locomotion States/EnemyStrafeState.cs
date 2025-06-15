@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Etheral
 {
-    public class EnemyStrafeState : EnemyBaseLocomotionState
+    public class EnemyStrafeState : EnemyBaseState
     {
         float targetSpeed;
 

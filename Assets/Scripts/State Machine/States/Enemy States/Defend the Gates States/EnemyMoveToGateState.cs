@@ -55,7 +55,25 @@ namespace Etheral
             Move(gatePosition, stateMachine.AIAttributes.WalkSpeed, deltaTime);
 
 
-            CheckCombatWIthTimer(deltaTime);
+            // CheckCombatWIthTimer(deltaTime);
+            
+            if (enemyStateBlocks.CheckAttacksFromLocomotionState())
+                return;
+
+            if (enemyStateBlocks.CanStrafe())
+            {
+                enemyStateBlocks.SwitchToStrafe();
+                return;
+            }
+
+            if (IsInChaseRangeTarget())
+            {
+                Debug.Log("Should Switch Chase");
+                enemyStateBlocks.SwitchToChase();
+                return;
+            }
+            
+            Debug.Log("Gate State");
         }
 
         void GetGate()

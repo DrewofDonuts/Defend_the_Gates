@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Etheral
 {
-    public class EnemyChaseState : EnemyBaseLocomotionState
+    public class EnemyChaseState : EnemyBaseState
     {
         protected const float ChaseDampTime = 0.1f;
         protected const float TimeBeforeStrafe = .1f;
@@ -21,8 +21,10 @@ namespace Etheral
 
         public override void Enter()
         {
+            Debug.Log("Entering Chase State");
             stateMachine.OnChangeStateMethod(StateType.Chase);
             aiComponents.GetNavMeshAgentController().SetRotation(true);
+            aiComponents.GetNavMeshAgentController().GetAgent().angularSpeed = enemyStateMachine.AIAttributes.RotateSpeed;
 
 
             animationHandler.CrossFadeInFixedTime(Locomotion);
@@ -31,43 +33,18 @@ namespace Etheral
 
             if (enemyStateMachine.stateIndicator != null)
                 enemyStateMachine.stateIndicator.color = Color.blue;
-
             
-            if (enemyStateBlocks == null)
-                enemyStateBlocks = new EnemyStateBlocks(enemyStateMachine, this);
-
-            EventBusPlayerStatesToDeprecate.OnPlayerChangeState += OnPlayerChangeStateChanged;
-
             aiComponents.GetNavMeshAgentController().SetAgentSpeed(enemyStateMachine.AIAttributes.RunSpeed);
         }
 
-        public void OnPlayerChangeStateChanged(StateType newstatetype)
-        {
-            // if (!enemyStateMachine.GetHostile()) return;
-            // if (newstatetype == StateType.KnockedDown &&
-            //     GetPlayerDistance() < stateMachine.AIAttributes.RangedAttackRange &&
-            //     stateMachine.AIAttributes.HasGroundAttack)
-            // {
-            //     enemyStateMachine.StartCoroutine(WaitBeforeGroundAttack());
-            // }
-            // else if (newstatetype != StateType.KnockedDown)
-            // {
-            //     enemyStateMachine.StopCoroutine(WaitBeforeGroundAttack());
-            // }
-        }
 
-        //Disabling Ground Attacks
-        IEnumerator WaitBeforeGroundAttack()
-        {
-            yield return waitBeforeGroundAttack;
-            enemyStateMachine.SwitchState(new EnemyGroundAttackState(enemyStateMachine));
-        }
-
+        
         public override void Tick(float deltaTime)
         {
             Move(deltaTime);
 
-            RotateTowardsTargetSmooth(enemyStateMachine.AIAttributes.RotateSpeed);
+            //Disabled for testing to have navmesh agent rotate 06/15/2025
+            // RotateTowardsTargetSmooth(enemyStateMachine.AIAttributes.RotateSpeed);
             HandleSwitchingToStrafe(deltaTime);
 
 
@@ -84,11 +61,11 @@ namespace Etheral
 
             if (IsInMeleeRange() && !CheckPriorityAndTokenBeforeActions())
             {
-                Debug.Log("If in Melee Range and no token");
 
                 // Decelerate(deltaTime);
                 if (!stateMachine.AIAttributes.CanStrafe && movementSpeed < 0.1f)
                 {
+                    Debug.Log("Switching to Base State from Chase");
                     enemyStateBlocks.SwitchToBaseState();
                     return;
                 }
@@ -141,9 +118,7 @@ namespace Etheral
         {
             enemyStateMachine.StopAllCoroutines();
             aiComponents.GetNavMeshAgentController().SetRotation(false);
-
-            EventBusPlayerStatesToDeprecate.OnPlayerChangeState -= OnPlayerChangeStateChanged;
-
+            
             enemyStateMachine.GetAIComponents().navMeshAgentController.ResetNavAgent();
             enemyStateMachine.GetAIComponents().navMeshAgentController.SetVelocityToKeepInSyncWithCC(
                 Vector3.zero);

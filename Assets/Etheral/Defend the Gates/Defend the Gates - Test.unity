@@ -6397,7 +6397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - enemyCount: 20
+  - enemyCount: 1
     swarmsToSpawn: 1
     currentSwarmCount: 0
     timeBetweenSwarms: 5

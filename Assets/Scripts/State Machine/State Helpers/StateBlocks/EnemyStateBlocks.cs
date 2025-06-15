@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Etheral
 {
- public class EnemyStateBlocks : StateBlocks
+    public class EnemyStateBlocks : StateBlocks
     {
         float timer;
         readonly EnemyBaseState enemyBaseState;
@@ -114,14 +114,15 @@ namespace Etheral
 
         public void SwitchToChase()
         {
-            if (enemyBaseState.IsInChaseRangeTarget())
-                enemyStateMachine.SwitchState(new EnemyChaseState(enemyStateMachine));
+            // if (enemyBaseState.IsInChaseRangeTarget())
+            enemyStateMachine.SwitchState(new EnemyChaseState(enemyStateMachine));
         }
 
 
         public void SwitchToBaseState()
         {
-            if (enemyBaseState.overrides?.IsGateAttacking == true && !enemyBaseState.aiComponents.GetAIGateHandler().IsAllGatesDestroyed)
+            if (enemyBaseState.overrides?.IsGateAttacking == true &&
+                !enemyBaseState.aiComponents.GetAIGateHandler().IsAllGatesDestroyed)
             {
                 SwitchToMoveToGate();
                 return;
