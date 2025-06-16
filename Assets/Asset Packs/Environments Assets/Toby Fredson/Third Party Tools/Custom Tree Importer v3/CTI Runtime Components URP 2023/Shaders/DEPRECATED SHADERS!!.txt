@@ -1,1 +1,0 @@
-These shaders have been deprecated, please use the ones in the "CTI Runtime Components URP 2023 SG" folder marked as (SG) instead!!

@@ -7,6 +7,18 @@
       "dependencies": {},
       "hash": "82f78879316817dc5c7f8703352f5660a22ec3d4"
     },
+    "com.heurekagames.assethunterpro": {
+      "version": "file:com.heurekagames.assethunterpro",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.heurekagames.utils": {
+      "version": "file:com.heurekagames.utils",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.kybernetik.ultevents": {
       "version": "file:com.kybernetik.ultevents",
       "depth": 0,

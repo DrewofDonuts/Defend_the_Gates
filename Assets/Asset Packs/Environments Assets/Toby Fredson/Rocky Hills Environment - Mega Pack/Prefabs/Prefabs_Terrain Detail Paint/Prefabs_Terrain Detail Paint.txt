@@ -1,1 +1,0 @@
-Use these prefabs if you want to paint the terrain using the "terrain detail mesh"!
